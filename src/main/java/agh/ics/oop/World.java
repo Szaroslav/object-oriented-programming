@@ -9,18 +9,11 @@ public class World {
         Direction[] dirs = new Direction[args.length];
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
-                case "f":
-                    dirs[i] = Direction.FORWARD;
-                    break;
-                case "b":
-                    dirs[i] = Direction.BACKWARD;
-                    break;
-                case "r":
-                    dirs[i] = Direction.RIGHT;
-                    break;
-                case "l":
-                    dirs[i] = Direction.LEFT;
-                    break;
+                case "f" -> dirs[i] = Direction.FORWARD;
+                case "b" -> dirs[i] = Direction.BACKWARD;
+                case "r" -> dirs[i] = Direction.RIGHT;
+                case "l" -> dirs[i] = Direction.LEFT;
+                default -> dirs[i] = Direction.IDLE;
             }
         }
         run(dirs);
@@ -33,18 +26,10 @@ public class World {
 
         for (Direction dir : dirs) {
             switch (dir) {
-                case FORWARD:
-                    out.println("Zwierzak idzie do przodu");
-                    break;
-                case BACKWARD:
-                    out.println("Zwierzak idzie do tyłu");
-                    break;
-                case RIGHT:
-                    out.println("Zwierzak skręca w prawo");
-                    break;
-                case LEFT:
-                    out.println("Zwierzak skręca w lewo");
-                    break;
+                case FORWARD -> out.println("Zwierzak idzie do przodu");
+                case BACKWARD -> out.println("Zwierzak idzie do tyłu");
+                case RIGHT -> out.println("Zwierzak skręca w prawo");
+                case LEFT -> out.println("Zwierzak skręca w lewo");
             }
         }
 
