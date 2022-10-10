@@ -6,17 +6,11 @@ public class World {
     public static void main(String[] args) {
         out.println("System wystartował");
 
-        Direction[] dirs = new Direction[args.length];
-        for (int i = 0; i < args.length; i++) {
-            switch (args[i]) {
-                case "f" -> dirs[i] = Direction.FORWARD;
-                case "b" -> dirs[i] = Direction.BACKWARD;
-                case "r" -> dirs[i] = Direction.RIGHT;
-                case "l" -> dirs[i] = Direction.LEFT;
-                default -> dirs[i] = Direction.IDLE;
-            }
-        }
-        run(dirs);
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
 
         out.println("System zakończył działanie");
     }
