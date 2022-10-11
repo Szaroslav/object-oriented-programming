@@ -45,6 +45,10 @@ public class Vector2d {
         return this.x == v.x && this.y == v.y;
     }
 
+    public int hashCode() {
+        return 83 * this.x + 31 * this.y;
+    }
+
     public Vector2d opposite() {
         return new Vector2d(-this.x, -this.y);
     }

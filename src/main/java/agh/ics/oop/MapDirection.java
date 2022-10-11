@@ -13,16 +13,16 @@ public enum MapDirection {
         }
     }
 
-    public MapDirection next(MapDirection direction) {
-        final int N = direction.ordinal();
+    public MapDirection next() {
+        final int N = this.ordinal();
         MapDirection[] directions = MapDirection.values();
         return directions[(N + 1) % directions.length];
     }
 
-    public MapDirection previous(MapDirection direction) {
-        final int N = direction.ordinal();
+    public MapDirection previous() {
+        final int N = this.ordinal();
         MapDirection[] directions = MapDirection.values();
-        return directions[Math.abs(N - 1) % directions.length];
+        return directions[(directions.length + (N - 1)) % directions.length];
     }
 
     public Vector2d toUnitVector() {
