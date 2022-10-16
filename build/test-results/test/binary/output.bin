@@ -1,0 +1,10 @@
+%Sprawdzam metodÄ™ Vector2d.add()
+*Sprawdzam metodÄ™ Vector2d.subtract()
+)Sprawdzam metodÄ™ Vector2d.follows()
+*Sprawdzam metodÄ™ Vector2d.toString()
+*Sprawdzam metodÄ™ Vector2d.precedes()
++Sprawdzam metodÄ™ Vector2d.lowerLeft()
+*Sprawdzam metodÄ™ Vector2d.opposite()
+	(Sprawdzam metodÄ™ Vector2d.equals()
+
+,Sprawdzam metodÄ™ Vector2d.upperRight()
