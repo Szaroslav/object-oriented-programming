@@ -9,6 +9,18 @@ public class Vector2d {
         this.y = y;
     }
 
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!this.getClass().equals(other.getClass())) return false;
+
+        Vector2d v = (Vector2d) other;
+        return this.x == v.x && this.y == v.y;
+    }
+
+    public int hashCode() {
+        return 83 * (this.x + this.y);
+    }
+
     public String toString() {
         return "(" + this.x + ", " + this.y + ")";
     }
@@ -35,18 +47,6 @@ public class Vector2d {
 
     public Vector2d subtract(Vector2d other) {
         return new Vector2d(this.x - other.x, this.y - other.y);
-    }
-
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other instanceof Vector2d == false) return false;
-
-        Vector2d v = (Vector2d) other;
-        return this.x == v.x && this.y == v.y;
-    }
-
-    public int hashCode() {
-        return 83 * this.x + 31 * this.y;
     }
 
     public Vector2d opposite() {
