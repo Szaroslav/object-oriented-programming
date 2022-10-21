@@ -1,11 +1,14 @@
 package agh.ics.oop;
 
+import java.util.Locale;
+
 public class Animal {
     private Vector2d position = new Vector2d(2, 2);
     private MapDirection direction = MapDirection.NORTH;
 
     public String toString() {
-        return "Zwierzak znajduje sie na pozycji " + this.position + " oraz jego orientacja to " + this.direction.toString().toLowerCase();
+        assert this.direction.toString() != null;
+        return "Zwierzak znajduje sie na pozycji " + this.position.toString() + " oraz jego orientacja to " + this.direction.toString();
     }
 
     public boolean isAt(Vector2d position) {

@@ -1,19 +1,29 @@
 package agh.ics.oop;
 
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] strs) {
-        int n = 0;
+    private static int evalLength(String[] strs) {
+        int len = 0;
         for (String s : strs) {
             switch (s) {
-                case "f", "b", "l", "r" -> n++;
+                case "f", "b", "l", "r" -> len++;
             }
         }
 
-        MoveDirection[] directions = new MoveDirection[n];
+        return len;
+    }
+
+    public static MoveDirection[] parse(String[] strs) {
+        MoveDirection[] directions = new MoveDirection[evalLength(strs)];
+        int i = 0;
         for (String s : strs) {
             switch (s) {
-                case
+                case "f" -> directions[i++] = MoveDirection.FORWARD;
+                case "b" -> directions[i++] = MoveDirection.BACKWARD;
+                case "l" -> directions[i++] = MoveDirection.LEFT;
+                case "r" -> directions[i++] = MoveDirection.RIGHT;
             }
         }
+
+        return directions;
     }
 }
