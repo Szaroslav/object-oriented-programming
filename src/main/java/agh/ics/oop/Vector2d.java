@@ -18,7 +18,7 @@ public class Vector2d {
     }
 
     public int hashCode() {
-        return 83 * (this.x + this.y);
+        return 83 * this.x + this.y;
     }
 
     public String toString() {
@@ -51,5 +51,9 @@ public class Vector2d {
 
     public Vector2d opposite() {
         return new Vector2d(-this.x, -this.y);
+    }
+
+    public boolean between(Vector2d v1, Vector2d v2) {
+        return this.follows(v1) && this.precedes(v2);
     }
 }

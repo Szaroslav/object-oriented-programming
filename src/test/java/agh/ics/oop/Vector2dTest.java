@@ -88,8 +88,8 @@ public class Vector2dTest {
         assertEquals(new Vector2d(2, 6), v1.upperRight(v2));
 
         v1 = new Vector2d(0, 0);
-        v2 = new Vector2d(4, 0);
-        assertEquals(new Vector2d(4, 0), v1.upperRight(v2));
+        v2 = new Vector2d(4, -4);
+        assertEquals(new Vector2d(0, -4), v1.upperRight(v2));
     }
 
     @Test

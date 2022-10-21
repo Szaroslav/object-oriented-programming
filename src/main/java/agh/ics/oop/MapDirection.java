@@ -9,7 +9,7 @@ public enum MapDirection {
             case EAST:  return "Wschód";
             case SOUTH: return "Południe";
             case WEST:  return "Zachód";
-            default:    return "";
+            default:    return null;
         }
     }
 
@@ -31,7 +31,7 @@ public enum MapDirection {
             case EAST:  return new Vector2d(1, 0);
             case SOUTH: return new Vector2d(0, -1);
             case WEST:  return new Vector2d(-1, 0);
-            default:    return new Vector2d(0, 0);
+            default:    return null;
         }
     }
 }
