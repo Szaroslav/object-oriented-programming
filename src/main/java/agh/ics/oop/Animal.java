@@ -7,12 +7,16 @@ public class Animal {
     private MapDirection direction = MapDirection.NORTH;
 
     public String toString() {
-        assert this.direction.toString() != null;
-        return "Zwierzak znajduje sie na pozycji " + this.position.toString() + " oraz jego orientacja to " + this.direction.toString();
+        assert direction.toString() != null;
+        return "Zwierzak znajduje sie na pozycji " + position.toString() + " oraz jego orientacja to " + direction.toString();
     }
 
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
+    }
+
+    public boolean isDirectedAt(MapDirection direction) {
+        return this.direction == direction;
     }
 
     public void move(MoveDirection direction) {
@@ -32,5 +36,9 @@ public class Animal {
                     this.position = newPosition;
             }
         }
+    }
+
+    public void moveRepeatedly(MoveDirection[] directions) {
+        for (MoveDirection d : directions) move(d);
     }
 }
