@@ -22,4 +22,13 @@ public class MapDirectionTest {
         assertEquals(MapDirection.EAST, MapDirection.SOUTH.previous());
         assertEquals(MapDirection.SOUTH, MapDirection.WEST.previous());
     }
+
+    @Test
+    public void testToUnitVector() {
+        out.println("Sprawdzam metodę MapDirection.toUnitVector()");
+        assertEquals(new Vector2d(0, 1), MapDirection.NORTH.toUnitVector());
+        assertEquals(new Vector2d(1, 0), MapDirection.EAST.toUnitVector());
+        assertEquals(new Vector2d(0, -1), MapDirection.SOUTH.toUnitVector());
+        assertEquals(new Vector2d(-1, 0), MapDirection.WEST.toUnitVector());
+    }
 }

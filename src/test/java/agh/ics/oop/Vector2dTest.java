@@ -145,4 +145,19 @@ public class Vector2dTest {
         assertEquals(new Vector2d(5, -3), new Vector2d(-5, 3).opposite());
         assertEquals(new Vector2d(-128, 0), new Vector2d(128, 0).opposite());
     }
+
+    @Test
+    public void testBetween() {
+        out.println("Sprawdzam metodę Vector2d.between()");
+        Vector2d bottom =   new Vector2d(0, 0);
+        Vector2d upper =    new Vector2d(4, 4);
+
+        assertTrue(     new Vector2d(1, 3).between(bottom, upper));
+        assertTrue(     new Vector2d(4, 2).between(bottom, upper));
+        assertTrue(     new Vector2d(4, 4).between(bottom, upper));
+        assertFalse(    new Vector2d(-1, 0).between(bottom, upper));
+        assertFalse(    new Vector2d(3, -2).between(bottom, upper));
+        assertFalse(    new Vector2d(6, 3).between(bottom, upper));
+        assertFalse(    new Vector2d(3, 5).between(bottom, upper));
+    }
 }

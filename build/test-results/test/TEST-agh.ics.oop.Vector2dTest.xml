@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.Vector2dTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2022-10-24T08:34:25" hostname="SZARYCOMPUTER" time="0.058">
+  <properties/>
+  <testcase name="testAdd()" classname="agh.ics.oop.Vector2dTest" time="0.031"/>
+  <testcase name="testSubtract()" classname="agh.ics.oop.Vector2dTest" time="0.002"/>
+  <testcase name="testFollows()" classname="agh.ics.oop.Vector2dTest" time="0.002"/>
+  <testcase name="testToString()" classname="agh.ics.oop.Vector2dTest" time="0.008"/>
+  <testcase name="testBetween()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
+  <testcase name="testPrecedes()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
+  <testcase name="testLowerLeft()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
+  <testcase name="testOpposite()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
+  <testcase name="testEquals()" classname="agh.ics.oop.Vector2dTest" time="0.002"/>
+  <testcase name="testUpperRight()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
+  <system-out><![CDATA[Sprawdzam metodÄ™ Vector2d.add()
+Sprawdzam metodÄ™ Vector2d.subtract()
+Sprawdzam metodÄ™ Vector2d.follows()
+Sprawdzam metodÄ™ Vector2d.toString()
+Sprawdzam metodÄ™ Vector2d.between()
+Sprawdzam metodÄ™ Vector2d.precedes()
+Sprawdzam metodÄ™ Vector2d.lowerLeft()
+Sprawdzam metodÄ™ Vector2d.opposite()
+Sprawdzam metodÄ™ Vector2d.equals()
+Sprawdzam metodÄ™ Vector2d.upperRight()
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

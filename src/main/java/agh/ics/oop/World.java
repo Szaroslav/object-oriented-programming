@@ -10,8 +10,7 @@ public class World {
         out.println("System wystartował");
 
         Animal animal = new Animal();
-        for (MoveDirection d : OptionsParser.parse(args))
-            animal.move(d);
+        animal.moveRepeatedly(OptionsParser.parse(args));
         out.println(animal.toString());
 
         out.println("System zakończył działanie");

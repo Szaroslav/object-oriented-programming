@@ -12,6 +12,11 @@ public class AnimalTest {
         Animal animal = new Animal();
 
         // animal.position = (2, 2), animal.direction = NORTH
+        animal.moveRepeatedly(new MoveDirection[]{});
+        assertTrue(animal.isAt(new Vector2d(2, 2)));
+        assertTrue(animal.isDirectedAt(MapDirection.NORTH));
+
+        // animal.position = (2, 2), animal.direction = NORTH
         animal.moveRepeatedly(new MoveDirection[]{ FORWARD, BACKWARD, BACKWARD });
         assertTrue(animal.isAt(new Vector2d(2, 1)));
         assertTrue(animal.isDirectedAt(MapDirection.NORTH));
