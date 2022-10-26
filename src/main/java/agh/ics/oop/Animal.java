@@ -3,12 +3,27 @@ package agh.ics.oop;
 import java.util.Locale;
 
 public class Animal {
+    private final IWorldMap worldMap;
     private Vector2d position = new Vector2d(2, 2);
     private MapDirection direction = MapDirection.NORTH;
 
+    public Animal(IWorldMap map) {
+        worldMap = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        worldMap = map;
+        position = initialPosition;
+    }
+
     public String toString() {
-        assert direction.toString() != null;
-        return "Zwierzak znajduje sie na pozycji " + position.toString() + " oraz jego orientacja to " + direction.toString();
+        return switch (direction) {
+            case NORTH ->   "N";
+            case EAST ->    "E";
+            case SOUTH ->   "S";
+            case WEST ->    "W";
+            default ->      null;
+        };
     }
 
     public boolean isAt(Vector2d position) {
@@ -19,6 +34,10 @@ public class Animal {
         return this.direction == direction;
     }
 
+    public boolean equalPosition(Animal other) {
+        return isAt(other.position);
+    }
+
     public void move(MoveDirection direction) {
         Vector2d newPosition;
 
@@ -27,12 +46,12 @@ public class Animal {
             case LEFT -> this.direction = this.direction.previous();
             case FORWARD -> {
                 newPosition = this.position.add(this.direction.toUnitVector());
-                if (newPosition.between(World.BOUNDARY_BOTTOM_LEFT, World.BOUNDARY_UPPER_RIGHT))
+                if (worldMap.canMoveTo(newPosition))
                     this.position = newPosition;
             }
             case BACKWARD -> {
                 newPosition = this.position.subtract(this.direction.toUnitVector());
-                if (newPosition.between(World.BOUNDARY_BOTTOM_LEFT, World.BOUNDARY_UPPER_RIGHT))
+                if (worldMap.canMoveTo(newPosition))
                     this.position = newPosition;
             }
         }
