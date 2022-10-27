@@ -3,15 +3,15 @@ package agh.ics.oop;
 import static java.lang.System.out;
 
 public class World {
-    public static final Vector2d BOUNDARY_BOTTOM_LEFT = new Vector2d(0, 0);
-    public static final Vector2d BOUNDARY_UPPER_RIGHT = new Vector2d(4, 4);
-
     public static void main(String[] args) {
         out.println("System wystartował");
 
-        Animal animal = new Animal();
-        animal.moveRepeatedly(OptionsParser.parse(args));
-        out.println(animal.toString());
+        MoveDirection[] directions = OptionsParser.parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
+        out.println(map);
 
         out.println("System zakończył działanie");
     }

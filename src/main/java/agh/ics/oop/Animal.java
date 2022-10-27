@@ -30,12 +30,16 @@ public class Animal {
         return this.position.equals(position);
     }
 
+    public boolean isAt(Animal other) {
+        return isAt(other.position);
+    }
+
     public boolean isDirectedAt(MapDirection direction) {
         return this.direction == direction;
     }
 
-    public boolean equalPosition(Animal other) {
-        return isAt(other.position);
+    public Vector2d getPosition() {
+        return position;
     }
 
     public void move(MoveDirection direction) {
