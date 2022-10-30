@@ -48,7 +48,7 @@ public class RectangularMap implements IWorldMap {
         return animals.get(i);
     }
 
-    public int getAnimalNumber() {
+    public int getAnimalsNumber() {
         return animals.size();
     }
 }

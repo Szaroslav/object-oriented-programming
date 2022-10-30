@@ -16,6 +16,24 @@ public class Animal {
         position = initialPosition;
     }
 
+    public Animal(IWorldMap map, Vector2d initialPosition, MapDirection dir) {
+        worldMap = map;
+        position = initialPosition;
+        direction = dir;
+    }
+
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!this.getClass().equals(other.getClass())) return false;
+
+        Animal a = (Animal) other;
+        return position.equals(a.position) && direction == a.direction;
+    }
+
+    public int hashCode() {
+        return position.hashCode() + direction.ordinal();
+    }
+
     public String toString() {
         return switch (direction) {
             case NORTH ->   "N";
@@ -28,10 +46,6 @@ public class Animal {
 
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
-    }
-
-    public boolean isAt(Animal other) {
-        return isAt(other.position);
     }
 
     public boolean isDirectedAt(MapDirection direction) {

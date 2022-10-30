@@ -13,7 +13,7 @@ public class SimulationEngine implements IEngine {
 
     public void run() {
         for (int i = 0; i < directions.length; i++) {
-            worldMap.getAnimal(i % worldMap.getAnimalNumber()).move(directions[i]);
+            worldMap.getAnimal(i % worldMap.getAnimalsNumber()).move(directions[i]);
         }
     }
 }
