@@ -4,27 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RectangularMap implements IWorldMap {
-    private final Vector2d size;
-    private List<Animal> animals = new ArrayList<>();
+    private final Vector2d UPPER_RIGHT_BOUNDARY;
+    private final Vector2d BOTTOM_LEFT_BOUNDARY = new Vector2d(0, 0);
+    private final List<Animal> animals = new ArrayList<>();
+    private final MapVisualizer visualizer = new MapVisualizer(this);
 
     public RectangularMap(int width, int height) {
-        size = new Vector2d(width, height);
+        UPPER_RIGHT_BOUNDARY = new Vector2d(width - 1, height - 1);
     }
 
     public String toString() {
-        MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(new Vector2d(0, 0), size.subtract(new Vector2d(1, 1)));
+        return visualizer.draw(BOTTOM_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY);
     }
 
     public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position) && position.between(new Vector2d(0, 0), size.subtract(new Vector2d(1, 1)));
+        return !isOccupied(position) && position.between(BOTTOM_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY);
     }
 
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal : animals)
-            if (animal.isAt(position))
-                return true;
-        return false;
+        return objectAt(position) != null;
     }
 
     public boolean place(Animal animal) {
@@ -40,15 +38,5 @@ public class RectangularMap implements IWorldMap {
             if (animal.isAt(position))
                 return animal;
         return null;
-    }
-
-    public Animal getAnimal(int i) {
-        if (i >= animals.size() || i < 0)
-            return null;
-        return animals.get(i);
-    }
-
-    public int getAnimalsNumber() {
-        return animals.size();
     }
 }
