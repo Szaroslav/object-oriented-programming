@@ -13,6 +13,7 @@ public class RectangularMap implements IWorldMap {
         UPPER_RIGHT_BOUNDARY = new Vector2d(width - 1, height - 1);
     }
 
+    @Override
     public String toString() {
         return visualizer.draw(BOTTOM_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY);
     }
