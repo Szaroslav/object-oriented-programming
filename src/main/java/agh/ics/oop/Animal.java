@@ -2,13 +2,13 @@ package agh.ics.oop;
 
 import java.util.Locale;
 
-public class Animal {
+public class Animal extends AbstractWorldMapElement {
     private final IWorldMap worldMap;
-    private Vector2d position = new Vector2d(2, 2);
     private MapDirection direction = MapDirection.NORTH;
 
     public Animal(IWorldMap map) {
         worldMap = map;
+        position = new Vector2d(2, 2);
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
@@ -22,18 +22,7 @@ public class Animal {
         direction = dir;
     }
 
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (!this.getClass().equals(other.getClass())) return false;
-
-        Animal a = (Animal) other;
-        return position.equals(a.position) && direction == a.direction;
-    }
-
-    public int hashCode() {
-        return position.hashCode() + direction.ordinal();
-    }
-
+    @Override
     public String toString() {
         return switch (direction) {
             case NORTH ->   "N";
@@ -44,16 +33,18 @@ public class Animal {
         };
     }
 
-    public boolean isAt(Vector2d position) {
-        return this.position.equals(position);
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!this.getClass().equals(other.getClass())) return false;
+
+        Animal a = (Animal) other;
+        return position.equals(a.position) && direction == a.direction;
     }
 
-    public boolean isDirectedAt(MapDirection direction) {
-        return this.direction == direction;
-    }
-
-    public Vector2d getPosition() {
-        return position;
+    @Override
+    public int hashCode() {
+        return position.hashCode() + direction.ordinal();
     }
 
     public void move(MoveDirection direction) {
@@ -73,9 +64,5 @@ public class Animal {
                     this.position = newPosition;
             }
         }
-    }
-
-    public void moveRepeatedly(MoveDirection[] directions) {
-        for (MoveDirection d : directions) move(d);
     }
 }

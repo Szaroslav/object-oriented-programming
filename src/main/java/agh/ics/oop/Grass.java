@@ -1,18 +1,26 @@
 package agh.ics.oop;
 
-public class Grass {
-    private final Vector2d position;
-
+public class Grass extends AbstractWorldMapElement {
     public Grass(Vector2d pos) {
         position = pos;
-    }
-
-    public Vector2d getPosition() {
-        return position;
     }
 
     @Override
     public String toString() {
         return "*";
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!this.getClass().equals(other.getClass())) return false;
+
+        Grass a = (Grass) other;
+        return position.equals(a.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode();
     }
 }

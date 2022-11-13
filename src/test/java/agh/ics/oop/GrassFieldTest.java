@@ -12,6 +12,7 @@ public class GrassFieldTest {
         IWorldMap map = createMap();
 
         assertTrue(map.canMoveTo(new Vector2d(-1, -1)));
+        assertTrue(map.canMoveTo(new Vector2d(1, 1)));
         assertTrue(map.canMoveTo(new Vector2d(3, 11)));
         assertFalse(map.canMoveTo(new Vector2d(0, 0)));
         assertFalse(map.canMoveTo(new Vector2d(3, 12)));
@@ -23,7 +24,7 @@ public class GrassFieldTest {
         IWorldMap map = createMap();
 
         assertTrue( map.place(new Animal(map, new Vector2d(-5, 22))) );
-        assertTrue( map.place(new Animal(map, new Vector2d(2, 12))) );
+        assertTrue( map.place(new Animal(map, new Vector2d(1, 1))) );
         assertFalse( map.place(new Animal(map, new Vector2d(0, 0))) );
         assertFalse( map.place(new Animal(map, new Vector2d(3, 12))) );
     }
@@ -45,11 +46,12 @@ public class GrassFieldTest {
 
         assertEquals(new Animal(map, new Vector2d(0, 0)), map.objectAt(new Vector2d(0, 0)));
         assertEquals(new Animal(map, new Vector2d(3, 12)), map.objectAt(new Vector2d(3, 12)));
-        assertNull(map.objectAt(new Vector2d(4, 12)));
+        assertEquals(new Grass(new Vector2d(1, 1)), map.objectAt(new Vector2d(1, 1)));
     }
 
     private IWorldMap createMap() {
-        IWorldMap map = new GrassField(10);
+        GrassField map = new GrassField(10);
+        map.plant(new Grass(new Vector2d(1, 1)));
         map.place(new Animal(map, new Vector2d(0, 0)));
         map.place(new Animal(map, new Vector2d(3, 12)));
 

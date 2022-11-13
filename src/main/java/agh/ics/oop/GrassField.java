@@ -4,78 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.Math;
 
-public class GrassField implements IWorldMap {
-    private final Vector2d UPPER_RIGHT_BOUNDARY;
-    private final Vector2d BOTTOM_LEFT_BOUNDARY = new Vector2d(0, 0);
-    private final List<Animal> animals = new ArrayList<>();
+public class GrassField extends AbstractWorldMap {
     private final List<Grass> grasses = new ArrayList<>();
-    private final MapVisualizer visualizer = new MapVisualizer(this);
 
     public GrassField (int n) {
-        UPPER_RIGHT_BOUNDARY = new Vector2d((int) Math.sqrt(10 * n), (int) Math.sqrt(10 * n));
+        super(new Vector2d((int) Math.sqrt(10 * n), (int) Math.sqrt(10 * n)));
     }
 
     @Override
-    public String toString() {
-        Vector2d[] boundary = getRealBoundary();
-        System.out.println(visualizer.draw(BOTTOM_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY));
-        return visualizer.draw(boundary[0], boundary[1]);
-    }
-
-    public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position);
-    }
-
-    public boolean place(Animal animal) {
-        if (!canMoveTo(animal.getPosition()))
-            return false;
-
-        animals.add(animal);
-        return true;
-    }
-
-    public boolean isOccupied(Vector2d position) {
-        return objectAt(position) != null;
-    }
-
     public Object objectAt(Vector2d position) {
-        for (Animal animal : animals)
-            if (animal.isAt(position))
-                return animal;
+        Object object = super.objectAt(position);
+        if (object != null)
+            return object;
 
-        for (Grass grass : grasses)
-            if (grass.getPosition().equals(position))
+        for (IMapElement grass : grasses)
+            if (grass.isAt(position))
                 return grass;
 
         return null;
     }
 
+    @Override
+    public Vector2d[] getBoundary() {
+        Vector2d[] boundaries = {
+            new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE),
+            new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE)
+        };
+        boundaries = getMinMax(animals, boundaries);
+        boundaries = getMinMax(grasses, boundaries);
+
+        return boundaries;
+    }
+
     public boolean plant(Grass grass) {
-        if (isOccupied(grass.getPosition()) || !grass.getPosition().between(BOTTOM_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY))
+        if (isOccupied(grass.getPosition()) || !grass.getPosition().between(LOWER_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY))
             return false;
 
         grasses.add(grass);
         return true;
     }
 
-    protected Vector2d[] getRealBoundary() {
-        int bottomX = Integer.MAX_VALUE, bottomY = Integer.MAX_VALUE;
-        int upperX = Integer.MIN_VALUE, upperY = Integer.MIN_VALUE;
-
-        for (Animal a : animals) {
-            bottomX = Math.min(bottomX, a.getPosition().x);
-            bottomY = Math.min(bottomY, a.getPosition().y);
-            upperX  = Math.max(upperX, a.getPosition().x);
-            upperY  = Math.max(upperY, a.getPosition().y);
+    protected Vector2d[] getMinMax(List<? extends IMapElement> mapElements, Vector2d[] boundaries) {
+        for (IMapElement mapElement : mapElements) {
+            boundaries[0] = boundaries[0].lowerLeft(mapElement.getPosition());
+            boundaries[1] = boundaries[1].upperRight(mapElement.getPosition());
         }
 
-        for (Grass g : grasses) {
-            bottomX = Math.min(bottomX, g.getPosition().x);
-            bottomY = Math.min(bottomY, g.getPosition().y);
-            upperX  = Math.max(upperX, g.getPosition().x);
-            upperY  = Math.max(upperY, g.getPosition().y);
-        }
-
-        return new Vector2d[]{new Vector2d(bottomX, bottomY), new Vector2d(upperX, upperY)};
+        return boundaries;
     }
 }

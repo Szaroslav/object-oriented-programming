@@ -1,4 +1,4 @@
-&Sprawdzam metodę GrassField.place()
-+Sprawdzam metodę GrassField.isOccupied()
-*Sprawdzam metodę GrassField.canMoveTo()
-)Sprawdzam metodę GrassField.objectAt()
+*Sprawdzam metodę RectangularMap.place()
+/Sprawdzam metodę RectangularMap.isOccupied()
+.Sprawdzam metodę RectangularMap.canMoveTo()
+-Sprawdzam metodę RectangularMap.objectAt()
