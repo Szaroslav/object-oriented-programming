@@ -20,7 +20,7 @@ public class EngineTest {
         assertEquals( new Animal(map, new Vector2d(3, 4), MapDirection.NORTH), map.objectAt(new Vector2d(3, 4)) );
 
         directions = OptionsParser.parse(new String[]{
-                "l", "b", "b", "f", "f", "b", "f", "f", "b", "r", "f", "b", "f", "r", "b", "l", "f", "b"
+            "l", "b", "b", "f", "f", "b", "f", "f", "b", "r", "f", "b", "f", "r", "b", "l", "f", "b"
         });
         map = new RectangularMap(8, 8);
         positions = new Vector2d[]{ new Vector2d(2,2), new Vector2d(0,0), new Vector2d(4, 3) };

@@ -36,7 +36,7 @@ public class Animal extends AbstractWorldMapElement {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        if (!this.getClass().equals(other.getClass())) return false;
+        if (other == null || !this.getClass().equals(other.getClass())) return false;
 
         Animal a = (Animal) other;
         return position.equals(a.position) && direction == a.direction;

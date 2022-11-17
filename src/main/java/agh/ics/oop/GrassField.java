@@ -1,11 +1,13 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.lang.Math;
+import java.util.Map;
 
 public class GrassField extends AbstractWorldMap {
-    private final List<Grass> grasses = new ArrayList<>();
+    private Vector2d realLowerLeftBoundary = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private Vector2d realUpperRightBoundary = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    private final Map<Vector2d, Grass> grasses = new HashMap<>();
 
     public GrassField (int n) {
         super(new Vector2d((int) Math.sqrt(10 * n), (int) Math.sqrt(10 * n)));
@@ -17,39 +19,35 @@ public class GrassField extends AbstractWorldMap {
         if (object != null)
             return object;
 
-        for (IMapElement grass : grasses)
-            if (grass.isAt(position))
-                return grass;
-
-        return null;
+        return grasses.get(position);
     }
 
     @Override
     public Vector2d[] getBoundary() {
-        Vector2d[] boundaries = {
-            new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE),
-            new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE)
-        };
-        boundaries = getMinMax(animals, boundaries);
-        boundaries = getMinMax(grasses, boundaries);
+        return new Vector2d[]{realLowerLeftBoundary, realUpperRightBoundary};
+    }
 
-        return boundaries;
+    @Override
+    public boolean place(Animal animal) {
+        if (super.place(animal)) {
+            setBoundaries(animal.getPosition());
+            return true;
+        }
+
+        return false;
     }
 
     public boolean plant(Grass grass) {
-        if (isOccupied(grass.getPosition()) || !grass.getPosition().between(LOWER_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY))
+        if (objectAt(grass.getPosition()) != null || !grass.getPosition().between(LOWER_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY))
             return false;
 
-        grasses.add(grass);
+        grasses.put(grass.getPosition(), grass);
+        setBoundaries(grass.getPosition());
         return true;
     }
 
-    protected Vector2d[] getMinMax(List<? extends IMapElement> mapElements, Vector2d[] boundaries) {
-        for (IMapElement mapElement : mapElements) {
-            boundaries[0] = boundaries[0].lowerLeft(mapElement.getPosition());
-            boundaries[1] = boundaries[1].upperRight(mapElement.getPosition());
-        }
-
-        return boundaries;
+    protected void setBoundaries(Vector2d point) {
+        realLowerLeftBoundary = realLowerLeftBoundary.lowerLeft(point);
+        realUpperRightBoundary = realUpperRightBoundary.upperRight(point);
     }
 }

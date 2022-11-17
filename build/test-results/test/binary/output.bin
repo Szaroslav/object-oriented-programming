@@ -1,4 +1,10 @@
-*Sprawdzam metodę RectangularMap.place()
-/Sprawdzam metodę RectangularMap.isOccupied()
-.Sprawdzam metodę RectangularMap.canMoveTo()
--Sprawdzam metodę RectangularMap.objectAt()
+Sprawdzam silnik
+ y\x  0 1 2 3 4 5 6 7 8 9
+  5: ---------------------
+  4: | | | |N| | | | | | |
+  3: | | | | | | | | | | |
+  2: | | |S| | | | | | | |
+  1: | | | | | | | | | | |
+  0: | | | | | | | | | | |
+ -1: ---------------------
+
