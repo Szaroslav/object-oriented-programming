@@ -5,26 +5,27 @@ import java.lang.Math;
 import java.util.Map;
 
 public class GrassField extends AbstractWorldMap {
-    private Vector2d realLowerLeftBoundary = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    private Vector2d realUpperRightBoundary = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    private final Vector2d GRASS_LOWER_LEFT_BOUNDARY = new Vector2d(0, 0);
+    private final Vector2d GRASS_UPPER_RIGHT_BOUNDARY;
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
 
     public GrassField (int n) {
-        super(new Vector2d((int) Math.sqrt(10 * n), (int) Math.sqrt(10 * n)));
+        lowerLeftBoundary = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        upperRightBoundary = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        GRASS_UPPER_RIGHT_BOUNDARY = new Vector2d((int) Math.sqrt(10 * n), (int) Math.sqrt(10 * n));
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        Object object = super.objectAt(position);
-        if (object != null)
-            return object;
+        if (super.objectAt(position) != null)
+            return super.objectAt(position);
 
         return grasses.get(position);
     }
 
     @Override
     public Vector2d[] getBoundary() {
-        return new Vector2d[]{realLowerLeftBoundary, realUpperRightBoundary};
+        return new Vector2d[]{lowerLeftBoundary, upperRightBoundary};
     }
 
     @Override
@@ -37,8 +38,14 @@ public class GrassField extends AbstractWorldMap {
         return false;
     }
 
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        super.positionChanged(oldPosition, newPosition);
+        setBoundaries(newPosition);
+    }
+
     public boolean plant(Grass grass) {
-        if (objectAt(grass.getPosition()) != null || !grass.getPosition().between(LOWER_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY))
+        if (objectAt(grass.getPosition()) != null || !grass.getPosition().between(GRASS_LOWER_LEFT_BOUNDARY, GRASS_UPPER_RIGHT_BOUNDARY))
             return false;
 
         grasses.put(grass.getPosition(), grass);
@@ -47,7 +54,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     protected void setBoundaries(Vector2d point) {
-        realLowerLeftBoundary = realLowerLeftBoundary.lowerLeft(point);
-        realUpperRightBoundary = realUpperRightBoundary.upperRight(point);
+        lowerLeftBoundary = lowerLeftBoundary.lowerLeft(point);
+        upperRightBoundary = upperRightBoundary.upperRight(point);
     }
 }

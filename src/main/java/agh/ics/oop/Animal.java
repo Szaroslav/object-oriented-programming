@@ -1,25 +1,30 @@
 package agh.ics.oop;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Animal extends AbstractWorldMapElement {
     private final IWorldMap worldMap;
     private MapDirection direction = MapDirection.NORTH;
+    private final List<IPositionChangeObserver> observers = new ArrayList<>();
 
     public Animal(IWorldMap map) {
         worldMap = map;
         position = new Vector2d(2, 2);
+        addObserver((IPositionChangeObserver) map);
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         worldMap = map;
         position = initialPosition;
+        addObserver((IPositionChangeObserver) map);
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition, MapDirection dir) {
         worldMap = map;
         position = initialPosition;
         direction = dir;
+        addObserver((IPositionChangeObserver) map);
     }
 
     @Override
@@ -54,15 +59,32 @@ public class Animal extends AbstractWorldMapElement {
             case RIGHT -> this.direction = this.direction.next();
             case LEFT -> this.direction = this.direction.previous();
             case FORWARD -> {
-                newPosition = this.position.add(this.direction.toUnitVector());
-                if (worldMap.canMoveTo(newPosition))
-                    this.position = newPosition;
+                newPosition = position.add(this.direction.toUnitVector());
+                if (worldMap.canMoveTo(newPosition)) {
+                    positionChanged(position, newPosition);
+                    position = newPosition;
+                }
             }
             case BACKWARD -> {
-                newPosition = this.position.subtract(this.direction.toUnitVector());
-                if (worldMap.canMoveTo(newPosition))
-                    this.position = newPosition;
+                newPosition = position.subtract(this.direction.toUnitVector());
+                if (worldMap.canMoveTo(newPosition)) {
+                    positionChanged(position, newPosition);
+                    position = newPosition;
+                }
             }
         }
+    }
+
+    public void addObserver(IPositionChangeObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(IPositionChangeObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        for (IPositionChangeObserver observer : observers)
+            observer.positionChanged(oldPosition, newPosition);
     }
 }

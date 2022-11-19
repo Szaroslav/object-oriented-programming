@@ -3,15 +3,11 @@ package agh.ics.oop;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractWorldMap implements IWorldMap {
-    protected final Vector2d UPPER_RIGHT_BOUNDARY;
-    protected final Vector2d LOWER_LEFT_BOUNDARY = new Vector2d(0, 0);
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
+    protected Vector2d upperRightBoundary;
+    protected Vector2d lowerLeftBoundary = new Vector2d(0, 0);
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final MapVisualizer visualizer = new MapVisualizer(this);
-
-    protected AbstractWorldMap(Vector2d upperRight) {
-        UPPER_RIGHT_BOUNDARY = upperRight;
-    }
 
     @Override
     public String toString() {
@@ -23,7 +19,7 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position);
+        return !(objectAt(position) instanceof Animal);
     }
 
     @Override
@@ -37,12 +33,19 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return objectAt(position) instanceof Animal;
+        return objectAt(position) != null;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
         return animals.get(position);
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal a = animals.get(oldPosition);
+        animals.remove(oldPosition, a);
+        animals.put(newPosition, a);
     }
 
     abstract Vector2d[] getBoundary();

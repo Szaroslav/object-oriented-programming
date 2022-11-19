@@ -1,10 +1,4 @@
-Sprawdzam silnik
- y\x  0 1 2 3 4 5 6 7 8 9
-  5: ---------------------
-  4: | | | |N| | | | | | |
-  3: | | | | | | | | | | |
-  2: | | |S| | | | | | | |
-  1: | | | | | | | | | | |
-  0: | | | | | | | | | | |
- -1: ---------------------
-
+&Sprawdzam metodę GrassField.place()
++Sprawdzam metodę GrassField.isOccupied()
+*Sprawdzam metodę GrassField.canMoveTo()
+)Sprawdzam metodę GrassField.objectAt()
