@@ -1,4 +1,1 @@
-&Sprawdzam metodę GrassField.place()
-+Sprawdzam metodę GrassField.isOccupied()
-*Sprawdzam metodę GrassField.canMoveTo()
-)Sprawdzam metodę GrassField.objectAt()
+Sprawdzam silnik

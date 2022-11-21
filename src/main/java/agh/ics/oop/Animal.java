@@ -15,16 +15,13 @@ public class Animal extends AbstractWorldMapElement {
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
-        worldMap = map;
+        this(map);
         position = initialPosition;
-        addObserver((IPositionChangeObserver) map);
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition, MapDirection dir) {
-        worldMap = map;
-        position = initialPosition;
+        this(map, initialPosition);
         direction = dir;
-        addObserver((IPositionChangeObserver) map);
     }
 
     @Override
