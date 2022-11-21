@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractWorldMap implements IWorldMap {
-    protected final Vector2d UPPER_RIGHT_BOUNDARY;
-    protected final Vector2d LOWER_LEFT_BOUNDARY = new Vector2d(0, 0);
+    protected final Vector2d UPPER_RIGHT_BOUNDARY;  // to nie jest część wspólna map
+    protected final Vector2d LOWER_LEFT_BOUNDARY = new Vector2d(0, 0);  // a to tym bardziej
     protected final List<Animal> animals = new ArrayList<>();
-    protected final MapVisualizer visualizer = new MapVisualizer(this);
+    private final MapVisualizer visualizer = new MapVisualizer(this);
 
     protected AbstractWorldMap(Vector2d upperRight) {
         UPPER_RIGHT_BOUNDARY = upperRight;
@@ -37,7 +37,7 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return objectAt(position) instanceof Animal;
+        return objectAt(position) instanceof Animal;    // niezgodne z interfejsem
     }
 
     @Override
