@@ -7,7 +7,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected Vector2d upperRightBoundary;
     protected Vector2d lowerLeftBoundary = new Vector2d(0, 0);
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
-    protected final MapVisualizer visualizer = new MapVisualizer(this);
+    private final MapVisualizer visualizer = new MapVisualizer(this);
 
     @Override
     public String toString() {
@@ -25,8 +25,9 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     @Override
     public boolean place(Animal animal) {
         if (!canMoveTo(animal.getPosition()))
-            return false;
+            throw new IllegalArgumentException(animal.getPosition() + " is already occupied");
 
+        animal.addObserver(this);
         animals.put(animal.getPosition(), animal);
         return true;
     }

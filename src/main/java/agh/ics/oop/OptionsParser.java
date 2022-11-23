@@ -23,8 +23,10 @@ public class OptionsParser {
         MoveDirection[] directions = new MoveDirection[evalLength(strs)];
         int i = 0;
         for (String s : strs) {
-            if (MoveDirection.fromString(s) != null)
-                directions[i++] = MoveDirection.fromString(s);
+            if (MoveDirection.fromString(s) == null)
+                throw new IllegalArgumentException(s + " is not a legal move specification");
+
+            directions[i++] = MoveDirection.fromString(s);
         }
 
         return directions;

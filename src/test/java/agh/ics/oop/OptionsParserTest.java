@@ -14,9 +14,11 @@ public class OptionsParserTest {
             new MoveDirection[]{ FORWARD, BACKWARD, LEFT, RIGHT },
             OptionsParser.parse(new String[] { "f", "b", "l", "r" })
         );
-        assertArrayEquals(
-                new MoveDirection[]{ FORWARD, BACKWARD, LEFT, RIGHT },
-                OptionsParser.parse(new String[] { "f", "b", "B", "l", "r", "xD" })
+
+        IllegalArgumentException ex = assertThrows(
+            IllegalArgumentException.class,
+            () -> OptionsParser.parse(new String[] { "f", "b", "xD", "l", "r", "B" })
         );
+        assertTrue(ex.getMessage().contains("xD"));
     }
 }
