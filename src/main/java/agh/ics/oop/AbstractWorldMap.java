@@ -48,5 +48,5 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         animals.put(newPosition, a);
     }
 
-    abstract Vector2d[] getBoundary();
+    public abstract Vector2d[] getBoundary();
 }
