@@ -24,9 +24,12 @@ public class GrassFieldTest {
         IWorldMap map = createMap();
 
         assertTrue( map.place(new Animal(map, new Vector2d(-5, 22))) );
-        assertTrue( map.place(new Animal(map, new Vector2d(1, 1))) );
-        assertFalse( map.place(new Animal(map, new Vector2d(0, 0))) );
-        assertFalse( map.place(new Animal(map, new Vector2d(3, 12))) );
+        assertTrue( map.place(new Animal(map, new Vector2d(3, 4))) );
+        IllegalArgumentException ex = assertThrows(
+            IllegalArgumentException.class,
+            () -> map.place(new Animal(map, new Vector2d(0, 0)))
+        );
+        assertTrue(ex.getMessage().contains("0, 0"));
     }
 
     @Test

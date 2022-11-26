@@ -1,11 +1,10 @@
 package agh.ics.oop;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
-    protected Vector2d upperRightBoundary;
-    protected Vector2d lowerLeftBoundary = new Vector2d(0, 0);
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     private final MapVisualizer visualizer = new MapVisualizer(this);
 
@@ -24,7 +23,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     @Override
     public boolean place(Animal animal) {
-        if (!canMoveTo(animal.getPosition()))
+        if (isOccupied(animal.getPosition()))
             throw new IllegalArgumentException(animal.getPosition() + " is already occupied");
 
         animal.addObserver(this);

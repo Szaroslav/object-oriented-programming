@@ -22,9 +22,11 @@ public class RectangularMapTest {
         IWorldMap map = createMap();
 
         assertTrue( map.place(new Animal(map, new Vector2d(2, 6))) );
-        assertFalse( map.place(new Animal(map, new Vector2d(0, 0))) );
-        assertFalse( map.place(new Animal(map, new Vector2d(9, 4))) );
-        assertFalse( map.place(new Animal(map, new Vector2d(12, 16))) );
+        IllegalArgumentException ex = assertThrows(
+            IllegalArgumentException.class,
+            () -> map.place(new Animal(map, new Vector2d(0, 0)))
+        );
+        assertTrue(ex.getMessage().contains("0, 0"));
     }
 
     @Test
@@ -34,7 +36,7 @@ public class RectangularMapTest {
 
         assertTrue(map.isOccupied(new Vector2d(0, 0)));
         assertTrue(map.isOccupied(new Vector2d(9, 4)));
-        assertFalse(map.isOccupied(new Vector2d(8, 16)));
+        assertFalse(map.isOccupied(new Vector2d(5, 4)));
     }
 
     @Test
@@ -44,7 +46,7 @@ public class RectangularMapTest {
 
         assertEquals(new Animal(map, new Vector2d(0, 0)), map.objectAt(new Vector2d(0, 0)));
         assertEquals(new Animal(map, new Vector2d(9, 4)), map.objectAt(new Vector2d(9, 4)));
-        assertNull(map.objectAt(new Vector2d(8, 16)));
+        assertNull(map.objectAt(new Vector2d(5, 4)));
     }
 
     private IWorldMap createMap() {

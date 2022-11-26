@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="agh.ics.oop.OptionsParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-11-21T16:56:52" hostname="JAKUBNOTEBOOK" time="0.052">
-  <properties/>
-  <testcase name="testParse()" classname="agh.ics.oop.OptionsParserTest" time="0.052"/>
-  <system-out><![CDATA[Sprawdzam statyczną metodę OptionsParser.parse()
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

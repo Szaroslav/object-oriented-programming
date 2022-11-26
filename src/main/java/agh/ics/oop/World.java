@@ -12,13 +12,12 @@ public class World {
             Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4), new Vector2d(2,2) };
             IEngine engine = new SimulationEngine(directions, map, positions, 10);
             engine.run();
+
             out.println(map);
+            out.println("System pomyślnie zakończył działanie");
         }
         catch (IllegalArgumentException ex) {
             out.println(ex);
         }
-
-
-        out.println("System zakończył działanie");
     }
 }
