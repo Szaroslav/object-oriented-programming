@@ -12,18 +12,25 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+
 public class App extends Application {
     AbstractWorldMap map;
 
     @Override
     public void start(Stage primaryStage) {
-        GridPane grid = new GridPane();
-        renderGrid(grid);
+        try {
+            GridPane grid = new GridPane();
+            renderGrid(grid);
 
-        Scene scene = new Scene(grid, 400, 400);
+            Scene scene = new Scene(grid, 768, 768);
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+        catch (FileNotFoundException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override
@@ -41,7 +48,7 @@ public class App extends Application {
         GridPane.setValignment(node, VPos.CENTER);
     }
 
-    private void renderGrid(GridPane grid) {
+    private void renderGrid(GridPane grid) throws FileNotFoundException {
         Vector2d[] boundary = map.getBoundary();
         final int width = boundary[1].x - boundary[0].x + 2;
         final int height = boundary[1].y - boundary[0].y + 2;
@@ -49,7 +56,7 @@ public class App extends Application {
 
         renderAxis(grid, boundary[0], boundary[1]);
         renderBody(grid, boundary[0], boundary[1]);
-        setGridCellsSize(grid, width, height, 20, 20);
+        setGridCellsSize(grid, width, height, 64, 64);
     }
 
     private void renderAxis(GridPane grid, Vector2d lowerLeft, Vector2d upperRight) {
@@ -63,11 +70,11 @@ public class App extends Application {
         }
     }
 
-    private void renderBody(GridPane grid, Vector2d lowerLeft, Vector2d upperRight) {
+    private void renderBody(GridPane grid, Vector2d lowerLeft, Vector2d upperRight) throws FileNotFoundException {
         for (int x = lowerLeft.x, i = 1; x <= upperRight.x; x++, i++) {
             for (int y = lowerLeft.y, j = upperRight.y - lowerLeft.y + 1; y <= upperRight.y; y++, j--) {
                 if (map.objectAt(new Vector2d(x, y)) != null)
-                    addToGrid(grid, new Label(map.objectAt(new Vector2d(x, y)).toString()), i, j);
+                    addToGrid(grid, new GuiElementBox((IMapElement) map.objectAt(new Vector2d(x, y))).getBox(), i, j);
             }
         }
     }

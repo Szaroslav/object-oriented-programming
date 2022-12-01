@@ -21,13 +21,9 @@ public class SimulationEngine implements IEngine {
     public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initialPositions, int grassNumber) {
         this(directions, map, initialPositions);
 
-        GrassField field = (GrassField) map;
-        for (int i = 0; i < grassNumber; i++) {
-            Grass g;
-            do {
-                g = new Grass(new Vector2d((int) (Math.random() * grassNumber), (int) (Math.random() * grassNumber)));
-            } while (!field.plant(g));
-        }
+        GrassField grassField = (GrassField) map;
+        for (int i = 0; i < grassNumber; i++)
+            grassField.plantForce();
     }
 
     public void run() {

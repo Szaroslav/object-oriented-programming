@@ -23,4 +23,14 @@ public class Grass extends AbstractWorldMapElement {
     public int hashCode() {
         return position.hashCode();
     }
+
+    @Override
+    public String getResourceName() {
+        return "src/main/resources/grass.png";
+    }
+
+    @Override
+    public String getLabel() {
+        return "G " + position;
+    }
 }

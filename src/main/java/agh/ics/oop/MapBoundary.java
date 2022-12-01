@@ -5,8 +5,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class MapBoundary implements IPositionChangeObserver {
-    final SortedSet<Vector2d> mapElementsX = new TreeSet<>(this::compareByPositionX);
-    final SortedSet<Vector2d> mapElementsY = new TreeSet<>(this::compareByPositionY);
+    private final SortedSet<Vector2d> mapElementsX = new TreeSet<>(this::compareByPositionX);
+    private final SortedSet<Vector2d> mapElementsY = new TreeSet<>(this::compareByPositionY);
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
@@ -17,14 +17,14 @@ public class MapBoundary implements IPositionChangeObserver {
         mapElementsY.add(newPosition);
     }
 
-    public Vector2d[] get() {
+    public Vector2d[] getCorners() {
         return new Vector2d[]{
             new Vector2d(mapElementsX.first().x, mapElementsY.first().y),
             new Vector2d(mapElementsX.last().x, mapElementsY.last().y)
         };
     }
 
-    public boolean add(Vector2d position) {
+    public boolean addElement(Vector2d position) {
         return mapElementsX.add(position) && mapElementsY.add(position);
     }
 

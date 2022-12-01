@@ -48,6 +48,24 @@ public class Animal extends AbstractWorldMapElement {
         return position.hashCode() + direction.ordinal();
     }
 
+    @Override
+    public String getResourceName() {
+        final String RESOURCES_PATH = "src/main/resources/";
+
+        return switch (direction) {
+            case NORTH ->   RESOURCES_PATH + "bee-up.png";
+            case EAST ->    RESOURCES_PATH + "bee-right.png";
+            case SOUTH ->   RESOURCES_PATH + "bee-down.png";
+            case WEST ->    RESOURCES_PATH + "bee-left.png";
+            default ->      null;
+        };
+    }
+
+    @Override
+    public String getLabel() {
+        return "A " + position;
+    }
+
     public void move(MoveDirection direction) {
         Vector2d newPosition, oldPosition;
 

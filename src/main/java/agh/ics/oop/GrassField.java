@@ -24,16 +24,26 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d[] getBoundary() {
-        return mapBoundary.get();
+        return mapBoundary.getCorners();
     }
 
     @Override
     public boolean place(Animal animal) {
         super.place(animal);
         animal.addObserver(mapBoundary);
-        mapBoundary.add(animal.getPosition());
+        mapBoundary.addElement(animal.getPosition());
 
         return true;
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        super.positionChanged(oldPosition, newPosition);
+
+        if (grasses.get(newPosition) != null) {
+            grasses.remove(newPosition);
+            plantForce();
+        }
     }
 
     public boolean plant(Grass grass) {
@@ -41,7 +51,16 @@ public class GrassField extends AbstractWorldMap {
             return false;
 
         grasses.put(grass.getPosition(), grass);
-        mapBoundary.add(grass.getPosition());
+        mapBoundary.addElement(grass.getPosition());
         return true;
+    }
+
+    public Grass plantForce() {
+        Grass g;
+        do {
+            g = new Grass(new Vector2d((int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.x), (int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.y)));
+        } while (!plant(g));
+
+        return g;
     }
 }
