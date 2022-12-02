@@ -10,18 +10,22 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.Map;
 
-public class App extends Application {
-    AbstractWorldMap map;
+public class App extends Application implements IPositionChangeObserver {
+    private GridPane grid;
+    private AbstractWorldMap map;
+    private Map<Vector2d, GuiElementBox> guiElementBoxes;
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            GridPane grid = new GridPane();
-            renderGrid(grid);
+            grid = new GridPane();
+            renderGrid();
 
             Scene scene = new Scene(grid, 768, 768);
 
@@ -39,47 +43,56 @@ public class App extends Application {
         map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2, 2), new Vector2d(3, 4) };
         IEngine engine = new SimulationEngine(directions, map, positions, 10);
-//        engine.run();
+        engine.run();
     }
 
-    private void addToGrid(GridPane grid, Node node, int i, int j) {
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        for (Node node : grid.getChildren()) {
+            if (node.equals(guiElementBoxes.get(oldPosition).getBox())) {
+
+            }
+        }
+    }
+
+    private void addToGrid(Node node, int i, int j) {
         grid.add(node, i, j);
         GridPane.setHalignment(node, HPos.CENTER);
         GridPane.setValignment(node, VPos.CENTER);
     }
 
-    private void renderGrid(GridPane grid) throws FileNotFoundException {
+    private void renderGrid() throws FileNotFoundException {
         Vector2d[] boundary = map.getBoundary();
         final int width = boundary[1].x - boundary[0].x + 2;
         final int height = boundary[1].y - boundary[0].y + 2;
         grid.setGridLinesVisible(true);
 
-        renderAxis(grid, boundary[0], boundary[1]);
-        renderBody(grid, boundary[0], boundary[1]);
-        setGridCellsSize(grid, width, height, 64, 64);
+        renderAxis(boundary[0], boundary[1]);
+        renderBody(boundary[0], boundary[1]);
+        setGridCellsSize(width, height, 64, 64);
     }
 
-    private void renderAxis(GridPane grid, Vector2d lowerLeft, Vector2d upperRight) {
-        addToGrid(grid, new Label("y\\x"), 0, 0);
+    private void renderAxis(Vector2d lowerLeft, Vector2d upperRight) {
+        addToGrid(new Label("y\\x"), 0, 0);
 
         for (int x = lowerLeft.x, i = 1; x <= upperRight.x; x++, i++) {
-            addToGrid(grid, new Label(Integer.toString(x)), i, 0);
+            addToGrid(new Label(Integer.toString(x)), i, 0);
         }
         for (int y = lowerLeft.y, i = upperRight.y - lowerLeft.y + 1; y <= upperRight.y; y++, i--) {
-            addToGrid(grid, new Label(Integer.toString(y)), 0, i);
+            addToGrid(new Label(Integer.toString(y)), 0, i);
         }
     }
 
-    private void renderBody(GridPane grid, Vector2d lowerLeft, Vector2d upperRight) throws FileNotFoundException {
+    private void renderBody(Vector2d lowerLeft, Vector2d upperRight) throws FileNotFoundException {
         for (int x = lowerLeft.x, i = 1; x <= upperRight.x; x++, i++) {
             for (int y = lowerLeft.y, j = upperRight.y - lowerLeft.y + 1; y <= upperRight.y; y++, j--) {
                 if (map.objectAt(new Vector2d(x, y)) != null)
-                    addToGrid(grid, new GuiElementBox((IMapElement) map.objectAt(new Vector2d(x, y))).getBox(), i, j);
+                    addToGrid(new GuiElementBox((IMapElement) map.objectAt(new Vector2d(x, y))).getBox(), i, j);
             }
         }
     }
 
-    private void setGridCellsSize(GridPane grid, int gridWidth, int gridHeight, int w, int h) {
+    private void setGridCellsSize(int gridWidth, int gridHeight, int w, int h) {
         for (int i = 0; i < gridWidth; i++)
             grid.getColumnConstraints().add(new ColumnConstraints(w));
         for (int i = 0; i < gridHeight; i++)

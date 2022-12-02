@@ -26,7 +26,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         if (isOccupied(animal.getPosition()))
             throw new IllegalArgumentException(animal.getPosition() + " is already occupied");
 
-        animal.addObserver(this);
+        animal.addPositionObserver(this);
         animals.put(animal.getPosition(), animal);
         return true;
     }

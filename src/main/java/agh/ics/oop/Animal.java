@@ -6,7 +6,8 @@ import java.util.List;
 public class Animal extends AbstractWorldMapElement {
     private final IWorldMap worldMap;
     private MapDirection direction = MapDirection.NORTH;
-    private final List<IPositionChangeObserver> observers = new ArrayList<>();
+    private final List<IPositionChangeObserver> positionObservers = new ArrayList<>();
+    private final List<IDirectionChangeObserver> directionObservers = new ArrayList<>();
 
     public Animal(IWorldMap map) {
         worldMap = map;
@@ -62,7 +63,7 @@ public class Animal extends AbstractWorldMapElement {
     }
 
     @Override
-    public String getLabel() {
+    public String getLabelText() {
         return "A " + position;
     }
 
@@ -91,16 +92,29 @@ public class Animal extends AbstractWorldMapElement {
         }
     }
 
-    public void addObserver(IPositionChangeObserver observer) {
-        observers.add(observer);
+    public void addPositionObserver(IPositionChangeObserver observer) {
+        positionObservers.add(observer);
     }
 
-    public void removeObserver(IPositionChangeObserver observer) {
-        observers.remove(observer);
+    public void removePositionObserver(IPositionChangeObserver observer) {
+        positionObservers.remove(observer);
+    }
+
+    public void addDirectionObserver(IDirectionChangeObserver observer) {
+        directionObservers.add(observer);
+    }
+
+    public void removeDirectionObserver(IDirectionChangeObserver observer) {
+        directionObservers.remove(observer);
     }
 
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        for (IPositionChangeObserver observer : observers)
+        for (IPositionChangeObserver observer : positionObservers)
             observer.positionChanged(oldPosition, newPosition);
+    }
+
+    private void directionChanged(MapDirection newDirection) {
+        for (IDirectionChangeObserver observer : directionObservers)
+            observer.directionChanged(newDirection);
     }
 }

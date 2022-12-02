@@ -5,6 +5,6 @@ public interface IMapElement {
     String toString();
     Vector2d getPosition();
     String getResourceName();
-    String getLabel();
+    String getLabelText();
     boolean isAt(Vector2d pos);
 }
