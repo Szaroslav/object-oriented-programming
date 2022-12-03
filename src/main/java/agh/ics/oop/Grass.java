@@ -33,4 +33,10 @@ public class Grass extends AbstractWorldMapElement {
     public String getLabelText() {
         return "G " + position;
     }
+
+    public void replant(Vector2d newPosition) {
+        final Vector2d oldPosition = position;
+        position = newPosition;
+        positionChanged(oldPosition, newPosition);
+    }
 }

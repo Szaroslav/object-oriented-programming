@@ -40,27 +40,35 @@ public class GrassField extends AbstractWorldMap {
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         super.positionChanged(oldPosition, newPosition);
 
-        if (grasses.get(newPosition) != null) {
-            grasses.remove(newPosition);
-            plantForce();
-        }
+        if (grasses.get(newPosition) != null)
+            replant(newPosition, getEmptyPosition());
     }
 
     public boolean plant(Grass grass) {
         if (objectAt(grass.getPosition()) != null || !grass.getPosition().between(GRASS_LOWER_LEFT_BOUNDARY, GRASS_UPPER_RIGHT_BOUNDARY))
             return false;
 
+        grass.addPositionObserver(mapBoundary);
         grasses.put(grass.getPosition(), grass);
         mapBoundary.addElement(grass.getPosition());
         return true;
     }
 
-    public Grass plantForce() {
-        Grass g;
-        do {
-            g = new Grass(new Vector2d((int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.x), (int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.y)));
-        } while (!plant(g));
+    public void replant(Vector2d oldPosition, Vector2d newPosition) {
+        Grass grass = grasses.remove(oldPosition);
+        mapBoundary.removeElement(oldPosition);
+        grass.replant(newPosition);
 
-        return g;
+        grasses.put(grass.getPosition(), grass);
+        mapBoundary.addElement(grass.getPosition());
+    }
+
+    public Vector2d getEmptyPosition() {
+        Vector2d pos;
+        do {
+            pos = new Vector2d((int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.x), (int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.y));
+        } while (objectAt(pos) != null);
+
+        return pos;
     }
 }

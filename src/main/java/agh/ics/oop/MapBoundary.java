@@ -10,22 +10,23 @@ public class MapBoundary implements IPositionChangeObserver {
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        mapElementsX.remove(oldPosition);
-        mapElementsX.add(newPosition);
-
-        mapElementsY.remove(oldPosition);
-        mapElementsY.add(newPosition);
+        removeElement(oldPosition);
+        addElement(newPosition);
     }
 
     public Vector2d[] getCorners() {
         return new Vector2d[]{
             mapElementsX.first().lowerLeft(mapElementsY.first()),
-            mapElementsX.last().lowerLeft(mapElementsY.last())
+            mapElementsX.last().upperRight(mapElementsY.last())
         };
     }
 
     public boolean addElement(Vector2d position) {
         return mapElementsX.add(position) && mapElementsY.add(position);
+    }
+
+    public boolean removeElement(Vector2d position) {
+        return mapElementsX.remove(position) && mapElementsY.remove(position);
     }
 
     private int compareByPositionX(Vector2d v1, Vector2d v2) {

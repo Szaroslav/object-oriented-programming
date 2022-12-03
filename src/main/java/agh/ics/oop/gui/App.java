@@ -2,6 +2,7 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -10,16 +11,19 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class App extends Application implements IPositionChangeObserver {
+    private final int CELL_SIZE = 64;
+    private int width;
+    private int height;
     private GridPane grid;
     private AbstractWorldMap map;
-    private Map<Vector2d, GuiElementBox> guiElementBoxes;
+    private Map<Vector2d, GuiElementBox> guiElementBoxes = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) {
@@ -42,17 +46,40 @@ public class App extends Application implements IPositionChangeObserver {
         MoveDirection[] directions = OptionsParser.parse(getParameters().getRaw().toArray(new String[0]));
         map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2, 2), new Vector2d(3, 4) };
-        IEngine engine = new SimulationEngine(directions, map, positions, 10);
-        engine.run();
+
+        SimulationEngine engine = new SimulationEngine(directions, map, positions, 10);
+        Thread engineThread = new Thread(engine);
+        engineThread.start();
     }
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        for (Node node : grid.getChildren()) {
-            if (node.equals(guiElementBoxes.get(oldPosition).getBox())) {
+        Platform.runLater(() -> {
+            final Vector2d[] b = map.getBoundary();
+            final int i = newPosition.x - b[0].x + 1, j = b[1].y - newPosition.y + 1;
+            GuiElementBox guiElementBox = guiElementBoxes.remove(oldPosition);
 
+            grid.getChildren().remove(guiElementBox.getBox());
+            addToGrid(guiElementBox.getBox(), i, j);
+            guiElementBoxes.put(newPosition, guiElementBox);
+
+            if (i >= width) {
+                int deltaWidth = i - width + 1;
+                for (int k = 0; k < deltaWidth; k++) {
+                    addToGrid(new Label(Integer.toString(newPosition.x - k)), i - k, 0);
+                    grid.getColumnConstraints().add(new ColumnConstraints(CELL_SIZE));
+                }
+                width += deltaWidth;
             }
-        }
+            if (j >= height) {
+                int deltaHeight = j - height + 1;
+                for (int k = 0; k < deltaHeight; k++) {
+                    addToGrid(new Label(Integer.toString(newPosition.y - k)), 0, j - k);
+                    grid.getRowConstraints().add(new RowConstraints(CELL_SIZE));
+                }
+                height += deltaHeight;
+            }
+        });
     }
 
     private void addToGrid(Node node, int i, int j) {
@@ -63,13 +90,13 @@ public class App extends Application implements IPositionChangeObserver {
 
     private void renderGrid() throws FileNotFoundException {
         Vector2d[] boundary = map.getBoundary();
-        final int width = boundary[1].x - boundary[0].x + 2;
-        final int height = boundary[1].y - boundary[0].y + 2;
+        width = boundary[1].x - boundary[0].x + 2;
+        height = boundary[1].y - boundary[0].y + 2;
         grid.setGridLinesVisible(true);
 
         renderAxis(boundary[0], boundary[1]);
         renderBody(boundary[0], boundary[1]);
-        setGridCellsSize(width, height, 64, 64);
+        setGridCellsSize();
     }
 
     private void renderAxis(Vector2d lowerLeft, Vector2d upperRight) {
@@ -78,24 +105,33 @@ public class App extends Application implements IPositionChangeObserver {
         for (int x = lowerLeft.x, i = 1; x <= upperRight.x; x++, i++) {
             addToGrid(new Label(Integer.toString(x)), i, 0);
         }
-        for (int y = lowerLeft.y, i = upperRight.y - lowerLeft.y + 1; y <= upperRight.y; y++, i--) {
+        for (int y = lowerLeft.y, i = height - 1; y <= upperRight.y; y++, i--) {
             addToGrid(new Label(Integer.toString(y)), 0, i);
         }
     }
 
     private void renderBody(Vector2d lowerLeft, Vector2d upperRight) throws FileNotFoundException {
         for (int x = lowerLeft.x, i = 1; x <= upperRight.x; x++, i++) {
-            for (int y = lowerLeft.y, j = upperRight.y - lowerLeft.y + 1; y <= upperRight.y; y++, j--) {
-                if (map.objectAt(new Vector2d(x, y)) != null)
-                    addToGrid(new GuiElementBox((IMapElement) map.objectAt(new Vector2d(x, y))).getBox(), i, j);
+            for (int y = lowerLeft.y, j = height - 1; y <= upperRight.y; y++, j--) {
+                Vector2d p = new Vector2d(x, y);
+                IMapElement el = (IMapElement) map.objectAt(p);
+
+                if (el != null) {
+                    GuiElementBox guiElementBox = new GuiElementBox(el);
+                    guiElementBoxes.put(p, guiElementBox);
+                    addToGrid(guiElementBox.getBox(), i, j);
+
+                    ((AbstractWorldMapElement) el).addPositionObserver(this);
+                    ((AbstractWorldMapElement) el).addPositionObserver(guiElementBox);
+                }
             }
         }
     }
 
-    private void setGridCellsSize(int gridWidth, int gridHeight, int w, int h) {
-        for (int i = 0; i < gridWidth; i++)
-            grid.getColumnConstraints().add(new ColumnConstraints(w));
-        for (int i = 0; i < gridHeight; i++)
-            grid.getRowConstraints().add(new RowConstraints(h));
+    private void setGridCellsSize() {
+        for (int i = 0; i < width; i++)
+            grid.getColumnConstraints().add(new ColumnConstraints(CELL_SIZE));
+        for (int i = 0; i < height; i++)
+            grid.getRowConstraints().add(new RowConstraints(CELL_SIZE));
     }
 }

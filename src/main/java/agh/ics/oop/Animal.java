@@ -6,7 +6,6 @@ import java.util.List;
 public class Animal extends AbstractWorldMapElement {
     private final IWorldMap worldMap;
     private MapDirection direction = MapDirection.NORTH;
-    private final List<IPositionChangeObserver> positionObservers = new ArrayList<>();
     private final List<IDirectionChangeObserver> directionObservers = new ArrayList<>();
 
     public Animal(IWorldMap map) {
@@ -71,8 +70,14 @@ public class Animal extends AbstractWorldMapElement {
         Vector2d newPosition, oldPosition;
 
         switch (direction) {
-            case RIGHT -> this.direction = this.direction.next();
-            case LEFT -> this.direction = this.direction.previous();
+            case RIGHT -> {
+                this.direction = this.direction.next();
+                directionChanged(this.direction);
+            }
+            case LEFT -> {
+                this.direction = this.direction.previous();
+                directionChanged(this.direction);
+            }
             case FORWARD -> {
                 newPosition = position.add(this.direction.toUnitVector());
                 if (worldMap.canMoveTo(newPosition)) {
@@ -92,25 +97,12 @@ public class Animal extends AbstractWorldMapElement {
         }
     }
 
-    public void addPositionObserver(IPositionChangeObserver observer) {
-        positionObservers.add(observer);
-    }
-
-    public void removePositionObserver(IPositionChangeObserver observer) {
-        positionObservers.remove(observer);
-    }
-
     public void addDirectionObserver(IDirectionChangeObserver observer) {
         directionObservers.add(observer);
     }
 
     public void removeDirectionObserver(IDirectionChangeObserver observer) {
         directionObservers.remove(observer);
-    }
-
-    private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        for (IPositionChangeObserver observer : positionObservers)
-            observer.positionChanged(oldPosition, newPosition);
     }
 
     private void directionChanged(MapDirection newDirection) {
