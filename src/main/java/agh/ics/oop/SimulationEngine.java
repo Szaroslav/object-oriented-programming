@@ -6,17 +6,20 @@ import java.lang.Math;
 
 public class SimulationEngine implements IEngine, Runnable {
     private final int MOVE_DELAY = 500;
-    private final MoveDirection[] directions;
+    private MoveDirection[] moveDirections;
     private final List<Animal> animals = new ArrayList<>();
 
-    public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initialPositions) {
-        this.directions = directions;
-
+    public SimulationEngine(IWorldMap map, Vector2d[] initialPositions) {
         for (Vector2d position : initialPositions) {
             Animal a = new Animal(map, position);
             if (map.place(a))
                 animals.add(a);
         }
+    }
+
+    public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initialPositions) {
+        this(map, initialPositions);
+        moveDirections = directions;
     }
 
     public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initialPositions, int grassNumber) {
@@ -31,15 +34,19 @@ public class SimulationEngine implements IEngine, Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < directions.length; i++) {
+        for (int i = 0; i < moveDirections.length; i++) {
             try {
                 Thread.sleep(MOVE_DELAY);
-                animals.get(i % animals.size()).move(directions[i]);
+                animals.get(i % animals.size()).move(moveDirections[i]);
             }
             catch (InterruptedException ex) {
                 System.out.println("Symulacja została przerwana");
                 System.out.println(ex);
             }
         }
+    }
+
+    public void setMoveDirections(MoveDirection[] directions) {
+        moveDirections = directions;
     }
 }

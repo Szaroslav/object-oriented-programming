@@ -26,8 +26,8 @@ public class GuiElementBox implements IPositionChangeObserver, IDirectionChangeO
 
         icon = new ImageView(new Image(new FileInputStream(mapElement.getResourceName())));
         icon.setSmooth(true);
-        icon.setFitWidth(40);
-        icon.setFitHeight(40);
+        icon.setFitWidth(30);
+        icon.setFitHeight(30);
 
         vBox = new VBox(0);
         vBox.getChildren().addAll(icon, getMapElementLabel());

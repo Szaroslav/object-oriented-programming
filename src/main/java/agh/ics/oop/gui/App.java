@@ -3,14 +3,16 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -18,21 +20,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class App extends Application implements IPositionChangeObserver {
-    private final int CELL_SIZE = 64;
+    private final int CELL_SIZE = 48;
     private int width;
     private int height;
-    private GridPane grid;
+    private GridPane grid = new GridPane();
+    private VBox ui = new VBox();
+    private TextField moveDirectionsTextField = new TextField();
     private AbstractWorldMap map;
+    private SimulationEngine engine;
     private Map<Vector2d, GuiElementBox> guiElementBoxes = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            grid = new GridPane();
             renderGrid();
+            renderUI();
 
-            Scene scene = new Scene(grid, 768, 768);
-
+            HBox hBox = new HBox(16, grid, ui);
+            Scene scene = new Scene(hBox, 768, 600);
             primaryStage.setScene(scene);
             primaryStage.show();
         }
@@ -47,9 +52,7 @@ public class App extends Application implements IPositionChangeObserver {
         map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2, 2), new Vector2d(3, 4) };
 
-        SimulationEngine engine = new SimulationEngine(directions, map, positions, 10);
-        Thread engineThread = new Thread(engine);
-        engineThread.start();
+        engine = new SimulationEngine(directions, map, positions, 10);
     }
 
     @Override
@@ -126,6 +129,20 @@ public class App extends Application implements IPositionChangeObserver {
                 }
             }
         }
+    }
+
+    private void renderUI() {
+        Button button = new Button("Start");
+        button.setOnAction(event -> {
+            engine.setMoveDirections(OptionsParser.parse(moveDirectionsTextField.getText().split(" ")));
+            Thread engineThread = new Thread(engine);
+            engineThread.start();
+        });
+
+        VBox spacer = new VBox();
+        spacer.setMinHeight(16);
+
+        ui.getChildren().addAll(new Label("Move directions (f, b, l, r):"), moveDirectionsTextField, spacer, button);
     }
 
     private void setGridCellsSize() {
