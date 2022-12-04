@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class App extends Application implements IPositionChangeObserver {
-    private final int CELL_SIZE = 48;
+    private final int CELL_SIZE = 52;
     private int width;
     private int height;
     private GridPane grid = new GridPane();
@@ -59,28 +59,18 @@ public class App extends Application implements IPositionChangeObserver {
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         Platform.runLater(() -> {
             final Vector2d[] b = map.getBoundary();
-            final int i = newPosition.x - b[0].x + 1, j = b[1].y - newPosition.y + 1;
             GuiElementBox guiElementBox = guiElementBoxes.remove(oldPosition);
-
             grid.getChildren().remove(guiElementBox.getBox());
-            addToGrid(guiElementBox.getBox(), i, j);
             guiElementBoxes.put(newPosition, guiElementBox);
 
-            if (i >= width) {
-                int deltaWidth = i - width + 1;
-                for (int k = 0; k < deltaWidth; k++) {
-                    addToGrid(new Label(Integer.toString(newPosition.x - k)), i - k, 0);
-                    grid.getColumnConstraints().add(new ColumnConstraints(CELL_SIZE));
-                }
-                width += deltaWidth;
+            if (b[1].x - b[0].x + 2 == width && b[1].y - b[0].y + 2 == height) {
+                int i = newPosition.x - b[0].x + 1, j = b[1].y - newPosition.y + 1;
+                addToGrid(guiElementBox.getBox(), i, j);
             }
-            if (j >= height) {
-                int deltaHeight = j - height + 1;
-                for (int k = 0; k < deltaHeight; k++) {
-                    addToGrid(new Label(Integer.toString(newPosition.y - k)), 0, j - k);
-                    grid.getRowConstraints().add(new RowConstraints(CELL_SIZE));
-                }
-                height += deltaHeight;
+            else {
+                width = b[1].x - b[0].x + 2;
+                height = b[1].y - b[0].y + 2;
+                rerenderGrid();
             }
         });
     }
@@ -107,10 +97,13 @@ public class App extends Application implements IPositionChangeObserver {
 
         for (int x = lowerLeft.x, i = 1; x <= upperRight.x; x++, i++) {
             addToGrid(new Label(Integer.toString(x)), i, 0);
+            System.out.println("x: " + x);
         }
         for (int y = lowerLeft.y, i = height - 1; y <= upperRight.y; y++, i--) {
             addToGrid(new Label(Integer.toString(y)), 0, i);
+            System.out.println("y: " + y);
         }
+        System.out.println("-=-=-=-=-=-");
     }
 
     private void renderBody(Vector2d lowerLeft, Vector2d upperRight) throws FileNotFoundException {
@@ -125,7 +118,6 @@ public class App extends Application implements IPositionChangeObserver {
                     addToGrid(guiElementBox.getBox(), i, j);
 
                     ((AbstractWorldMapElement) el).addPositionObserver(this);
-                    ((AbstractWorldMapElement) el).addPositionObserver(guiElementBox);
                 }
             }
         }
@@ -143,6 +135,17 @@ public class App extends Application implements IPositionChangeObserver {
         spacer.setMinHeight(16);
 
         ui.getChildren().addAll(new Label("Move directions (f, b, l, r):"), moveDirectionsTextField, spacer, button);
+    }
+
+    private void rerenderGrid() {
+        final Vector2d lowerLeft = map.getBoundary()[0], upperRight = map.getBoundary()[1];
+
+        grid.getChildren().clear();
+        renderAxis(lowerLeft, upperRight);
+        for (Map.Entry<Vector2d, GuiElementBox> entry : guiElementBoxes.entrySet()) {
+            int i = entry.getKey().x - lowerLeft.x + 1, j = upperRight.y - entry.getKey().y + 1;
+            addToGrid(entry.getValue().getBox(), i, j);
+        }
     }
 
     private void setGridCellsSize() {

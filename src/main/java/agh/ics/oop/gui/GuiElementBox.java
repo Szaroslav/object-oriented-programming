@@ -19,15 +19,15 @@ public class GuiElementBox implements IPositionChangeObserver, IDirectionChangeO
 
     public GuiElementBox(IMapElement mapElement) throws FileNotFoundException {
         this.mapElement = mapElement;
+        ((AbstractWorldMapElement) mapElement).addPositionObserver(this);
         if (mapElement instanceof Animal a) {
             a.addDirectionObserver(this);
-            a.addPositionObserver(this);
         }
 
         icon = new ImageView(new Image(new FileInputStream(mapElement.getResourceName())));
         icon.setSmooth(true);
-        icon.setFitWidth(30);
-        icon.setFitHeight(30);
+        icon.setFitWidth(32);
+        icon.setFitHeight(32);
 
         vBox = new VBox(0);
         vBox.getChildren().addAll(icon, getMapElementLabel());
@@ -51,7 +51,9 @@ public class GuiElementBox implements IPositionChangeObserver, IDirectionChangeO
     }
 
     public Label getMapElementLabel() {
-        return new Label(mapElement.getLabelText());
+        Label label = new Label(mapElement.getLabelText());
+        label.setStyle("-fx-font-size: 10px");
+        return label;
     }
 
     public VBox getBox() {

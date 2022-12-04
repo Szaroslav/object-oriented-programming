@@ -27,8 +27,8 @@ public class SimulationEngine implements IEngine, Runnable {
 
         GrassField grassField = (GrassField) map;
         for (int i = 0; i < grassNumber; i++) {
-            if (i == 0) {grassField.plant(new Grass(new Vector2d(2, 3)));}
-            else grassField.plant(new Grass(grassField.getEmptyPosition()));
+//            if (i == 0) grassField.plant(new Grass(new Vector2d(2, 3)));
+            grassField.plant(new Grass(grassField.getEmptyPosition()));
         }
     }
 
