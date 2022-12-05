@@ -66,7 +66,7 @@ public class GrassField extends AbstractWorldMap {
     public Vector2d getEmptyPosition() {
         Vector2d pos;
         do {
-            pos = new Vector2d((int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.x), (int) (Math.random() * (GRASS_UPPER_RIGHT_BOUNDARY.y / 2)));
+            pos = new Vector2d((int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.x), (int) (Math.random() * GRASS_UPPER_RIGHT_BOUNDARY.y / 2));
         } while (objectAt(pos) != null);
 
         return pos;

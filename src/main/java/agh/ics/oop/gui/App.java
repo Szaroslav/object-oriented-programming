@@ -97,13 +97,10 @@ public class App extends Application implements IPositionChangeObserver {
 
         for (int x = lowerLeft.x, i = 1; x <= upperRight.x; x++, i++) {
             addToGrid(new Label(Integer.toString(x)), i, 0);
-            System.out.println("x: " + x);
         }
         for (int y = lowerLeft.y, i = height - 1; y <= upperRight.y; y++, i--) {
             addToGrid(new Label(Integer.toString(y)), 0, i);
-            System.out.println("y: " + y);
         }
-        System.out.println("-=-=-=-=-=-");
     }
 
     private void renderBody(Vector2d lowerLeft, Vector2d upperRight) throws FileNotFoundException {
