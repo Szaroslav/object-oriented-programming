@@ -34,15 +34,15 @@ public class SimulationEngine implements IEngine, Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < moveDirections.length; i++) {
-            try {
+        try {
+            for (int i = 0; i < moveDirections.length; i++) {
                 Thread.sleep(MOVE_DELAY);
                 animals.get(i % animals.size()).move(moveDirections[i]);
             }
-            catch (InterruptedException ex) {
-                System.out.println("Symulacja została przerwana");
-                System.out.println(ex);
-            }
+        }
+        catch (InterruptedException ex) {
+            System.out.println("Symulacja została przerwana");
+            System.out.println(ex);
         }
     }
 
