@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class RotationTest {
     @Test
