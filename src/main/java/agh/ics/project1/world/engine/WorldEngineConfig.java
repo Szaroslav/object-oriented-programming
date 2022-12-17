@@ -28,8 +28,7 @@ public class WorldEngineConfig {
     }
 
     public int getInt(String key) {
-        int num = Integer.parseInt(getProperty(key));
-        return num;
+        return Integer.parseInt(getProperty(key));
     }
 
     private void load() {
