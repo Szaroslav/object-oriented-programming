@@ -10,19 +10,19 @@ public class Animal extends Organism {
     private int[] genes;
     private int activeGen;
     private Rotation currentRotation;
-    private AnimalMutationBehaviour mutationBehaviour;
-    private AnimalMovingBehaviour movingBehaviour;
+    private AnimalBehaviour behaviour;
+    private AnimalMutation mutation;
 
     public Animal(
         int energy,
         int[] genes,
-        AnimalMutationBehaviour mutationBehaviour,
-        AnimalMovingBehaviour movingBehaviour
+        AnimalBehaviour behaviour,
+        AnimalMutation mutation
     ) {
         this.energy = energy;
         this.genes = Arrays.copyOf(genes, genes.length);
-        this.mutationBehaviour = mutationBehaviour;
-        this.movingBehaviour = movingBehaviour;
+        this.behaviour = behaviour;
+        this.mutation = mutation;
     }
 
     public void move() {

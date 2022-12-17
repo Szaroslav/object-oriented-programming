@@ -1,0 +1,18 @@
+{
+    "mapWidth": 50,
+    "mapHeight": 50,
+    "mapType": "earth",
+    "initialAnimalsNumber": 10,
+    "initialAnimalEnergy": 50,
+    "animalBehaviour": "fullFate",
+    "animalMutation": "fullRandom",
+    "strongAnimalMinimumEnergy": 100,
+    "energyPerEating": 10,
+    "energyPerReproducing": 50,
+    "plantsGrowthType": "forestEquators",
+    "initialPlantsNumber": 50,
+    "plantsNumberPerDay": 10,
+    "minimumMutationsNumber": 2,
+    "maximumMutations": 7,
+    "genomeSize": 10
+}

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="agh.ics.project1.RotationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-16T18:05:36" hostname="SZARYCOMPUTER" time="0.033">
+<testsuite name="agh.ics.project1.RotationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-17T10:41:02" hostname="SZARYCOMPUTER" time="0.067">
   <properties/>
-  <testcase name="testRotate()" classname="agh.ics.project1.RotationTest" time="0.033"/>
-  <system-out><![CDATA[Testing Rotation.rotate(int)
+  <testcase name="testInvert()" classname="agh.ics.project1.RotationTest" time="0.067"/>
+  <system-out><![CDATA[Testing Rotation.invert(Rotation)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

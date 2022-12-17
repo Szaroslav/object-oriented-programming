@@ -14,7 +14,7 @@ public enum Rotation {
 
     private Vector2d position;
 
-    private Rotation(Vector2d position) {
+    Rotation(Vector2d position) {
         this.position = position;
     }
 
@@ -22,9 +22,14 @@ public enum Rotation {
         return position;
     }
 
-    public Rotation rotate(int rotationSteps) {
-        final int currentIndex = this.ordinal();
+    public static Rotation rotate(Rotation rotation, int rotationSteps) {
+        final int currentIndex = rotation.ordinal();
         Rotation[] rotations = Rotation.values();
         return rotations[(currentIndex + rotationSteps) % rotations.length + ((currentIndex + rotationSteps) % rotations.length >= 0 ? 0 : rotations.length)];
+    }
+
+    public static Rotation invert(Rotation rotation) {
+        Rotation[] rotations = Rotation.values();
+        return rotations[(rotation.ordinal() + rotations.length / 2) % rotations.length];
     }
 }

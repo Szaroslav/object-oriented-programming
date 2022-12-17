@@ -1,6 +1,6 @@
 package agh.ics.project1.animal;
 
-public enum AnimalMutationBehaviour {
+public enum AnimalMutation {
     FULL_RANDOM,
     SLIGHT_ADJUSTMENT
 }
