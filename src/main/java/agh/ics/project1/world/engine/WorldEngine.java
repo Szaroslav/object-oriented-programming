@@ -4,6 +4,7 @@ import agh.ics.oop.Vector2d;
 import agh.ics.project1.animal.Animal;
 import agh.ics.project1.animal.AnimalBehaviour;
 import agh.ics.project1.animal.AnimalMutation;
+import agh.ics.project1.utils.Pair;
 import agh.ics.project1.utils.Random;
 import agh.ics.project1.world.maps.AbstractMap;
 
@@ -22,7 +23,11 @@ public class WorldEngine implements Runnable {
 
     @Override
     public void run() {
-
+        for (int i = 0; i < 500; i++) {
+            removeDeadAnimals();
+            moveAnimals();
+            reproduceAnimals();
+        }
     }
 
     private void initAnimals() {
@@ -45,6 +50,37 @@ public class WorldEngine implements Runnable {
 
             animals.add(animal);
             map.place(animal);
+        }
+    }
+
+    private void removeDeadAnimals() {
+        List<Animal> animalsToRemove = new ArrayList<>();
+        for (Animal animal : animals)
+            if (animal.isDead())
+                animalsToRemove.add(animal);
+        for (Animal animal : animalsToRemove) {
+            animals.remove(animal);
+            map.removeAnimal(animal);
+        }
+    }
+
+    private void moveAnimals() {
+        for (Animal animal : animals) {
+            animal.move();
+        }
+    }
+
+    private void reproduceAnimals() {
+        for (int x = 0; x < WorldEngineConfig.getInstance().getInt("MAP_WIDTH"); x++) {
+            for (int y = 0; y < WorldEngineConfig.getInstance().getInt("MAP_HEIGHT"); y++) {
+                Vector2d field = new Vector2d(x, y);
+                if (!map.animalsAreAbleToReproduce(field))
+                    continue;
+
+                Pair<Animal, Animal> parents = map.getParents(field);
+                Animal child = parents.getFirst().reproduce(parents.getSecond());
+                map.place(child);
+            }
         }
     }
 }

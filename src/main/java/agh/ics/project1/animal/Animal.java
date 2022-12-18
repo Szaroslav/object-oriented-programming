@@ -52,25 +52,27 @@ public class Animal extends Organism implements Comparable<Animal> {
         return (int) (Math.random() * 3 - 1);
     }
 
-    public void move(Vector2d newPosition) {
+    public void move() {
+        activeGen = behaviour.getActiveGen(activeGen, genes.length);
+        currentRotation = Rotation.rotate(currentRotation, genes[activeGen]);
+        Vector2d newPosition = position.add(currentRotation.toVector());
+
         if (!map.canMoveTo(newPosition)) {
             observer.animalTriedToMove(this);
             return;
         }
 
-        activeGen = behaviour.getActiveGen(activeGen, genes.length);
-        currentRotation = Rotation.rotate(currentRotation, genes[activeGen]);
         setPosition(newPosition);
     }
 
     public Animal reproduce(Animal lover) {
         int[] childGenes = ArrayUtils.concatVar(genes, lover.genes, (double) energy / (energy + lover.energy), Random.range(0, 2) == 0);
         Animal child = new Animal(
-                this.position,
+            this.position,
             2 * WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"),
-                childGenes,
-                behaviour,
-                mutation
+            childGenes,
+            behaviour,
+            mutation
         );
 
         decreaseEnergy(WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
@@ -89,6 +91,10 @@ public class Animal extends Organism implements Comparable<Animal> {
         Vector2d oldPosition = position;
         position = newPosition;
         observer.animalPositionChanged(oldPosition, this);
+    }
+
+    public boolean isDead() {
+        return energy <= 0;
     }
 
     public boolean isStrong() {

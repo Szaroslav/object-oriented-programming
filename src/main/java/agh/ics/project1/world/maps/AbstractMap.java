@@ -5,6 +5,7 @@ import agh.ics.project1.animal.Animal;
 import agh.ics.project1.plant.Grass;
 import agh.ics.project1.animal.IAnimalObserver;
 import agh.ics.project1.plant.PlantsGrowthVariant;
+import agh.ics.project1.utils.Pair;
 import agh.ics.project1.utils.Random;
 import agh.ics.project1.world.engine.WorldEngineConfig;
 import agh.ics.oop.Vector2d;
@@ -64,24 +65,44 @@ public class AbstractMap implements IAnimalObserver {
         return true;
     }
 
-    protected void reproduceAnimals() {
-        for (int x = UPPER_RIGHT_BOUNDARY.x; x <= UPPER_RIGHT_BOUNDARY.x; x++) {
-            for (int y = LOWER_LEFT_BOUNDARY.y; y <= UPPER_RIGHT_BOUNDARY.y; y++) {
-                Vector2d field = new Vector2d(x, y);
-                if (animalsMap.get(field) == null || animalsMap.get(field).size() < 2)
-                    continue;
-
-                Animal firstPotentialParent = animalsMap.get(field).pollFirst();
-                Animal secondPotentialParent = animalsMap.get(field).pollFirst();
-                if (!firstPotentialParent.isStrong() || !secondPotentialParent.isStrong())
-                    continue;
-
-                Animal child = firstPotentialParent.reproduce(secondPotentialParent);
-                child.setMap(this);
-                child.setObserver(this);
-            }
-        }
+    public void removeAnimal(Animal animal) {
+        animalsList.remove(animal);
+        animalsMap.get(animal.getPosition()).remove(animal);
     }
+
+    public boolean animalsAreAbleToReproduce(Vector2d position) {
+        if (animalsMap.get(position) == null || animalsMap.get(position).size() < 2)
+            return false;
+
+        Pair<Animal, Animal> parents = new Pair<>(animalsMap.get(position).pollFirst(), animalsMap.get(position).first());
+        animalsMap.get(position).add(parents.getFirst());
+
+        assert parents.getFirst() != null;
+        return parents.getFirst().isStrong() && parents.getSecond().isStrong();
+    }
+
+    public Pair<Animal, Animal> getParents(Vector2d position) {
+        return new Pair<>(animalsMap.get(position).pollFirst(), animalsMap.get(position).pollFirst());
+    }
+
+//    protected void reproduceAnimals() {
+//        for (int x = UPPER_RIGHT_BOUNDARY.x; x <= UPPER_RIGHT_BOUNDARY.x; x++) {
+//            for (int y = LOWER_LEFT_BOUNDARY.y; y <= UPPER_RIGHT_BOUNDARY.y; y++) {
+//                Vector2d field = new Vector2d(x, y);
+//                if (animalsMap.get(field) == null || animalsMap.get(field).size() < 2)
+//                    continue;
+//
+//                Animal firstPotentialParent = animalsMap.get(field).pollFirst();
+//                Animal secondPotentialParent = animalsMap.get(field).pollFirst();
+//                if (!firstPotentialParent.isStrong() || !secondPotentialParent.isStrong())
+//                    continue;
+//
+//                Animal child = firstPotentialParent.reproduce(secondPotentialParent);
+//                child.setMap(this);
+//                child.setObserver(this);
+//            }
+//        }
+//    }
 
 //    public void adjustAnimal
 
