@@ -3,7 +3,9 @@ package agh.ics.project1.animal;
 import agh.ics.oop.Vector2d;
 import agh.ics.project1.Organism;
 import agh.ics.project1.Rotation;
+import agh.ics.project1.utils.ArrayUtils;
 import agh.ics.project1.utils.Random;
+import agh.ics.project1.world.engine.WorldEngineConfig;
 import agh.ics.project1.world.maps.AbstractMap;
 
 import java.util.Arrays;
@@ -31,6 +33,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.behaviour = behaviour;
         this.mutation = mutation;
 
+        this.mutation.mutate(this.genes);
         this.activeGen = Random.range(0, genes.length);
         this.currentRotation = Rotation.fromInt(Random.range(0, 8));
         this.childrenNumber = 0;
@@ -58,8 +61,21 @@ public class Animal extends Organism implements Comparable<Animal> {
         setPosition(newPosition);
     }
 
-    public void reproduce() {
+    public Animal reproduce(Animal lover) {
+        int[] childGenes = ArrayUtils.concatVar(genes, lover.genes, energy / (energy + lover.energy), Random.range(0, 2) == 0);
+        Animal child = new Animal(
+            2 * WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"),
+                childGenes,
+                behaviour,
+                mutation
+        );
 
+        decreaseEnergy(WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
+        childrenNumber++;
+        lover.decreaseEnergy(WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
+        lover.childrenNumber++;
+
+        return child;
     }
 
     public void invert() {
@@ -70,6 +86,14 @@ public class Animal extends Organism implements Comparable<Animal> {
         Vector2d oldPosition = position;
         position = newPosition;
         observer.animalPositionChanged(oldPosition, this);
+    }
+
+    public boolean isStrong() {
+        return energy >= WorldEngineConfig.getInstance().getInt("STRONG_ANIMAL_MINIMUM_ENERGY");
+    }
+
+    public void increaseEnergy(int energy) {
+        this.energy += energy;
     }
 
     public void decreaseEnergy(int energy) {

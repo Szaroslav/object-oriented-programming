@@ -64,6 +64,25 @@ public class AbstractMap implements IAnimalObserver {
         return true;
     }
 
+    protected void reproduceAnimals() {
+        for (int x = UPPER_RIGHT_BOUNDARY.x; x <= UPPER_RIGHT_BOUNDARY.x; x++) {
+            for (int y = LOWER_LEFT_BOUNDARY.y; y <= UPPER_RIGHT_BOUNDARY.y; y++) {
+                Vector2d field = new Vector2d(x, y);
+                if (animalsMap.get(field) == null || animalsMap.get(field).size() < 2)
+                    continue;
+
+                Animal firstPotentialParent = animalsMap.get(field).pollFirst();
+                Animal secondPotentialParent = animalsMap.get(field).pollFirst();
+                if (!firstPotentialParent.isStrong() || !secondPotentialParent.isStrong())
+                    continue;
+
+                Animal child = firstPotentialParent.reproduce(secondPotentialParent);
+                child.setMap(this);
+                child.setObserver(this);
+            }
+        }
+    }
+
 //    public void adjustAnimal
 
 //    public boolean isOccupied(Vector2d position) {
