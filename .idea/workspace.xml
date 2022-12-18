@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7bc9af33-6898-40ec-80ca-fc566aa3cc30" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/md5-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/sha1-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/dependencies-accessors/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/agh.ics.project1.RotationTest.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/css/base-style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/js/report.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/agh.ics.project1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-down-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-down.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-left-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-right-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-up-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/bee-up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/grass-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/grass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/TEST-agh.ics.project1.RotationTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin.idx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileTestJava/previous-compilation-data.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/AbstractWorldMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/AbstractWorldMapElement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/Animal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/Direction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/Grass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/GrassField.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/IDirectionChangeObserver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/IEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/IMapElement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/IPositionChangeObserver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/IWorldMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/MapBoundary.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/MapDirection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/MapVisualizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/MoveDirection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/OptionsParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/RectangularMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/SimulationEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/Vector2d.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/World.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/gui/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/oop/gui/GuiElementBox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/Organism.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/Rotation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/animal/Animal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/animal/AnimalBehaviour.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/animal/AnimalMutation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/animal/IAnimalObserver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/plant/Grass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/plant/PlantsGrowthVariant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/utils/ArrayUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/utils/Pair.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/utils/Random.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/World.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/engine/WorldEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/engine/WorldEngineConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/engine/main-config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/engine/main.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/maps/AbstractMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/maps/Earth.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agh/ics/project1/world/maps/InfernalPortal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-down-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-down.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-left-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-right-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-up-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bee-up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/grass-256x256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/grass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/agh/ics/oop/EngineTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/agh/ics/oop/GrassFieldTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/agh/ics/oop/MapDirectionTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/agh/ics/oop/OptionsParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/agh/ics/oop/RectangularMapTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/agh/ics/oop/Vector2dTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/agh/ics/project1/RotationTest.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="oop-labs" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FravwAxu5WeT0TPorDd658I5TB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Jakub/Desktop/Studia/3s/Programowanie obiektowe/object-oriented-programming/labs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "File.Encoding"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.agh.ics.project1.world.World">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="agh.ics.oop.gui.App" />
+      <module name="oop-labs.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="agh.ics.oop.gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="World" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17 (2)" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="agh.ics.oop.World" />
+      <module name="oop-labs.main" />
+      <option name="PROGRAM_PARAMETERS" value="f b r l f f r r f f f f f f f f" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="agh.ics.project1.world.World" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="agh.ics.project1.world.World" />
+      <module name="oop-labs.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="agh.ics.project1.world.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GrassFieldTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;agh.ics.oop.GrassFieldTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="RotationTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;agh.ics.project1.RotationTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="RotationTest.testInvert" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;agh.ics.project1.RotationTest.testInvert&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.World" />
+      <item itemvalue="Application.agh.ics.project1.world.World" />
+      <item itemvalue="Application.App" />
+      <item itemvalue="Gradle.RotationTest.testInvert" />
+      <item itemvalue="Gradle.RotationTest" />
+      <item itemvalue="Gradle.GrassFieldTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.agh.ics.project1.world.World" />
+        <item itemvalue="Gradle.RotationTest.testInvert" />
+        <item itemvalue="Gradle.RotationTest" />
+        <item itemvalue="Application.App" />
+        <item itemvalue="Gradle.GrassFieldTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7bc9af33-6898-40ec-80ca-fc566aa3cc30" name="Changes" comment="" />
+      <created>1665252890599</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665252890599</updated>
+      <workItem from="1665252892857" duration="7202000" />
+      <workItem from="1665309100872" duration="1338000" />
+      <workItem from="1665599945896" duration="1012000" />
+      <workItem from="1665670894603" duration="6669000" />
+      <workItem from="1665910339966" duration="1903000" />
+      <workItem from="1665937451344" duration="390000" />
+      <workItem from="1666371850899" duration="7331000" />
+      <workItem from="1666426906200" duration="1224000" />
+      <workItem from="1666598565950" duration="2057000" />
+      <workItem from="1666808223346" duration="5697000" />
+      <workItem from="1666860419936" duration="5907000" />
+      <workItem from="1667074980449" duration="1281000" />
+      <workItem from="1667150336713" duration="6137000" />
+      <workItem from="1667311330444" duration="117000" />
+      <workItem from="1667385079311" duration="413000" />
+      <workItem from="1667828657634" duration="213000" />
+      <workItem from="1668291633027" duration="2094000" />
+      <workItem from="1668330937423" duration="6523000" />
+      <workItem from="1668371201648" duration="3108000" />
+      <workItem from="1668804907711" duration="5540000" />
+      <workItem from="1668853026190" duration="8194000" />
+      <workItem from="1669021600836" duration="1504000" />
+      <workItem from="1669411293830" duration="5221000" />
+      <workItem from="1669457837081" duration="6659000" />
+      <workItem from="1669465584756" duration="9785000" />
+      <workItem from="1669576709670" duration="130000" />
+      <workItem from="1669989127798" duration="18877000" />
+      <workItem from="1670063284725" duration="8772000" />
+      <workItem from="1670083778754" duration="5000" />
+      <workItem from="1670095146776" duration="3068000" />
+      <workItem from="1670101486851" duration="890000" />
+      <workItem from="1670145929876" duration="4579000" />
+      <workItem from="1670157056822" duration="116000" />
+      <workItem from="1670836104448" duration="2251000" />
+      <workItem from="1671204626662" duration="12192000" />
+      <workItem from="1671271542226" duration="15255000" />
+      <workItem from="1671310932186" duration="3296000" />
+      <workItem from="1671349840655" duration="15899000" />
+      <workItem from="1671378258652" duration="4226000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.conf" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.ConcurrentModificationException" package="java.util" />
+          <option name="timeStamp" value="6" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="agh.ics.oop.gui.App" memberName="map" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="GradleRunConfiguration">
+        <watch expression="((App)this).map" custom="agh.ics.oop.gui.App" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
