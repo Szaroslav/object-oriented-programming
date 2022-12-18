@@ -22,6 +22,11 @@ public enum Rotation {
         return position;
     }
 
+    public static Rotation fromInt(int i) {
+        Rotation[] rotations = Rotation.values();
+        return rotations[i % rotations.length];
+    }
+
     public static Rotation rotate(Rotation rotation, int rotationSteps) {
         final int currentIndex = rotation.ordinal();
         Rotation[] rotations = Rotation.values();
