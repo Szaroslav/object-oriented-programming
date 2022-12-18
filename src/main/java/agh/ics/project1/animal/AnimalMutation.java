@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public enum AnimalMutation {
-    FULL_RANDOM {
+    FULL_RANDOM("FULL_RANDOM") {
         @Override
         public void mutate(int[] genes) {
             List<Integer> range = getShuffledIndexesList(genes.length);
@@ -23,7 +23,7 @@ public enum AnimalMutation {
             }
         }
     },
-    SLIGHT_ADJUSTMENT {
+    SLIGHT_ADJUSTMENT("SLIGHT_ADJUSTMENT") {
         @Override
         public void mutate(int[] genes) {
             List<Integer> range = getShuffledIndexesList(genes.length);
@@ -35,6 +35,20 @@ public enum AnimalMutation {
             }
         }
     };
+
+    private String name;
+
+    AnimalMutation(String name) {
+        this.name = name;
+    }
+
+    public static AnimalMutation fromString(String name) {
+        for (AnimalMutation mutation : AnimalMutation.values())
+            if (mutation.name.equals(name))
+                return mutation;
+
+        throw new IllegalArgumentException();
+    }
 
     public void mutate(int[] genes) {}
 

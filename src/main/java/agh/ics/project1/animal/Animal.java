@@ -23,11 +23,13 @@ public class Animal extends Organism implements Comparable<Animal> {
     private IAnimalObserver observer;
 
     public Animal(
+        Vector2d position,
         int energy,
         int[] genes,
         AnimalBehaviour behaviour,
         AnimalMutation mutation
     ) {
+        this.position = position;
         this.energy = energy;
         this.genes = Arrays.copyOf(genes, genes.length);
         this.behaviour = behaviour;
@@ -62,8 +64,9 @@ public class Animal extends Organism implements Comparable<Animal> {
     }
 
     public Animal reproduce(Animal lover) {
-        int[] childGenes = ArrayUtils.concatVar(genes, lover.genes, energy / (energy + lover.energy), Random.range(0, 2) == 0);
+        int[] childGenes = ArrayUtils.concatVar(genes, lover.genes, (double) energy / (energy + lover.energy), Random.range(0, 2) == 0);
         Animal child = new Animal(
+                this.position,
             2 * WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"),
                 childGenes,
                 behaviour,
