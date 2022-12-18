@@ -1,5 +1,6 @@
 package agh.ics.oop.project1.world.engine;
 
+import agh.ics.oop.project1.plant.Plant;
 import agh.ics.oop.project1.utils.Vector2d;
 import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.animal.AnimalBehaviour;
@@ -9,16 +10,20 @@ import agh.ics.oop.project1.utils.Random;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WorldEngine implements Runnable {
     private final List<Animal> animals = new ArrayList<>();
+    private final Map<Vector2d, Plant> plants = new HashMap<>();
     private AbstractMap map;
 
     public WorldEngine(AbstractMap map) {
         this.map = map;
 
         initAnimals();
+        initPlants();
     }
 
     @Override
@@ -26,8 +31,12 @@ public class WorldEngine implements Runnable {
         for (int i = 0; i < 500; i++) {
             harvestSouls();
             moveAnimals();
+            map.updateAnimalsMap();
+            letAnimalsEat();
             reproduceAnimals();
+            plant();
         }
+        System.out.println("xd");
     }
 
     private void initAnimals() {
@@ -53,6 +62,11 @@ public class WorldEngine implements Runnable {
         }
     }
 
+    private void initPlants() {
+        for (int i = 0; i < WorldEngineConfig.getInstance().getInt("INITIAL_PLANTS_NUMBER"); i++)
+            map.plant();
+    }
+
     private void harvestSouls() {
         List<Animal> animalsToRemove = new ArrayList<>();
         for (Animal animal : animals)
@@ -70,6 +84,16 @@ public class WorldEngine implements Runnable {
         }
     }
 
+    private void letAnimalsEat() {
+        for (Animal animal : animals) {
+            if (plants.get(animal.getPosition()) == null)
+                continue;
+
+            map.getStrongestAnimal(animal.getPosition()).eat();
+            map.removePlant(plants.remove(animal.getPosition()));
+        }
+    }
+
     private void reproduceAnimals() {
         for (int x = 0; x < WorldEngineConfig.getInstance().getInt("MAP_WIDTH"); x++) {
             for (int y = 0; y < WorldEngineConfig.getInstance().getInt("MAP_HEIGHT"); y++) {
@@ -82,5 +106,18 @@ public class WorldEngine implements Runnable {
                 map.place(child);
             }
         }
+    }
+
+    private void plant() {
+        for (int i = 0; i < WorldEngineConfig.getInstance().getInt("PLANTS_PER_DAY"); i++) {
+            try {
+                Plant plant = map.plant();
+                plants.put(plant.getPosition(), plant);
+            }
+            catch (IllegalStateException ex) {
+
+            }
+        }
+
     }
 }

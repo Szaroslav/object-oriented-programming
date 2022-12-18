@@ -1,8 +1,8 @@
 package agh.ics.oop.project1.world.maps;
 
-import agh.ics.oop.project1.Organism;
+import agh.ics.oop.project1.AbstractOrganism;
 import agh.ics.oop.project1.animal.Animal;
-import agh.ics.oop.project1.plant.Grass;
+import agh.ics.oop.project1.plant.Plant;
 import agh.ics.oop.project1.animal.IAnimalObserver;
 import agh.ics.oop.project1.plant.PlantsGrowthVariant;
 import agh.ics.oop.project1.utils.Pair;
@@ -20,7 +20,7 @@ public class AbstractMap implements IAnimalObserver {
 
     protected final List<Animal> animalsList = new ArrayList<>();
     protected final Map<Vector2d, TreeSet<Animal>> animalsMap = new HashMap<>();
-    protected final Map<Vector2d, Grass> grasses = new HashMap<>();
+    protected final Map<Vector2d, Plant> plants = new HashMap<>();
     protected final PlantsGrowthVariant growthVariant = PlantsGrowthVariant.fromString(WorldEngineConfig.getInstance().getProperty("PLANTS_GROWTH_VARIANT"));
 
     @Override
@@ -36,15 +36,18 @@ public class AbstractMap implements IAnimalObserver {
         animal.setMap(this);
         animal.setObserver(this);
         animalsList.add(animal);
-        animalsMap.computeIfAbsent(animal.getPosition(), k -> new TreeSet<>());
-        animalsMap.get(animal.getPosition()).add(animal);
+        addAnimalToMap(animal);
 
         return true;
     }
 
-    public void plant() {
-        int prefferedFieldChance = Random.range(0, 100);
-        Vector2d position;
+    public Plant plant() throws IllegalStateException {
+        if (plants.size() >= width * height)
+            throw new IllegalStateException();
+
+        int prefferedFieldChance;
+        Vector2d position = new Vector2d(0, 0);
+        Plant plant = new Plant(position);
 
         if (growthVariant == PlantsGrowthVariant.FOREST_EQUATORS) {
             int equatorHeight = (int) (height * 0.2);
@@ -53,12 +56,18 @@ public class AbstractMap implements IAnimalObserver {
             Vector2d upperRight = new Vector2d(UPPER_RIGHT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (height - equatorHeight) / 2 + 1 + equatorHeight);
 
             do {
+                prefferedFieldChance = Random.range(0, 101);
                 position = new Vector2d(Random.range(LOWER_LEFT_BOUNDARY.x, UPPER_RIGHT_BOUNDARY.x), Random.range(LOWER_LEFT_BOUNDARY.y, UPPER_RIGHT_BOUNDARY.y));
             } while ((prefferedFieldChance >= 0 && prefferedFieldChance <= 80) != position.between(lowerLeft, upperRight));
+
+            plant = new Plant(position);
         }
         else if (growthVariant == PlantsGrowthVariant.TOXIC_BODIES) {
 
         }
+
+        plants.put(position, plant);
+        return plant;
     }
 
     public boolean canMoveTo(Vector2d position) {
@@ -69,6 +78,13 @@ public class AbstractMap implements IAnimalObserver {
         animalsList.remove(animal);
         animalsMap.get(animal.getPosition()).remove(animal);
     }
+
+    public void updateAnimalsMap() {
+        animalsMap.clear();
+        for (Animal animal : animalsList)
+            addAnimalToMap(animal);
+    }
+
 
     public boolean animalsAreAbleToReproduce(Vector2d position) {
         if (animalsMap.get(position) == null || animalsMap.get(position).size() < 2)
@@ -83,6 +99,14 @@ public class AbstractMap implements IAnimalObserver {
 
     public Pair<Animal, Animal> getParents(Vector2d position) {
         return new Pair<>(animalsMap.get(position).pollFirst(), animalsMap.get(position).pollFirst());
+    }
+
+    public Animal getStrongestAnimal(Vector2d position) {
+        return animalsMap.get(position).first();
+    }
+
+    public void removePlant(Plant plant) {
+        plants.remove(plant);
     }
 
 //    protected void reproduceAnimals() {
@@ -121,7 +145,12 @@ public class AbstractMap implements IAnimalObserver {
 //        animals.put(newPosition, a);
 //    }
 
-    protected boolean isOrganismInBounds(Organism organism) {
+    protected boolean isOrganismInBounds(AbstractOrganism organism) {
         return organism.getPosition().between(LOWER_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY);
+    }
+
+    protected void addAnimalToMap(Animal animal) {
+        animalsMap.computeIfAbsent(animal.getPosition(), k -> new TreeSet<>());
+        animalsMap.get(animal.getPosition()).add(animal);
     }
 }

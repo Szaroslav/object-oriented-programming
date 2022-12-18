@@ -1,7 +1,7 @@
 package agh.ics.oop.project1.animal;
 
 import agh.ics.oop.project1.utils.Vector2d;
-import agh.ics.oop.project1.Organism;
+import agh.ics.oop.project1.AbstractOrganism;
 import agh.ics.oop.project1.Rotation;
 import agh.ics.oop.project1.utils.ArrayUtils;
 import agh.ics.oop.project1.utils.Random;
@@ -9,9 +9,8 @@ import agh.ics.oop.project1.world.engine.WorldEngineConfig;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
-public class Animal extends Organism implements Comparable<Animal> {
+public class Animal extends AbstractOrganism implements Comparable<Animal> {
     private int energy;
     private int[] genes;
     private int activeGen;
@@ -63,6 +62,11 @@ public class Animal extends Organism implements Comparable<Animal> {
         }
 
         setPosition(newPosition);
+        decreaseEnergy(1);
+    }
+
+    public void eat() {
+        increaseEnergy(WorldEngineConfig.getInstance().getInt("ENERGY_PER_EATING"));
     }
 
     public Animal reproduce(Animal lover) {
@@ -87,6 +91,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         currentRotation = Rotation.invert(currentRotation);
     }
 
+    @Override
     public void setPosition(Vector2d newPosition) {
         Vector2d oldPosition = position;
         position = newPosition;

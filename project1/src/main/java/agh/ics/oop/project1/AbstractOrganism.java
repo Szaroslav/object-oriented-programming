@@ -2,7 +2,7 @@ package agh.ics.oop.project1;
 
 import agh.ics.oop.project1.utils.Vector2d;
 
-public class Organism {
+public class AbstractOrganism {
     protected Vector2d position;
     protected int ageDays;
 
