@@ -51,13 +51,25 @@ public class Animal extends Organism implements Comparable<Animal> {
 
         activeGen = behaviour.getActiveGen(activeGen, genes.length);
         currentRotation = Rotation.rotate(currentRotation, genes[activeGen]);
-        Vector2d oldPosition = position;
-        position = position.add(currentRotation.toVector());
-        observer.animalPositionChanged(oldPosition, this);
+        setPosition(newPosition);
     }
 
     public void reproduce() {
 
+    }
+
+    public void invert() {
+        currentRotation = Rotation.invert(currentRotation);
+    }
+
+    public void setPosition(Vector2d newPosition) {
+        Vector2d oldPosition = position;
+        position = newPosition;
+        observer.animalPositionChanged(oldPosition, this);
+    }
+
+    public void decreaseEnergy(int energy) {
+        this.energy -= energy;
     }
 
     public void setMap(AbstractMap map) {
@@ -66,9 +78,5 @@ public class Animal extends Organism implements Comparable<Animal> {
 
     public void setObserver(IAnimalObserver observer) {
         this.observer = observer;
-    }
-
-    private void behave() {
-
     }
 }

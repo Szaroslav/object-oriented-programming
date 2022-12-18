@@ -21,14 +21,10 @@ public class AbstractMap implements IAnimalObserver {
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
 
     @Override
-    public void animalTriedToMove(Animal animal) {
-
-    }
+    public void animalTriedToMove(Animal animal) {}
 
     @Override
-    public void animalPositionChanged(Vector2d oldPosition, Animal animal) {
-
-    }
+    public void animalPositionChanged(Vector2d oldPosition, Animal animal) {}
 
     public boolean place(Animal animal) {
         if (!isOrganismInBounds(animal))
