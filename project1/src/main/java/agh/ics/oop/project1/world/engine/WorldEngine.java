@@ -24,7 +24,7 @@ public class WorldEngine implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < 500; i++) {
-            removeDeadAnimals();
+            harvestSouls();
             moveAnimals();
             reproduceAnimals();
         }
@@ -53,7 +53,7 @@ public class WorldEngine implements Runnable {
         }
     }
 
-    private void removeDeadAnimals() {
+    private void harvestSouls() {
         List<Animal> animalsToRemove = new ArrayList<>();
         for (Animal animal : animals)
             if (animal.isDead())

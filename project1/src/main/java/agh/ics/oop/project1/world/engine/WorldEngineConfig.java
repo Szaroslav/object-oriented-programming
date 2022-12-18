@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class WorldEngineConfig {
     private static WorldEngineConfig instance;
-    private Properties config = new Properties();
+    private final Properties config = new Properties();
 
     private WorldEngineConfig() {
         load();
@@ -31,14 +31,14 @@ public class WorldEngineConfig {
     }
 
     private void load() {
-        try (FileInputStream fileStream = new FileInputStream("./main.conf")) {
+        try (FileInputStream fileStream = new FileInputStream("src/main/resources/main.conf")) {
             config.load(fileStream);
         }
         catch (FileNotFoundException ex) {
-
+            System.out.println("XD1");
         }
         catch (IOException ex) {
-
+            System.out.println("XD2");
         }
     }
 }
