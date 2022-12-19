@@ -21,13 +21,30 @@ public class AbstractMap implements IAnimalObserver {
     protected final List<Animal> animalsList = new ArrayList<>();
     protected final Map<Vector2d, TreeSet<Animal>> animalsMap = new HashMap<>();
     protected final Map<Vector2d, Plant> plants = new HashMap<>();
+    protected final List<Pair<Vector2d, Integer>> deathsCounterList = new ArrayList<>();
     protected final PlantsGrowthVariant growthVariant = PlantsGrowthVariant.fromString(WorldEngineConfig.getInstance().getProperty("PLANTS_GROWTH_VARIANT"));
+
+    public AbstractMap() {
+        for (int y = LOWER_LEFT_BOUNDARY.y; y <= UPPER_RIGHT_BOUNDARY.y; y++)
+            for (int x = LOWER_LEFT_BOUNDARY.x; x <= UPPER_RIGHT_BOUNDARY.x; x++)
+                deathsCounterList.add(new Pair<>(new Vector2d(x, y), 0));
+    }
 
     @Override
     public void animalTriedToMove(Animal animal) {}
 
     @Override
     public void animalPositionChanged(Vector2d oldPosition, Animal animal) {}
+
+    @Override
+    public void animalDied(Vector2d position) {
+        for (Pair<Vector2d, Integer> pair : deathsCounterList) {
+            if (pair.getFirst().equals(position)) {
+                pair = new Pair<Vector2d, Integer>(position, pair.getSecond() + 1);
+                return;
+            }
+        }
+    }
 
     public boolean place(Animal animal) {
         if (!isOrganismInBounds(animal))
@@ -58,12 +75,19 @@ public class AbstractMap implements IAnimalObserver {
             do {
                 prefferedFieldChance = Random.range(0, 101);
                 position = new Vector2d(Random.range(LOWER_LEFT_BOUNDARY.x, UPPER_RIGHT_BOUNDARY.x), Random.range(LOWER_LEFT_BOUNDARY.y, UPPER_RIGHT_BOUNDARY.y));
-            } while ((prefferedFieldChance >= 0 && prefferedFieldChance <= 80) != position.between(lowerLeft, upperRight));
+            } while ((prefferedFieldChance >= 0 && prefferedFieldChance <= 80) != position.between(lowerLeft, upperRight) || plants.get(position) != null);
 
             plant = new Plant(position);
         }
         else if (growthVariant == PlantsGrowthVariant.TOXIC_BODIES) {
-
+            deathsCounterList.sort(Comparator.comparingInt(Pair::getSecond));
+            do {
+                prefferedFieldChance = Random.range(0, 101);
+                int i = prefferedFieldChance >= 0 && prefferedFieldChance <= 80
+                        ? Random.range(0, (int) Math.ceil(.2 * deathsCounterList.size()))
+                        : Random.range((int) Math.ceil(.2 * deathsCounterList.size()), deathsCounterList.size());
+                position = deathsCounterList.get(i).getFirst();
+            } while (plants.get(position) != null);
         }
 
         plants.put(position, plant);
@@ -109,41 +133,6 @@ public class AbstractMap implements IAnimalObserver {
         plants.remove(plant);
     }
 
-//    protected void reproduceAnimals() {
-//        for (int x = UPPER_RIGHT_BOUNDARY.x; x <= UPPER_RIGHT_BOUNDARY.x; x++) {
-//            for (int y = LOWER_LEFT_BOUNDARY.y; y <= UPPER_RIGHT_BOUNDARY.y; y++) {
-//                Vector2d field = new Vector2d(x, y);
-//                if (animalsMap.get(field) == null || animalsMap.get(field).size() < 2)
-//                    continue;
-//
-//                Animal firstPotentialParent = animalsMap.get(field).pollFirst();
-//                Animal secondPotentialParent = animalsMap.get(field).pollFirst();
-//                if (!firstPotentialParent.isStrong() || !secondPotentialParent.isStrong())
-//                    continue;
-//
-//                Animal child = firstPotentialParent.reproduce(secondPotentialParent);
-//                child.setMap(this);
-//                child.setObserver(this);
-//            }
-//        }
-//    }
-
-//    public void adjustAnimal
-
-//    public boolean isOccupied(Vector2d position) {
-//        return objectAt(position) != null;
-//    }
-//
-//    public Object objectAt(Vector2d position) {
-//        return animals.get(position);
-//    }
-
-//    @Override
-//    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-//        Animal a = animals.get(oldPosition);
-//        animals.remove(oldPosition, a);
-//        animals.put(newPosition, a);
-//    }
 
     protected boolean isOrganismInBounds(AbstractOrganism organism) {
         return organism.getPosition().between(LOWER_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY);

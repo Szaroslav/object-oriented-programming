@@ -7,6 +7,7 @@ import java.util.Properties;
 
 public class WorldEngineConfig {
     private static WorldEngineConfig instance;
+    private static final String CONFIG_URL = "src/main/resources/main.conf";
     private final Properties config = new Properties();
 
     private WorldEngineConfig() {
@@ -31,7 +32,7 @@ public class WorldEngineConfig {
     }
 
     private void load() {
-        try (FileInputStream fileStream = new FileInputStream("src/main/resources/main.conf")) {
+        try (FileInputStream fileStream = new FileInputStream(CONFIG_URL)) {
             config.load(fileStream);
         }
         catch (FileNotFoundException ex) {

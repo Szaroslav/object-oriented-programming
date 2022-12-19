@@ -112,6 +112,8 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
 
     public void decreaseEnergy(int energy) {
         this.energy -= energy;
+        if (energy <= 0)
+            observer.animalDied(position);
     }
 
     public void setMap(AbstractMap map) {
