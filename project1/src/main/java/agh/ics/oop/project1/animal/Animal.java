@@ -51,6 +51,26 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
         return (int) (Math.random() * 3 - 1);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || !this.getClass().equals(other.getClass())) return false;
+
+        Animal a = (Animal) other;
+        return position.equals(a.position)
+                && currentRotation == a.currentRotation
+                && energy == a.energy
+                && ageDays == a.ageDays
+                && activeGen == a.activeGen
+                && childrenNumber == a.childrenNumber
+                && Arrays.equals(genes, a.genes);
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode() + energy + ageDays + activeGen + childrenNumber;
+    }
+
     public void move() {
         activeGen = behaviour.getActiveGen(activeGen, genes.length);
         currentRotation = Rotation.rotate(currentRotation, genes[activeGen]);

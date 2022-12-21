@@ -46,16 +46,14 @@ public class AbstractMap implements IAnimalObserver {
         }
     }
 
-    public boolean place(Animal animal) {
+    public void place(Animal animal) throws IllegalArgumentException {
         if (!isOrganismInBounds(animal))
-            return false;
+            throw new IllegalArgumentException();
 
         animal.setMap(this);
         animal.setObserver(this);
         animalsList.add(animal);
         addAnimalToMap(animal);
-
-        return true;
     }
 
     public Plant plant() throws IllegalStateException {
@@ -67,15 +65,16 @@ public class AbstractMap implements IAnimalObserver {
         Plant plant = new Plant(position);
 
         if (growthVariant == PlantsGrowthVariant.FOREST_EQUATORS) {
-            int equatorHeight = (int) (height * 0.2);
-            equatorHeight += equatorHeight % 2 == 0 && height % 2 == 1 || equatorHeight % 2 == 1 && height % 2 == 0 ? 1 : 0;
-            Vector2d lowerLeft = new Vector2d(LOWER_LEFT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (height - equatorHeight) / 2 + 1);
-            Vector2d upperRight = new Vector2d(UPPER_RIGHT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (height - equatorHeight) / 2 + 1 + equatorHeight);
+            Pair<Vector2d, Vector2d> equatorBoundaries = getEquatorBoundaries();
 
             do {
                 prefferedFieldChance = Random.range(0, 101);
-                position = new Vector2d(Random.range(LOWER_LEFT_BOUNDARY.x, UPPER_RIGHT_BOUNDARY.x), Random.range(LOWER_LEFT_BOUNDARY.y, UPPER_RIGHT_BOUNDARY.y));
-            } while ((prefferedFieldChance >= 0 && prefferedFieldChance <= 80) != position.between(lowerLeft, upperRight) || plants.get(position) != null);
+                position = new Vector2d(Random.range(LOWER_LEFT_BOUNDARY.x, UPPER_RIGHT_BOUNDARY.x + 1), Random.range(LOWER_LEFT_BOUNDARY.y, UPPER_RIGHT_BOUNDARY.y + 1));
+            } while (
+                (prefferedFieldChance >= 0 && prefferedFieldChance <= 80)
+                != position.between(equatorBoundaries.getFirst(), equatorBoundaries.getSecond())
+                || plants.get(position) != null
+            );
 
             plant = new Plant(position);
         }
@@ -109,7 +108,6 @@ public class AbstractMap implements IAnimalObserver {
             addAnimalToMap(animal);
     }
 
-
     public boolean animalsAreAbleToReproduce(Vector2d position) {
         if (animalsMap.get(position) == null || animalsMap.get(position).size() < 2)
             return false;
@@ -129,8 +127,9 @@ public class AbstractMap implements IAnimalObserver {
         return animalsMap.get(position).first();
     }
 
-    public void removePlant(Plant plant) {
-        plants.remove(plant);
+    public void removePlant(Plant plant) throws IllegalArgumentException {
+        if (plants.remove(plant.getPosition()) == null)
+            throw new IllegalArgumentException();
     }
 
 
@@ -138,8 +137,17 @@ public class AbstractMap implements IAnimalObserver {
         return organism.getPosition().between(LOWER_LEFT_BOUNDARY, UPPER_RIGHT_BOUNDARY);
     }
 
-    protected void addAnimalToMap(Animal animal) {
+    private void addAnimalToMap(Animal animal) {
         animalsMap.computeIfAbsent(animal.getPosition(), k -> new TreeSet<>());
         animalsMap.get(animal.getPosition()).add(animal);
+    }
+
+    private Pair<Vector2d, Vector2d> getEquatorBoundaries() {
+        int equatorHeight = (int) (height * 0.2);
+        equatorHeight += equatorHeight % 2 == 0 && height % 2 == 1 || equatorHeight % 2 == 1 && height % 2 == 0 ? 1 : 0;
+        Vector2d lowerLeft = new Vector2d(LOWER_LEFT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (height - equatorHeight) / 2 + 1);
+        Vector2d upperRight = new Vector2d(UPPER_RIGHT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (height - equatorHeight) / 2 + 1 + equatorHeight);
+
+        return new Pair<>(lowerLeft, upperRight);
     }
 }

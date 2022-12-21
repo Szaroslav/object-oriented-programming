@@ -29,7 +29,7 @@ public enum AnimalBehaviour {
         this.name = name;
     }
 
-    public static AnimalBehaviour fromString(String name) {
+    public static AnimalBehaviour fromString(String name) throws IllegalArgumentException {
         for (AnimalBehaviour behaviour : AnimalBehaviour.values())
             if (behaviour.name.equals(name))
                 return behaviour;

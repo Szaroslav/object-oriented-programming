@@ -42,7 +42,7 @@ public enum AnimalMutation {
         this.name = name;
     }
 
-    public static AnimalMutation fromString(String name) {
+    public static AnimalMutation fromString(String name) throws IllegalArgumentException {
         for (AnimalMutation mutation : AnimalMutation.values())
             if (mutation.name.equals(name))
                 return mutation;
