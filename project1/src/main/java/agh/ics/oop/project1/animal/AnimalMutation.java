@@ -1,7 +1,7 @@
 package agh.ics.oop.project1.animal;
 
 import agh.ics.oop.project1.utils.Random;
-import agh.ics.oop.project1.world.engine.WorldEngineConfig;
+import agh.ics.oop.project1.world.WorldConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,8 +56,8 @@ public enum AnimalMutation {
         List<Integer> range = new ArrayList<>(IntStream.range(0, genomeSize).boxed().toList());
         Collections.shuffle(range);
         range = range.subList(0, Random.range(
-            WorldEngineConfig.getInstance().getInt("MINIMUM_MUTATIONS_NUMBER"),
-            WorldEngineConfig.getInstance().getInt("MAXIMUM_MUTATIONS_NUMBER") + 1
+            WorldConfig.getInstance().getInt("MINIMUM_MUTATIONS_NUMBER"),
+            WorldConfig.getInstance().getInt("MAXIMUM_MUTATIONS_NUMBER") + 1
         ));
 
         return range;

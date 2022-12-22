@@ -1,25 +1,14 @@
 package agh.ics.oop.project1.gui;
 
+import agh.ics.oop.project1.world.WorldConfigOptions;
 import agh.ics.oop.project1.world.engine.WorldEngine;
-import agh.ics.oop.project1.world.engine.WorldEngineConfig;
+import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 import agh.ics.oop.project1.world.maps.Earth;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
+import agh.ics.oop.project1.world.maps.InfernalPortal;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 public class Application extends javafx.application.Application {
@@ -61,17 +50,20 @@ public class Application extends javafx.application.Application {
     }
 
     public void startSimulation(String configName) {
-        WorldEngineConfig.getInstance().loadFromFile(configName);
+        WorldConfig.getInstance().loadFromFile(configName);
         startSimulation();
     }
 
     public void startSimulation(Properties configOptions) {
-        WorldEngineConfig.getInstance().setProperties(configOptions);
+        WorldConfig.getInstance().setProperties(configOptions);
         startSimulation();
     }
 
     private void startSimulation() {
         AbstractMap map = new Earth();
+        if (WorldConfig.getInstance().getProperty(WorldConfigOptions.MAP_TYPE.getName()).equals("INFERNAL_PORTAL"))
+            map = new InfernalPortal();
+
         engine = new WorldEngine(map);
         Thread engineThread = new Thread(engine);
         engineThread.start();

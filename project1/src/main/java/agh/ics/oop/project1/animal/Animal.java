@@ -5,7 +5,7 @@ import agh.ics.oop.project1.AbstractOrganism;
 import agh.ics.oop.project1.Rotation;
 import agh.ics.oop.project1.utils.ArrayUtils;
 import agh.ics.oop.project1.utils.Random;
-import agh.ics.oop.project1.world.engine.WorldEngineConfig;
+import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 
 import java.util.Arrays;
@@ -86,22 +86,22 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     }
 
     public void eat() {
-        increaseEnergy(WorldEngineConfig.getInstance().getInt("ENERGY_PER_EATING"));
+        increaseEnergy(WorldConfig.getInstance().getInt("ENERGY_PER_EATING"));
     }
 
     public Animal reproduce(Animal lover) {
         int[] childGenes = ArrayUtils.concatVar(genes, lover.genes, (double) energy / (energy + lover.energy), Random.range(0, 2) == 0);
         Animal child = new Animal(
             this.position,
-            2 * WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"),
+            2 * WorldConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"),
             childGenes,
             behaviour,
             mutation
         );
 
-        decreaseEnergy(WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
+        decreaseEnergy(WorldConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
         childrenNumber++;
-        lover.decreaseEnergy(WorldEngineConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
+        lover.decreaseEnergy(WorldConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
         lover.childrenNumber++;
 
         return child;
@@ -123,7 +123,7 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     }
 
     public boolean isStrong() {
-        return energy >= WorldEngineConfig.getInstance().getInt("STRONG_ANIMAL_MINIMUM_ENERGY");
+        return energy >= WorldConfig.getInstance().getInt("STRONG_ANIMAL_MINIMUM_ENERGY");
     }
 
     public void increaseEnergy(int energy) {

@@ -7,14 +7,14 @@ import agh.ics.oop.project1.animal.IAnimalObserver;
 import agh.ics.oop.project1.plant.PlantsGrowthVariant;
 import agh.ics.oop.project1.utils.Pair;
 import agh.ics.oop.project1.utils.Random;
-import agh.ics.oop.project1.world.engine.WorldEngineConfig;
+import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.utils.Vector2d;
 
 import java.util.*;
 
 public class AbstractMap implements IAnimalObserver {
-    protected final int width = WorldEngineConfig.getInstance().getInt("MAP_WIDTH");
-    protected final int height = WorldEngineConfig.getInstance().getInt("MAP_HEIGHT");
+    protected final int width = WorldConfig.getInstance().getInt("MAP_WIDTH");
+    protected final int height = WorldConfig.getInstance().getInt("MAP_HEIGHT");
     protected final Vector2d LOWER_LEFT_BOUNDARY = new Vector2d(0, 0);
     protected final Vector2d UPPER_RIGHT_BOUNDARY = new Vector2d(width - 1, height - 1);
 
@@ -22,7 +22,7 @@ public class AbstractMap implements IAnimalObserver {
     protected final Map<Vector2d, TreeSet<Animal>> animalsMap = new HashMap<>();
     protected final Map<Vector2d, Plant> plants = new HashMap<>();
     protected final List<Pair<Vector2d, Integer>> deathsCounterList = new ArrayList<>();
-    protected final PlantsGrowthVariant growthVariant = PlantsGrowthVariant.fromString(WorldEngineConfig.getInstance().getProperty("PLANTS_GROWTH_VARIANT"));
+    protected final PlantsGrowthVariant growthVariant = PlantsGrowthVariant.fromString(WorldConfig.getInstance().getProperty("PLANTS_GROWTH_VARIANT"));
 
     public AbstractMap() {
         for (int y = LOWER_LEFT_BOUNDARY.y; y <= UPPER_RIGHT_BOUNDARY.y; y++)

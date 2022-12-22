@@ -1,4 +1,4 @@
-package agh.ics.oop.project1.world.engine;
+package agh.ics.oop.project1.world;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,20 +6,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.Stack;
 
-public class WorldEngineConfig {
-    private static WorldEngineConfig instance;
+public class WorldConfig {
+    private static WorldConfig instance;
     private static final String CONFIGS_DIRECTORY = "src/main/resources/configs";
     private Properties properties = new Properties();
 
-    private WorldEngineConfig() {
+    private WorldConfig() {
         loadFromFile("main1.conf");
     }
 
-    public static WorldEngineConfig getInstance() {
+    public static WorldConfig getInstance() {
         if (instance == null)
-            instance = new WorldEngineConfig();
+            instance = new WorldConfig();
 
         return instance;
     }

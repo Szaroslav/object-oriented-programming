@@ -1,9 +1,6 @@
 package agh.ics.oop.project1.gui;
 
-import agh.ics.oop.project1.utils.ArrayUtils;
-import agh.ics.oop.project1.world.engine.WorldEngine;
-import agh.ics.oop.project1.world.engine.WorldEngineConfig;
-import javafx.scene.Node;
+import agh.ics.oop.project1.world.WorldConfig;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,12 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static agh.ics.oop.project1.world.WorldConfigOptions.*;
+
 public class UserForm {
     private boolean isFileConfigSelected;
     private String configName;
     private Properties configOptions;
     private final GridPane grid;
-    private final List<Node> actionNodesList = new ArrayList<>();
+    private final List<ActionNode<TextField>> inputList = new ArrayList<>();
+    private final List<ActionNode<ComboBox<String>>> comboBoxList = new ArrayList<>();
     private final Application application;
 
     public UserForm(Application application) {
@@ -33,25 +33,26 @@ public class UserForm {
 
         renderConfigComboBox(0, "Simulation configuration");
         renderVSpacer(1);
-        renderInputRow(2, "Map width");
-        renderInputRow(3, "Map height");
-        renderComboBox(4, "Map type", new String[]{"Earth", "Infernal portal"});
+        renderInputRow(2, MAP_WIDTH.getName(), MAP_WIDTH.getRepresentativeText());
+        renderInputRow(3, MAP_HEIGHT.getName(), MAP_HEIGHT.getRepresentativeText());
+        renderComboBox(4, MAP_TYPE.getName(),  MAP_TYPE.getRepresentativeText(), new String[]{"Earth", "Infernal portal"});
         renderVSpacer(5);
-        renderInputRow(6, "Initial number of animals");
-        renderInputRow(7, "Initial energy of animals");
-        renderComboBox(8, "Animals behaviour", new String[]{"Full fate", "Slight madness"});
-        renderComboBox(9, "Animals mutation behaviour", new String[]{"Full random", "Slight adjustment"});
-        renderInputRow(10, "Minimum energy of strong animal");
-        renderInputRow(11, "Energy gained per eating");
-        renderInputRow(12, "Minimum number of animal mutations");
-        renderInputRow(13, "Maximum number of animal mutations");
-        renderInputRow(14, "Genome size of animal");
-        renderVSpacer(15);
-        renderComboBox(16, "Variant of plants growth", new String[]{"Forest equators", "Toxic bodies"});
-        renderInputRow(17, "Initial number of plants");
-        renderInputRow(18, "Number of spawned plants per day");
-        renderVSpacer(19);
-        renderButton(20, "Start new simulation");
+        renderInputRow(6, INITIAL_ANIMALS_NUMBER.getName(),  INITIAL_ANIMALS_NUMBER.getRepresentativeText());
+        renderInputRow(7, INITIAL_ANIMALS_ENERGY.getName(),  INITIAL_ANIMALS_ENERGY.getRepresentativeText());
+        renderComboBox(8, ANIMAL_BEHAVIOUR.getName(), ANIMAL_BEHAVIOUR.getRepresentativeText(), new String[]{"Full fate", "Slight madness"});
+        renderComboBox(9, ANIMAL_MUTATION.getName(), ANIMAL_MUTATION.getRepresentativeText(), new String[]{"Full random", "Slight adjustment"});
+        renderInputRow(10, STRONG_ANIMAL_MINIMUM_ENERGY.getName(), STRONG_ANIMAL_MINIMUM_ENERGY.getRepresentativeText());
+        renderInputRow(11, ENERGY_PER_EATING.getName(), ENERGY_PER_EATING.getRepresentativeText());
+        renderInputRow(12, ENERGY_PER_REPRODUCING.getName(), ENERGY_PER_REPRODUCING.getRepresentativeText());
+        renderInputRow(13, MINIMUM_MUTATIONS_NUMBER.getName(), MINIMUM_MUTATIONS_NUMBER.getRepresentativeText());
+        renderInputRow(14, MAXIMUM_MUTATIONS_NUMBER.getName(), MAXIMUM_MUTATIONS_NUMBER.getRepresentativeText());
+        renderInputRow(15, ANIMAL_GENOME_SIZE.getName(), ANIMAL_GENOME_SIZE.getRepresentativeText());
+        renderVSpacer(16);
+        renderComboBox(17, PLANTS_GROWTH_VARIANT.getName(), PLANTS_GROWTH_VARIANT.getRepresentativeText(), new String[]{"Forest equators", "Toxic bodies"});
+        renderInputRow(18, INITIAL_PLANTS_NUMBER.getName(), INITIAL_PLANTS_NUMBER.getRepresentativeText());
+        renderInputRow(19, PLANTS_PER_DAY.getName(), PLANTS_PER_DAY.getRepresentativeText());
+        renderVSpacer(20);
+        renderButton(21, "Start new simulation");
 
         for (int i = 0; i < grid.getChildren().size(); i++) {
 //            System.out.println(grid.getChildren().get(i));
@@ -68,29 +69,38 @@ public class UserForm {
             if (isFileConfigSelected) {
                 application.startSimulation(configName);
             } else {
+                configOptions = new Properties();
+                for (ActionNode<TextField> node : inputList)
+                    configOptions.setProperty(node.name(), node.node().getText());
+                for (ActionNode<ComboBox<String>> node : comboBoxList)
+                    configOptions.setProperty(
+                        node.name(),
+                        node.node().getSelectionModel().getSelectedItem().toUpperCase().replace(' ', '_')
+                    );
+                System.out.println(configOptions);
                 application.startSimulation(configOptions);
             }
         });
         grid.add(button, 0, row);
     }
 
-    private void renderInputRow(int row, String labelText) {
+    private void renderInputRow(int row, String name, String labelText) {
         TextField input = new TextField();
-        actionNodesList.add(input);
+        inputList.add(new ActionNode<>(input, name));
         grid.addRow(row, new Label(labelText), input);
     }
 
-    private void renderComboBox(int row, String labelText, String[] options) {
+    private void renderComboBox(int row, String name, String labelText, String[] options) {
         ComboBox<String> combo = new ComboBox<>();
         combo.getItems().addAll(options);
-        actionNodesList.add(combo);
+        comboBoxList.add(new ActionNode<>(combo, name));
         grid.addRow(row, new Label(labelText), combo);
     }
 
     private void renderConfigComboBox(int row, String labelText) {
         ComboBox<String> combo = new ComboBox<>();
         combo.getItems().add("");
-        combo.getItems().addAll(WorldEngineConfig.getConfigNames());
+        combo.getItems().addAll(WorldConfig.getConfigNames());
         combo.setOnAction(event -> {
             configName = combo.getSelectionModel().getSelectedItem();
             isFileConfigSelected = !configName.equals("");
@@ -107,7 +117,9 @@ public class UserForm {
     }
 
     private void setFormDisabledStatus(boolean value) {
-        for (Node node : actionNodesList)
-            node.setDisable(value);
+        for (ActionNode<TextField> node : inputList)
+            node.node().setDisable(value);
+        for (ActionNode<ComboBox<String>> node : comboBoxList)
+            node.node().setDisable(value);
     }
 }
