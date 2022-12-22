@@ -127,8 +127,12 @@ public class AbstractMap implements IAnimalObserver {
         return animalsMap.get(position).first();
     }
 
-    public void removePlant(Plant plant) throws IllegalArgumentException {
-        if (plants.remove(plant.getPosition()) == null)
+    public boolean containsPlant(Vector2d position) {
+        return plants.get(position) != null;
+    }
+
+    public void removePlant(Vector2d position) throws IllegalArgumentException {
+        if (plants.remove(position) == null)
             throw new IllegalArgumentException();
     }
 

@@ -10,12 +10,11 @@ import java.util.Stack;
 
 public class WorldEngineConfig {
     private static WorldEngineConfig instance;
-    private static final String CONFIG_URL = "src/main/resources/configs/main.conf";
     private static final String CONFIGS_DIRECTORY = "src/main/resources/configs";
-    private final Properties config = new Properties();
+    private Properties properties = new Properties();
 
     private WorldEngineConfig() {
-        load();
+        loadFromFile("main1.conf");
     }
 
     public static WorldEngineConfig getInstance() {
@@ -37,18 +36,18 @@ public class WorldEngineConfig {
     }
 
     public String getProperty(String key) {
-        if (config.getProperty(key, "").equals(""))
+        if (properties.getProperty(key, "").equals(""))
             throw new IllegalArgumentException();
-        return config.getProperty(key, "");
+        return properties.getProperty(key, "");
     }
 
     public int getInt(String key) {
         return Integer.parseInt(getProperty(key));
     }
 
-    private void load() {
-        try (FileInputStream fileStream = new FileInputStream(CONFIG_URL)) {
-            config.load(fileStream);
+    public void loadFromFile(String configName) {
+        try (FileInputStream fileStream = new FileInputStream(CONFIGS_DIRECTORY + "/" + configName)) {
+            properties.load(fileStream);
         }
         catch (FileNotFoundException ex) {
             System.out.println("XD1");
@@ -56,5 +55,9 @@ public class WorldEngineConfig {
         catch (IOException ex) {
             System.out.println("XD2");
         }
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = new Properties(properties);
     }
 }

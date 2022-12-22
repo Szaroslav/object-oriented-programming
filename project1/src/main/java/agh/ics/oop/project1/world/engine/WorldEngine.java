@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class WorldEngine implements Runnable {
     private final List<Animal> animals = new ArrayList<>();
-    private final Map<Vector2d, Plant> plants = new HashMap<>();
     private AbstractMap map;
 
     public WorldEngine(AbstractMap map) {
@@ -87,11 +86,11 @@ public class WorldEngine implements Runnable {
 
     private void letAnimalsEat() {
         for (Animal animal : animals) {
-            if (plants.get(animal.getPosition()) == null)
+            if (!map.containsPlant(animal.getPosition()))
                 continue;
 
             map.getStrongestAnimal(animal.getPosition()).eat();
-            map.removePlant(plants.remove(animal.getPosition()));
+            map.removePlant(animal.getPosition());
         }
     }
 
@@ -112,11 +111,10 @@ public class WorldEngine implements Runnable {
     private void plant() {
         for (int i = 0; i < WorldEngineConfig.getInstance().getInt("PLANTS_PER_DAY"); i++) {
             try {
-                Plant plant = map.plant();
-                plants.put(plant.getPosition(), plant);
+                map.plant();
             }
             catch (IllegalStateException ex) {
-
+                System.out.println("There are too many plants");
             }
         }
 

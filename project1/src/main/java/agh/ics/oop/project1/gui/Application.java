@@ -1,6 +1,7 @@
 package agh.ics.oop.project1.gui;
 
 import agh.ics.oop.project1.world.engine.WorldEngine;
+import agh.ics.oop.project1.world.engine.WorldEngineConfig;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 import agh.ics.oop.project1.world.maps.Earth;
 import javafx.application.Platform;
@@ -19,13 +20,14 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class Application extends javafx.application.Application {
     private final int CELL_SIZE = 52;
     private int width;
     private int height;
     private WorldEngine engine;
-    private final UserForm userForm = new UserForm();
+    private final UserForm userForm = new UserForm(this);
 //    private GridPane grid = new GridPane();
 //    private VBox ui = new VBox();
 //    private TextField moveDirectionsTextField = new TextField();
@@ -56,6 +58,23 @@ public class Application extends javafx.application.Application {
     public void init() {
         AbstractMap map = new Earth();
         engine = new WorldEngine(map);
+    }
+
+    public void startSimulation(String configName) {
+        WorldEngineConfig.getInstance().loadFromFile(configName);
+        startSimulation();
+    }
+
+    public void startSimulation(Properties configOptions) {
+        WorldEngineConfig.getInstance().setProperties(configOptions);
+        startSimulation();
+    }
+
+    private void startSimulation() {
+        AbstractMap map = new Earth();
+        engine = new WorldEngine(map);
+        Thread engineThread = new Thread(engine);
+        engineThread.start();
     }
 
 //    @Override
