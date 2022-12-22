@@ -1,13 +1,17 @@
 package agh.ics.oop.project1.world.engine;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.Stack;
 
 public class WorldEngineConfig {
     private static WorldEngineConfig instance;
-    private static final String CONFIG_URL = "src/main/resources/main.conf";
+    private static final String CONFIG_URL = "src/main/resources/configs/main.conf";
+    private static final String CONFIGS_DIRECTORY = "src/main/resources/configs";
     private final Properties config = new Properties();
 
     private WorldEngineConfig() {
@@ -19,6 +23,17 @@ public class WorldEngineConfig {
             instance = new WorldEngineConfig();
 
         return instance;
+    }
+
+    public static String[] getConfigNames() {
+        File[] configs = Objects.requireNonNull(new File(CONFIGS_DIRECTORY).listFiles());
+        String[] names = new String[configs.length];
+
+        for (int i = 0; i < configs.length; i++) {
+            names[i] = configs[i].getName();
+        }
+
+        return names;
     }
 
     public String getProperty(String key) {
