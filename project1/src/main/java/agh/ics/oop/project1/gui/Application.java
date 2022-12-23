@@ -76,6 +76,8 @@ public class Application extends javafx.application.Application {
             WorldEngine engine = new WorldEngine(map, config, stage);
             Thread engineThread = new Thread(engine);
             engineThread.start();
+
+            stage.setEngine(engine);
         }
         catch (FileNotFoundException ex) {
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorldEngine implements Runnable {
+    private boolean isPaused;
     private final List<Animal> animals = new ArrayList<>();
     private final AbstractMap map;
     private final WorldConfig config;
@@ -31,22 +32,33 @@ public class WorldEngine implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < 100; i++) {
-            System.out.println("xd" + i);
-            harvestSouls();
-            moveAnimals();
-            map.updateAnimalsMap();
-            letAnimalsEat();
-            reproduceAnimals();
-            plant();
-            observer.simulationDayFinished();
-
             try {
+                while (isPaused)
+                    Thread.sleep(300);
+
+                System.out.println("xd" + i);
+                harvestSouls();
+                moveAnimals();
+                map.updateAnimalsMap();
+                letAnimalsEat();
+                reproduceAnimals();
+                plant();
+                observer.simulationDayFinished();
+
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
             }
         }
         System.out.println("xd");
+    }
+
+    public void pause() {
+        isPaused = true;
+    }
+
+    public void resume() {
+        isPaused = false;
     }
 
     private void initAnimals() {

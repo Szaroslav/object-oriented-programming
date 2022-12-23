@@ -5,15 +5,14 @@ import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.world.WorldConfigOptions;
 import agh.ics.oop.project1.world.engine.IEngineObserver;
+import agh.ics.oop.project1.world.engine.WorldEngine;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -26,8 +25,11 @@ public class SimulationStage extends Stage implements IEngineObserver {
     private final int WIDTH = 800;
     private final int HEIGHT = 600;
     private final int CELL_SIZE;
+    private boolean isPaused = false;
     private final GridPane board;
+    private final Button pauseButton = new Button();
     private final AbstractMap map;
+    private WorldEngine engine;
     private final WorldConfig config;
     private final Image plantTexture;
     private final Image animalIcon;
@@ -44,8 +46,10 @@ public class SimulationStage extends Stage implements IEngineObserver {
         for (int i = 0; i < map.getHeight(); i++) board.getRowConstraints().add(new RowConstraints(CELL_SIZE));
 
         renderBoard();
+        setPauseButton();
 
-        Scene scene = new Scene(board, 800, 600);
+        HBox hBox = new HBox(board, pauseButton);
+        Scene scene = new Scene(hBox, 800, 600);
         setScene(scene);
     }
 
@@ -56,6 +60,21 @@ public class SimulationStage extends Stage implements IEngineObserver {
 
     public int fromGameToBoardY(int y) {
         return map.getHeight() - y - 1;
+    }
+
+    public void setEngine(WorldEngine engine) {
+        this.engine = engine;
+    }
+
+    private void setPauseButton() {
+        pauseButton.setText("Pause / resume simulation");
+        pauseButton.setOnAction(event -> {
+            isPaused = !isPaused;
+            if (isPaused)
+                engine.pause();
+            else
+                engine.resume();
+        });
     }
 
     private void renderBoard() {
