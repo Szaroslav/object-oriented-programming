@@ -55,25 +55,25 @@ public class Application extends javafx.application.Application {
     }
 
     public void startSimulation(String configName) {
-        WorldConfig.getInstance().loadFromFile(configName);
-        startSimulation();
+        WorldConfig config = new WorldConfig(configName);
+        startSimulation(config);
     }
 
     public void startSimulation(Properties configOptions) {
-        WorldConfig.getInstance().setProperties(configOptions);
-        startSimulation();
+        WorldConfig config = new WorldConfig(configOptions);
+        startSimulation(config);
     }
 
-    private void startSimulation() {
-        AbstractMap map = new Earth();
-        if (WorldConfig.getInstance().getProperty(WorldConfigOptions.MAP_TYPE.getName()).equals("INFERNAL_PORTAL"))
-            map = new InfernalPortal();
+    private void startSimulation(WorldConfig config) {
+        AbstractMap map = new Earth(config);
+        if (config.getProperty(WorldConfigOptions.MAP_TYPE.getName()).equals("INFERNAL_PORTAL"))
+            map = new InfernalPortal(config);
 
         try {
-            SimulationStage stage = new SimulationStage(map);
+            SimulationStage stage = new SimulationStage(map, config);
             stage.show();
 
-            WorldEngine engine = new WorldEngine(map, stage);
+            WorldEngine engine = new WorldEngine(map, config, stage);
             Thread engineThread = new Thread(engine);
             engineThread.start();
         }

@@ -11,8 +11,8 @@ import java.util.stream.IntStream;
 public enum AnimalMutation {
     FULL_RANDOM("FULL_RANDOM") {
         @Override
-        public void mutate(int[] genes) {
-            List<Integer> range = getShuffledIndexesList(genes.length);
+        public void mutate(int[] genes, int minMutations, int maxMutations) {
+            List<Integer> range = getShuffledIndexesList(genes.length, minMutations, maxMutations);
 
             for (int i : range) {
                 int newGen;
@@ -25,8 +25,8 @@ public enum AnimalMutation {
     },
     SLIGHT_ADJUSTMENT("SLIGHT_ADJUSTMENT") {
         @Override
-        public void mutate(int[] genes) {
-            List<Integer> range = getShuffledIndexesList(genes.length);
+        public void mutate(int[] genes, int minMutations, int maxMutations) {
+            List<Integer> range = getShuffledIndexesList(genes.length, minMutations, maxMutations);
 
             for (int i : range) {
                 genes[i] = Random.range(0, 2) == 0
@@ -36,7 +36,7 @@ public enum AnimalMutation {
         }
     };
 
-    private String name;
+    private final String name;
 
     AnimalMutation(String name) {
         this.name = name;
@@ -50,15 +50,12 @@ public enum AnimalMutation {
         throw new IllegalArgumentException();
     }
 
-    public void mutate(int[] genes) {}
+    public void mutate(int[] genes, int minMutations, int maxMutations) {}
 
-    private static List<Integer> getShuffledIndexesList(int genomeSize) {
+    private static List<Integer> getShuffledIndexesList(int genomeSize, int min, int max) {
         List<Integer> range = new ArrayList<>(IntStream.range(0, genomeSize).boxed().toList());
         Collections.shuffle(range);
-        range = range.subList(0, Random.range(
-            WorldConfig.getInstance().getInt("MINIMUM_MUTATIONS_NUMBER"),
-            WorldConfig.getInstance().getInt("MAXIMUM_MUTATIONS_NUMBER") + 1
-        ));
+        range = range.subList(0, Random.range(min, max + 1));
 
         return range;
     }

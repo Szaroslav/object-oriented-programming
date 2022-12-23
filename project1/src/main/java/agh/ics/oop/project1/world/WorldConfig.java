@@ -8,19 +8,19 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class WorldConfig {
-    private static WorldConfig instance;
     private static final String CONFIGS_DIRECTORY = "src/main/resources/configs";
     private Properties properties = new Properties();
 
-    private WorldConfig() {
+    public WorldConfig() {
         loadFromFile("main1.conf");
     }
 
-    public static WorldConfig getInstance() {
-        if (instance == null)
-            instance = new WorldConfig();
+    public WorldConfig(String configName) {
+        loadFromFile(configName);
+    }
 
-        return instance;
+    public WorldConfig(Properties configOptions) {
+        properties = configOptions;
     }
 
     public static String[] getConfigNames() {

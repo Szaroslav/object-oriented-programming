@@ -7,6 +7,7 @@ import agh.ics.oop.project1.animal.AnimalMutation;
 import agh.ics.oop.project1.utils.Pair;
 import agh.ics.oop.project1.utils.Random;
 import agh.ics.oop.project1.world.WorldConfig;
+import agh.ics.oop.project1.world.WorldConfigOptions;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 
 import java.util.ArrayList;
@@ -14,11 +15,13 @@ import java.util.List;
 
 public class WorldEngine implements Runnable {
     private final List<Animal> animals = new ArrayList<>();
-    private AbstractMap map;
-    private IEngineObserver observer;
+    private final AbstractMap map;
+    private final WorldConfig config;
+    private final IEngineObserver observer;
 
-    public WorldEngine(AbstractMap map, IEngineObserver observer) {
+    public WorldEngine(AbstractMap map, WorldConfig config, IEngineObserver observer) {
         this.map = map;
+        this.config = config;
         this.observer = observer;
 
         initAnimals();
@@ -47,21 +50,24 @@ public class WorldEngine implements Runnable {
     }
 
     private void initAnimals() {
-        WorldConfig config = WorldConfig.getInstance();
-        AnimalBehaviour behaviour = AnimalBehaviour.fromString(config.getProperty("ANIMAL_BEHAVIOUR"));
-        AnimalMutation mutation = AnimalMutation.fromString(config.getProperty("ANIMAL_MUTATION"));
+        AnimalBehaviour behaviour = AnimalBehaviour.fromString(config.getProperty(WorldConfigOptions.ANIMAL_BEHAVIOUR.getName()));
+        AnimalMutation mutation = AnimalMutation.fromString(config.getProperty(WorldConfigOptions.ANIMAL_MUTATION.getName()));
 
-        for (int i = 0; i < config.getInt("INITIAL_ANIMALS_NUMBER"); i++) {
-            int[] genes = new int[config.getInt("ANIMAL_GENOME_SIZE")];
+        for (int i = 0; i < config.getInt(WorldConfigOptions.INITIAL_ANIMALS_NUMBER.getName()); i++) {
+            int[] genes = new int[config.getInt(WorldConfigOptions.ANIMAL_GENOME_SIZE.getName())];
             for (int j = 0; j < genes.length; j++)
                 genes[j] = Random.range(0, 8);
 
             Animal animal = new Animal(
-                new Vector2d(Random.range(0, config.getInt("MAP_WIDTH")), Random.range(0, config.getInt("MAP_HEIGHT"))),
-                config.getInt("INITIAL_ANIMALS_ENERGY"),
+                new Vector2d(
+                    Random.range(0, config.getInt(WorldConfigOptions.MAP_WIDTH.getName())),
+                    Random.range(0, config.getInt(WorldConfigOptions.MAP_HEIGHT.getName()))
+                ),
+                config.getInt(WorldConfigOptions.INITIAL_ANIMALS_ENERGY.getName()),
                 genes,
                 behaviour,
-                mutation
+                mutation,
+                config
             );
 
             animals.add(animal);
@@ -70,7 +76,7 @@ public class WorldEngine implements Runnable {
     }
 
     private void initPlants() {
-        for (int i = 0; i < WorldConfig.getInstance().getInt("INITIAL_PLANTS_NUMBER"); i++)
+        for (int i = 0; i < config.getInt(WorldConfigOptions.INITIAL_PLANTS_NUMBER.getName()); i++)
             map.plant();
     }
 
@@ -102,8 +108,8 @@ public class WorldEngine implements Runnable {
     }
 
     private void reproduceAnimals() {
-        for (int x = 0; x < WorldConfig.getInstance().getInt("MAP_WIDTH"); x++) {
-            for (int y = 0; y < WorldConfig.getInstance().getInt("MAP_HEIGHT"); y++) {
+        for (int x = 0; x < config.getInt(WorldConfigOptions.MAP_WIDTH.getName()); x++) {
+            for (int y = 0; y < config.getInt(WorldConfigOptions.MAP_HEIGHT.getName()); y++) {
                 Vector2d field = new Vector2d(x, y);
                 if (!map.animalsAreAbleToReproduce(field))
                     continue;
@@ -116,7 +122,7 @@ public class WorldEngine implements Runnable {
     }
 
     private void plant() {
-        for (int i = 0; i < WorldConfig.getInstance().getInt("PLANTS_PER_DAY"); i++) {
+        for (int i = 0; i < config.getInt(WorldConfigOptions.PLANTS_PER_DAY.getName()); i++) {
             try {
                 map.plant();
             }

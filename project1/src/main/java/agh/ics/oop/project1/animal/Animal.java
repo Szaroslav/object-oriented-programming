@@ -6,19 +6,21 @@ import agh.ics.oop.project1.Rotation;
 import agh.ics.oop.project1.utils.ArrayUtils;
 import agh.ics.oop.project1.utils.Random;
 import agh.ics.oop.project1.world.WorldConfig;
+import agh.ics.oop.project1.world.WorldConfigOptions;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 
 import java.util.Arrays;
 
 public class Animal extends AbstractOrganism implements Comparable<Animal> {
     private int energy;
-    private int[] genes;
+    private final int[] genes;
     private int activeGen;
     private int childrenNumber;
     private Rotation currentRotation;
     private final AnimalBehaviour behaviour;
     private final AnimalMutation mutation;
     private AbstractMap map;
+    private final WorldConfig config;
     private IAnimalObserver observer;
 
     public Animal(
@@ -26,15 +28,22 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
         int energy,
         int[] genes,
         AnimalBehaviour behaviour,
-        AnimalMutation mutation
+        AnimalMutation mutation,
+        WorldConfig config
     ) {
+        this.config = config;
+
         this.position = position;
         this.energy = energy;
         this.genes = Arrays.copyOf(genes, genes.length);
         this.behaviour = behaviour;
         this.mutation = mutation;
 
-        this.mutation.mutate(this.genes);
+        this.mutation.mutate(
+            this.genes,
+            config.getInt(WorldConfigOptions.MINIMUM_MUTATIONS_NUMBER.getName()),
+            config.getInt(WorldConfigOptions.MAXIMUM_MUTATIONS_NUMBER.getName())
+        );
         this.activeGen = Random.range(0, genes.length);
         this.currentRotation = Rotation.fromInt(Random.range(0, 8));
         this.childrenNumber = 0;
@@ -86,22 +95,23 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     }
 
     public void eat() {
-        increaseEnergy(WorldConfig.getInstance().getInt("ENERGY_PER_EATING"));
+        increaseEnergy(config.getInt("ENERGY_PER_EATING"));
     }
 
     public Animal reproduce(Animal lover) {
         int[] childGenes = ArrayUtils.concatVar(genes, lover.genes, (double) energy / (energy + lover.energy), Random.range(0, 2) == 0);
         Animal child = new Animal(
             this.position,
-            2 * WorldConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"),
+            2 * config.getInt("ENERGY_PER_REPRODUCING"),
             childGenes,
             behaviour,
-            mutation
+            mutation,
+            config
         );
 
-        decreaseEnergy(WorldConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
+        decreaseEnergy(config.getInt("ENERGY_PER_REPRODUCING"));
         childrenNumber++;
-        lover.decreaseEnergy(WorldConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
+        lover.decreaseEnergy(config.getInt("ENERGY_PER_REPRODUCING"));
         lover.childrenNumber++;
 
         return child;
@@ -123,7 +133,11 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     }
 
     public boolean isStrong() {
-        return energy >= WorldConfig.getInstance().getInt("STRONG_ANIMAL_MINIMUM_ENERGY");
+        return energy >= config.getInt("STRONG_ANIMAL_MINIMUM_ENERGY");
+    }
+
+    public int getEnergy() {
+        return energy;
     }
 
     public void increaseEnergy(int energy) {

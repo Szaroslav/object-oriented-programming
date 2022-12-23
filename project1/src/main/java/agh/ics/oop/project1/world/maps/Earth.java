@@ -2,8 +2,13 @@ package agh.ics.oop.project1.world.maps;
 
 import agh.ics.oop.project1.utils.Vector2d;
 import agh.ics.oop.project1.animal.Animal;
+import agh.ics.oop.project1.world.WorldConfig;
 
 public class Earth extends AbstractMap {
+    public Earth(WorldConfig config) {
+        super(config);
+    }
+
     @Override
     public void animalTriedToMove(Animal animal) {
         animal.invert();

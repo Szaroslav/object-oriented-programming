@@ -5,12 +5,16 @@ import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.world.WorldConfig;
 
 public class InfernalPortal extends AbstractMap {
+    public InfernalPortal(WorldConfig config) {
+        super(config);
+    }
+
     @Override
     public void animalPositionChanged(Vector2d oldPosition, Animal animal) {
         if (!isOrganismInBounds(animal)) {
-            animal.decreaseEnergy(WorldConfig.getInstance().getInt("ENERGY_PER_REPRODUCING"));
+            animal.decreaseEnergy(config.getInt("ENERGY_PER_REPRODUCING"));
             animal.setPosition(new Vector2d(
-                (int) (Math.random() * width + LOWER_LEFT_BOUNDARY.x), (int) (Math.random() * height + LOWER_LEFT_BOUNDARY.y)
+                (int) (Math.random() * WIDTH + LOWER_LEFT_BOUNDARY.x), (int) (Math.random() * HEIGHT + LOWER_LEFT_BOUNDARY.y)
             ));
         }
 

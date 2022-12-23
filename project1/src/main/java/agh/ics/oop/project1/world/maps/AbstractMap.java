@@ -9,22 +9,31 @@ import agh.ics.oop.project1.utils.Pair;
 import agh.ics.oop.project1.utils.Random;
 import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.utils.Vector2d;
+import agh.ics.oop.project1.world.WorldConfigOptions;
 
 import java.util.*;
 
-public class AbstractMap implements IAnimalObserver {
-    protected final int width = WorldConfig.getInstance().getInt("MAP_WIDTH");
-    protected final int height = WorldConfig.getInstance().getInt("MAP_HEIGHT");
-    protected final Vector2d LOWER_LEFT_BOUNDARY = new Vector2d(0, 0);
-    protected final Vector2d UPPER_RIGHT_BOUNDARY = new Vector2d(width - 1, height - 1);
+public abstract class AbstractMap implements IAnimalObserver {
+    protected final int WIDTH;
+    protected final int HEIGHT;
+    protected final Vector2d LOWER_LEFT_BOUNDARY;
+    protected final Vector2d UPPER_RIGHT_BOUNDARY;
+    protected final WorldConfig config;
 
     protected final List<Animal> animalsList = new ArrayList<>();
     protected final Map<Vector2d, TreeSet<Animal>> animalsMap = new HashMap<>();
     protected final Map<Vector2d, Plant> plants = new HashMap<>();
     protected final List<Pair<Vector2d, Integer>> deathsCounterList = new ArrayList<>();
-    protected final PlantsGrowthVariant growthVariant = PlantsGrowthVariant.fromString(WorldConfig.getInstance().getProperty("PLANTS_GROWTH_VARIANT"));
+    protected final PlantsGrowthVariant growthVariant;
 
-    public AbstractMap() {
+    protected AbstractMap(WorldConfig config) {
+        this.config = config;
+        WIDTH = config.getInt(WorldConfigOptions.MAP_WIDTH.getName());
+        HEIGHT = config.getInt(WorldConfigOptions.MAP_HEIGHT.getName());
+        LOWER_LEFT_BOUNDARY = new Vector2d(0, 0);
+        UPPER_RIGHT_BOUNDARY = new Vector2d(WIDTH - 1, HEIGHT - 1);
+        growthVariant = PlantsGrowthVariant.fromString(config.getProperty(WorldConfigOptions.PLANTS_GROWTH_VARIANT.getName()));
+
         for (int y = LOWER_LEFT_BOUNDARY.y; y <= UPPER_RIGHT_BOUNDARY.y; y++)
             for (int x = LOWER_LEFT_BOUNDARY.x; x <= UPPER_RIGHT_BOUNDARY.x; x++)
                 deathsCounterList.add(new Pair<>(new Vector2d(x, y), 0));
@@ -57,7 +66,7 @@ public class AbstractMap implements IAnimalObserver {
     }
 
     public Plant plant() throws IllegalStateException {
-        if (plants.size() >= width * height)
+        if (plants.size() >= WIDTH * HEIGHT)
             throw new IllegalStateException();
 
         int prefferedFieldChance;
@@ -92,11 +101,11 @@ public class AbstractMap implements IAnimalObserver {
     }
 
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
 
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public List<Animal> getAnimalsList() {
@@ -161,10 +170,10 @@ public class AbstractMap implements IAnimalObserver {
     }
 
     private Pair<Vector2d, Vector2d> getEquatorBoundaries() {
-        int equatorHeight = (int) (height * 0.2);
-        equatorHeight += equatorHeight % 2 == 0 && height % 2 == 1 || equatorHeight % 2 == 1 && height % 2 == 0 ? 1 : 0;
-        Vector2d lowerLeft = new Vector2d(LOWER_LEFT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (height - equatorHeight) / 2 + 1);
-        Vector2d upperRight = new Vector2d(UPPER_RIGHT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (height - equatorHeight) / 2 + 1 + equatorHeight);
+        int equatorHeight = (int) (HEIGHT * 0.2);
+        equatorHeight += equatorHeight % 2 == 0 && HEIGHT % 2 == 1 || equatorHeight % 2 == 1 && HEIGHT % 2 == 0 ? 1 : 0;
+        Vector2d lowerLeft = new Vector2d(LOWER_LEFT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (HEIGHT - equatorHeight) / 2 + 1);
+        Vector2d upperRight = new Vector2d(UPPER_RIGHT_BOUNDARY.x, LOWER_LEFT_BOUNDARY.y + (HEIGHT - equatorHeight) / 2 + 1 + equatorHeight);
 
         return new Pair<>(lowerLeft, upperRight);
     }
