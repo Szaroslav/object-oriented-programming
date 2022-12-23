@@ -5,6 +5,7 @@ import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.plant.Plant;
 import agh.ics.oop.project1.animal.IAnimalObserver;
 import agh.ics.oop.project1.plant.PlantsGrowthVariant;
+import agh.ics.oop.project1.utils.IntPair;
 import agh.ics.oop.project1.utils.Pair;
 import agh.ics.oop.project1.utils.Random;
 import agh.ics.oop.project1.world.WorldConfig;
@@ -18,6 +19,7 @@ public abstract class AbstractMap implements IAnimalObserver {
     protected final int HEIGHT;
     protected final Vector2d LOWER_LEFT_BOUNDARY;
     protected final Vector2d UPPER_RIGHT_BOUNDARY;
+    protected final MapStats stats = new MapStats();
     protected final WorldConfig config;
 
     protected final List<Animal> animalsList = new ArrayList<>();
@@ -123,12 +125,50 @@ public abstract class AbstractMap implements IAnimalObserver {
     public void removeAnimal(Animal animal) {
         animalsList.remove(animal);
         animalsMap.get(animal.getPosition()).remove(animal);
+        stats.setDeadAnimalsNumber(stats.getDeadAnimalsNumber() + 1);
+        stats.setDeadAnimalsSumAge(stats.getDeadAnimalsSumAge() + animal.getAge());
     }
 
     public void updateAnimalsMap() {
         animalsMap.clear();
         for (Animal animal : animalsList)
             addAnimalToMap(animal);
+    }
+
+    public MapStats getStats() {
+        return stats;
+    }
+
+    public void updateStats() {
+        stats.setAliveAnimalsNumber(animalsList.size());
+        stats.setPlantsNumber(plants.size());
+        stats.setEmptyFields(0);
+        stats.setAnimalsEnergySum(0);
+
+        List<IntPair> genesCounts = new ArrayList<>();
+        for (Animal animal : animalsList) {
+            stats.setAnimalsEnergySum(stats.getAnimalsEnergySum() + animal.getEnergy());
+
+            boolean found = false;
+            for (IntPair genesCount : genesCounts) {
+                if (Arrays.equals(genesCount.first(), animal.getGenes())) {
+                    genesCount = new IntPair(genesCount.first(), genesCount.second());
+                    break;
+                }
+            }
+            if (!found)
+                genesCounts.add(new IntPair(animal.getGenes(), 1));
+        }
+        genesCounts.sort(Comparator.comparingInt(IntPair::second));
+        stats.setCommonGenes(genesCounts.size() > 0 ? genesCounts.get(0).first() : null);
+
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                Vector2d pos = new Vector2d(x, y);
+                if (animalsMap.containsKey(pos) || plants.containsKey(pos))
+                    stats.setEmptyFields(stats.getEmptyFields() + 1);
+            }
+        }
     }
 
     public boolean animalsAreAbleToReproduce(Vector2d position) {

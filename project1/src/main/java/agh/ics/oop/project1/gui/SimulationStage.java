@@ -27,6 +27,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
     private final int CELL_SIZE;
     private boolean isPaused = false;
     private final GridPane board;
+    private final SimulationStageStats stats;
     private final Button pauseButton = new Button();
     private final AbstractMap map;
     private WorldEngine engine;
@@ -36,6 +37,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
 
     public SimulationStage(AbstractMap map, WorldConfig config) throws FileNotFoundException {
         board = new GridPane();
+        stats = new SimulationStageStats(map.getStats());
         plantTexture = new Image(new FileInputStream("src/main/resources/textures/grass.png"));
         animalIcon = new Image(new FileInputStream("src/main/resources/icons/lion.png"));
         this.map = map;
@@ -48,7 +50,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
         renderBoard();
         setPauseButton();
 
-        HBox hBox = new HBox(board, pauseButton);
+        HBox hBox = new HBox(board, stats.getContent(), pauseButton);
         Scene scene = new Scene(hBox, 800, 600);
         setScene(scene);
     }
@@ -56,6 +58,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
     @Override
     public void simulationDayFinished() {
         renderBoard();
+        stats.render();
     }
 
     public int fromGameToBoardY(int y) {

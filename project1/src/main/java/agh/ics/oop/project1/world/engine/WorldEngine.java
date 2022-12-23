@@ -43,9 +43,7 @@ public class WorldEngine implements Runnable {
                 letAnimalsEat();
                 reproduceAnimals();
                 plant();
-                observer.simulationDayFinished();
-
-                Thread.sleep(100);
+                onSimulationDayFinished();
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
@@ -142,6 +140,13 @@ public class WorldEngine implements Runnable {
                 System.out.println("There are too many plants");
             }
         }
+    }
 
+    private void onSimulationDayFinished() throws InterruptedException {
+        for (Animal animal : animals)
+            animal.growOld();
+        map.updateStats();
+        observer.simulationDayFinished();
+        Thread.sleep(80);
     }
 }

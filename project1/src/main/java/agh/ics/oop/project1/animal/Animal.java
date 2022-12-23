@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 public class Animal extends AbstractOrganism implements Comparable<Animal> {
     private int energy;
+    private int ageDays;
     private final int[] genes;
     private int activeGen;
     private int childrenNumber;
@@ -35,6 +36,7 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
 
         this.position = position;
         this.energy = energy;
+        this.ageDays = 0;
         this.genes = Arrays.copyOf(genes, genes.length);
         this.behaviour = behaviour;
         this.mutation = mutation;
@@ -78,6 +80,18 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     @Override
     public int hashCode() {
         return position.hashCode() + energy + ageDays + activeGen + childrenNumber;
+    }
+
+    public int getAge() {
+        return ageDays;
+    }
+
+    public void growOld() {
+        ageDays++;
+    }
+
+    public int[] getGenes() {
+        return genes;
     }
 
     public void move() {

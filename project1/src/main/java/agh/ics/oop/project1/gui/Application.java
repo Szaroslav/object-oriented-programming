@@ -82,7 +82,6 @@ public class Application extends javafx.application.Application {
         catch (FileNotFoundException ex) {
 
         }
-
     }
 
 //    @Override
