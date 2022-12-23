@@ -1,12 +1,10 @@
 package agh.ics.oop.project1.gui;
 
 import agh.ics.oop.project1.world.WorldConfig;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +84,13 @@ public class UserForm {
 
     private void renderInputRow(int row, String name, String labelText) {
         TextField input = new TextField();
+        input.setTextFormatter(new TextFormatter<>(change -> {
+            System.out.println(change.getControlNewText());
+            if (change.getControlNewText().matches("^([1-9][0-9]*)") || change.getControlNewText().equals(""))
+                return change;
+            return null;
+        }));
+
         inputList.add(new ActionNode<>(input, name));
         grid.addRow(row, new Label(labelText), input);
     }
