@@ -1,11 +1,18 @@
 package agh.ics.oop.project1.gui;
 
 import agh.ics.oop.project1.world.WorldConfig;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -13,19 +20,27 @@ import java.util.Properties;
 import static agh.ics.oop.project1.world.WorldConfigOptions.*;
 
 public class UserForm {
+    private final int INPUT_WIDTH = 48;
+    private final int COMBO_BOX_WIDTH = 128;
+    private final String ICONS_DIRECTORY = "src/main/resources/icons";
     private boolean isFileConfigSelected;
     private String configName;
     private Properties configOptions;
+
+    private final Image tickIcon;
+    private final Image crossIcon;
     private final GridPane grid;
     private final List<ActionNode<TextField>> inputList = new ArrayList<>();
     private final List<ActionNode<ComboBox<String>>> comboBoxList = new ArrayList<>();
     private final Application application;
 
-    public UserForm(Application application) {
+    public UserForm(Application application) throws FileNotFoundException {
         isFileConfigSelected = false;
         configName = null;
         configOptions = null;
 
+        tickIcon = new Image(new FileInputStream(ICONS_DIRECTORY + "/tick.png"));
+        crossIcon = new Image(new FileInputStream(ICONS_DIRECTORY + "/cross.png"));
         grid = new GridPane();
         this.application = application;
 
@@ -61,45 +76,57 @@ public class UserForm {
         return grid;
     }
 
+    private <T extends Region> void renderIcon(Image icon, List<ActionNode<T>> nodesList, int index, String message) {
+        ActionNode<T> actionNode = nodesList.get(index);
+        if (actionNode.pane().getChildren().size() > 1)
+            actionNode.pane().getChildren().remove(1);
+
+        ImageView imageView = new ImageView(icon);
+        imageView.relocate(actionNode.region().getWidth(), -6);
+        actionNode.pane().getChildren().add(imageView);
+
+        if (message != null) {
+            Tooltip tooltip = new Tooltip(message);
+            tooltip.setShowDelay(Duration.seconds(.5));
+            Tooltip.install(actionNode.pane(), tooltip);
+            nodesList.set(index, new ActionNode<>(actionNode.region(), actionNode.pane(), tooltip, actionNode.name()));
+        }
+        else if (actionNode.tooltip() != null) {
+            Tooltip.uninstall(actionNode.pane(), actionNode.tooltip());
+            nodesList.set(index, new ActionNode<>(actionNode.region(), actionNode.pane(), actionNode.name()));
+        }
+    }
+
     private void renderButton(int row, String buttonText) {
         Button button = new Button(buttonText);
-        button.setOnAction(event -> {
-            if (isFileConfigSelected) {
-                application.startSimulation(configName);
-            } else {
-                configOptions = new Properties();
-                for (ActionNode<TextField> node : inputList)
-                    configOptions.setProperty(node.name(), node.node().getText());
-                for (ActionNode<ComboBox<String>> node : comboBoxList)
-                    configOptions.setProperty(
-                        node.name(),
-                        node.node().getSelectionModel().getSelectedItem().toUpperCase().replace(' ', '_')
-                    );
-                System.out.println(configOptions);
-                application.startSimulation(configOptions);
-            }
-        });
+        button.setOnAction(this::onSubmit);
         grid.add(button, 0, row);
     }
 
     private void renderInputRow(int row, String name, String labelText) {
+        Pane pane = new Pane();
         TextField input = new TextField();
+        input.setPrefWidth(INPUT_WIDTH);
         input.setTextFormatter(new TextFormatter<>(change -> {
-            System.out.println(change.getControlNewText());
             if (change.getControlNewText().matches("^([1-9][0-9]*)") || change.getControlNewText().equals(""))
                 return change;
             return null;
         }));
+        pane.getChildren().add(input);
 
-        inputList.add(new ActionNode<>(input, name));
-        grid.addRow(row, new Label(labelText), input);
+        inputList.add(new ActionNode<>(input, pane, name));
+        grid.addRow(row, new Label(labelText), pane);
     }
 
     private void renderComboBox(int row, String name, String labelText, String[] options) {
+        Pane pane = new Pane();
         ComboBox<String> combo = new ComboBox<>();
+        combo.setPrefWidth(COMBO_BOX_WIDTH);
         combo.getItems().addAll(options);
-        comboBoxList.add(new ActionNode<>(combo, name));
-        grid.addRow(row, new Label(labelText), combo);
+        pane.getChildren().add(combo);
+
+        comboBoxList.add(new ActionNode<>(combo, pane, name));
+        grid.addRow(row, new Label(labelText), pane);
     }
 
     private void renderConfigComboBox(int row, String labelText) {
@@ -123,8 +150,55 @@ public class UserForm {
 
     private void setFormDisabledStatus(boolean value) {
         for (ActionNode<TextField> node : inputList)
-            node.node().setDisable(value);
+            node.region().setDisable(value);
         for (ActionNode<ComboBox<String>> node : comboBoxList)
-            node.node().setDisable(value);
+            node.region().setDisable(value);
+    }
+
+    private boolean validate() {
+        boolean isValid = true;
+
+        for (int i = 0; i < inputList.size(); i++) {
+            if (inputList.get(i).region().getText().equals("")) {
+                renderIcon(crossIcon, inputList, i, "This field is required (positive integer)");
+                isValid = false;
+            }
+            else {
+                renderIcon(tickIcon, inputList, i, null);
+            }
+        }
+
+        for (int i = 0; i < comboBoxList.size(); i++) {
+            if (comboBoxList.get(i).region().getSelectionModel().getSelectedItem() == null) {
+                renderIcon(crossIcon, comboBoxList, i, "This field is required");
+                isValid = false;
+            }
+            else {
+                renderIcon(tickIcon, comboBoxList, i, null);
+            }
+        }
+
+        return isValid;
+    }
+
+    private void onSubmit(ActionEvent event) {
+        if (isFileConfigSelected) {
+            application.startSimulation(configName);
+        } else {
+            if (!validate())
+                return;
+
+            configOptions = new Properties();
+            for (ActionNode<TextField> node : inputList)
+                configOptions.setProperty(node.name(), node.region().getText());
+            for (ActionNode<ComboBox<String>> node : comboBoxList)
+                configOptions.setProperty(
+                        node.name(),
+                        node.region().getSelectionModel().getSelectedItem().toUpperCase().replace(' ', '_')
+                );
+
+            System.out.println(configOptions);
+            application.startSimulation(configOptions);
+        }
     }
 }

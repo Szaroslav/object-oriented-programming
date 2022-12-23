@@ -9,6 +9,7 @@ import agh.ics.oop.project1.world.maps.InfernalPortal;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 public class Application extends javafx.application.Application {
@@ -16,7 +17,7 @@ public class Application extends javafx.application.Application {
     private int width;
     private int height;
     private WorldEngine engine;
-    private final UserForm userForm = new UserForm(this);
+    private UserForm userForm;
 //    private GridPane grid = new GridPane();
 //    private VBox ui = new VBox();
 //    private TextField moveDirectionsTextField = new TextField();
@@ -45,8 +46,14 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void init() {
-        AbstractMap map = new Earth();
-        engine = new WorldEngine(map);
+        try {
+            userForm = new UserForm(this);
+            AbstractMap map = new Earth();
+            engine = new WorldEngine(map);
+        }
+        catch (FileNotFoundException ex) {
+
+        }
     }
 
     public void startSimulation(String configName) {
