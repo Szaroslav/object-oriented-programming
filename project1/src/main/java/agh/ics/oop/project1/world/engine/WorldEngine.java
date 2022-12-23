@@ -15,9 +15,11 @@ import java.util.List;
 public class WorldEngine implements Runnable {
     private final List<Animal> animals = new ArrayList<>();
     private AbstractMap map;
+    private IEngineObserver observer;
 
-    public WorldEngine(AbstractMap map) {
+    public WorldEngine(AbstractMap map, IEngineObserver observer) {
         this.map = map;
+        this.observer = observer;
 
         initAnimals();
         initPlants();
@@ -25,14 +27,21 @@ public class WorldEngine implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < 500; i++) {
-//            System.out.println("xd" + i);
+        for (int i = 0; i < 100; i++) {
+            System.out.println("xd" + i);
             harvestSouls();
             moveAnimals();
             map.updateAnimalsMap();
             letAnimalsEat();
             reproduceAnimals();
             plant();
+            observer.simulationDayFinished();
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         System.out.println("xd");
     }

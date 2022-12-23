@@ -7,6 +7,7 @@ import agh.ics.oop.project1.world.maps.AbstractMap;
 import agh.ics.oop.project1.world.maps.Earth;
 import agh.ics.oop.project1.world.maps.InfernalPortal;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -16,7 +17,6 @@ public class Application extends javafx.application.Application {
     private final int CELL_SIZE = 52;
     private int width;
     private int height;
-    private WorldEngine engine;
     private UserForm userForm;
 //    private GridPane grid = new GridPane();
 //    private VBox ui = new VBox();
@@ -48,8 +48,6 @@ public class Application extends javafx.application.Application {
     public void init() {
         try {
             userForm = new UserForm(this);
-            AbstractMap map = new Earth();
-            engine = new WorldEngine(map);
         }
         catch (FileNotFoundException ex) {
 
@@ -71,9 +69,18 @@ public class Application extends javafx.application.Application {
         if (WorldConfig.getInstance().getProperty(WorldConfigOptions.MAP_TYPE.getName()).equals("INFERNAL_PORTAL"))
             map = new InfernalPortal();
 
-        engine = new WorldEngine(map);
-        Thread engineThread = new Thread(engine);
-        engineThread.start();
+        try {
+            SimulationStage stage = new SimulationStage(map);
+            stage.show();
+
+            WorldEngine engine = new WorldEngine(map, stage);
+            Thread engineThread = new Thread(engine);
+            engineThread.start();
+        }
+        catch (FileNotFoundException ex) {
+
+        }
+
     }
 
 //    @Override

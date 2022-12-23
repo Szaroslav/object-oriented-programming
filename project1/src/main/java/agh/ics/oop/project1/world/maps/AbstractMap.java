@@ -62,7 +62,6 @@ public class AbstractMap implements IAnimalObserver {
 
         int prefferedFieldChance;
         Vector2d position = new Vector2d(0, 0);
-        Plant plant = new Plant(position);
 
         if (growthVariant == PlantsGrowthVariant.FOREST_EQUATORS) {
             Pair<Vector2d, Vector2d> equatorBoundaries = getEquatorBoundaries();
@@ -75,8 +74,6 @@ public class AbstractMap implements IAnimalObserver {
                 != position.between(equatorBoundaries.getFirst(), equatorBoundaries.getSecond())
                 || plants.get(position) != null
             );
-
-            plant = new Plant(position);
         }
         else if (growthVariant == PlantsGrowthVariant.TOXIC_BODIES) {
             deathsCounterList.sort(Comparator.comparingInt(Pair::getSecond));
@@ -89,8 +86,25 @@ public class AbstractMap implements IAnimalObserver {
             } while (plants.get(position) != null);
         }
 
+        Plant plant = new Plant(position);
         plants.put(position, plant);
         return plant;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public List<Animal> getAnimalsList() {
+        return animalsList;
+    }
+
+    public List<Plant> getPlantsList() {
+        return new ArrayList<>(plants.values());
     }
 
     public boolean canMoveTo(Vector2d position) {
