@@ -76,8 +76,7 @@ public class Application extends javafx.application.Application {
             stage.show();
 
             WorldEngine engine = new WorldEngine(map, config, stage);
-            Thread engineThread = new Thread(engine);
-            engineThread.start();
+            engine.start();
 
             stage.setEngine(engine);
         }

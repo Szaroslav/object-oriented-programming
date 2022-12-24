@@ -9,6 +9,7 @@ import agh.ics.oop.project1.world.engine.IEngineObserver;
 import agh.ics.oop.project1.world.engine.WorldEngine;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -18,6 +19,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,6 +49,8 @@ public class SimulationStage extends Stage implements IEngineObserver {
         animalIcon = new Image(new FileInputStream("src/main/resources/icons/lion.png"));
         this.map = map;
         this.config = config;
+
+        setOnCloseRequest(event -> engine.interrupt());
 
         CELL_SIZE = Math.min(WIDTH / map.getWidth(), HEIGHT / map.getHeight());
         for (int i = 0; i < map.getWidth(); i++) board.getColumnConstraints().add(new ColumnConstraints(CELL_SIZE));
@@ -87,7 +91,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
             if (isPaused)
                 engine.pause();
             else
-                engine.resume();
+                engine.unpause();
         });
 
         sideUI.getChildren().add(pauseButton);
@@ -118,9 +122,12 @@ public class SimulationStage extends Stage implements IEngineObserver {
         Animal selectedAnimal = animalsList.getSelectionModel().getSelectedItem();
         animalsList.getItems().clear();
         animalsList.getItems().add(null);
-        for (Animal animal : map.getAnimalsList())
-            animalsList.getItems().add(animal);
-        animalsList.getSelectionModel().select(selectedAnimal);
+        for (Animal animal : map.getAnimalsList()) animalsList.getItems().add(animal);
+
+        if (animalsList.getItems().contains(selectedAnimal))
+            animalsList.getSelectionModel().select(selectedAnimal);
+        else
+            animalsList.getSelectionModel().select(0);
     }
 
     private void renderBoard() {

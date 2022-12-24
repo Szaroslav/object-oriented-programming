@@ -13,7 +13,7 @@ import agh.ics.oop.project1.world.maps.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorldEngine implements Runnable {
+public class WorldEngine extends Thread {
     private boolean isPaused;
     private int simulationDay = 0;
     private final List<Animal> animals = new ArrayList<>();
@@ -32,12 +32,12 @@ public class WorldEngine implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < 100; i++) {
-            try {
+        try {
+            while (true) {
                 while (isPaused)
-                    Thread.sleep(300);
+                    sleep(100);
 
-                System.out.println("xd" + i);
+                System.out.println("xd");
                 harvestSouls();
                 moveAnimals();
                 map.updateAnimalsMap();
@@ -45,11 +45,12 @@ public class WorldEngine implements Runnable {
                 reproduceAnimals();
                 plant();
                 onSimulationDayFinished();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
             }
         }
-        System.out.println("xd");
+        catch (InterruptedException ex) {
+            System.out.println("what?");
+            throw new RuntimeException(ex);
+        }
     }
 
     public int getSimulationDay() {
@@ -60,7 +61,7 @@ public class WorldEngine implements Runnable {
         isPaused = true;
     }
 
-    public void resume() {
+    public void unpause() {
         isPaused = false;
     }
 
@@ -133,6 +134,7 @@ public class WorldEngine implements Runnable {
                 Pair<Animal, Animal> parents = map.getParents(field);
                 Animal child = parents.getFirst().reproduce(parents.getSecond());
                 map.place(child);
+                animals.add(child);
             }
         }
     }
@@ -148,12 +150,12 @@ public class WorldEngine implements Runnable {
         }
     }
 
-    private void onSimulationDayFinished() throws InterruptedException {
+    private synchronized void onSimulationDayFinished() throws InterruptedException {
         simulationDay++;
         for (Animal animal : animals)
             animal.growOld();
         map.updateStats();
         observer.simulationDayFinished();
-        Thread.sleep(80);
+        sleep(80);
     }
 }

@@ -34,6 +34,7 @@ public class SimulationStageStats {
 
     public void setSelectedAnimal(Animal selectedAnimal) {
         this.selectedAnimal = selectedAnimal;
+        renderAnimalStats();
     }
 
     public void render() {
@@ -43,8 +44,6 @@ public class SimulationStageStats {
             title.getStyleClass().add("title");
             Label simSubtitle = new Label("Simulation");
             simSubtitle.getStyleClass().add("subtitle");
-            Label animalSubtitle = new Label("Selected animal");
-            animalSubtitle.getStyleClass().add("subtitle");
 
             renderAnimalStats();
 
@@ -58,18 +57,20 @@ public class SimulationStageStats {
                 new Label("Most common genes of alive animals: " + Arrays.toString(mapStats.getCommonGenes())),
                 new Label("Average energy of alive animals: " + decimalFormat.format(mapStats.getAnimalsEnergyAvg())),
                 new Label("Average age of dead animals: " + decimalFormat.format(mapStats.getDeadAnimalsAgeAvg()) + " days"),
-                animalSubtitle,
                 animalStatsBox
             );
         });
     }
 
-    public void renderAnimalStats() {
+    private void renderAnimalStats() {
         animalStatsBox.getChildren().clear();
         if (selectedAnimal == null)
             return;
 
+        Label title = new Label("Selected animal");
+        title.getStyleClass().add("subtitle");
         animalStatsBox.getChildren().addAll(
+            title,
             new Label(
                 !selectedAnimal.isDead()
                 ? "Age: " + selectedAnimal.getAge() + " days"
