@@ -27,12 +27,12 @@ public class SimulationStageStats {
         Platform.runLater(() -> {
             content.getChildren().clear();
             content.getChildren().addAll(
-                new Label(Integer.toString(mapStats.getAliveAnimalsNumber())),
-                new Label(Integer.toString(mapStats.getPlantsNumber())),
-                new Label(Integer.toString(mapStats.getEmptyFields())),
-                new Label(Arrays.toString(mapStats.getCommonGenes())),
-                new Label(decimalFormat.format(mapStats.getAnimalsEnergyAvg())),
-                new Label(decimalFormat.format(mapStats.getDeadAnimalsAgeAvg()))
+                new Label("Alive number of animals: " + mapStats.getAliveAnimalsNumber()),
+                new Label("Number of plants: " + mapStats.getPlantsNumber()),
+                new Label("Number of empty fields: " + mapStats.getEmptyFields()),
+                new Label("Most common genes of alive animals: " + Arrays.toString(mapStats.getCommonGenes())),
+                new Label("Average energy of alive animals: " + decimalFormat.format(mapStats.getAnimalsEnergyAvg())),
+                new Label("Average age in days of dead animals: " + decimalFormat.format(mapStats.getDeadAnimalsAgeAvg()))
             );
         });
     }

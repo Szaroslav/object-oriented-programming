@@ -150,9 +150,9 @@ public abstract class AbstractMap implements IAnimalObserver {
             stats.setAnimalsEnergySum(stats.getAnimalsEnergySum() + animal.getEnergy());
 
             boolean found = false;
-            for (IntPair genesCount : genesCounts) {
-                if (Arrays.equals(genesCount.first(), animal.getGenes())) {
-                    genesCount = new IntPair(genesCount.first(), genesCount.second());
+            for (int i = 0; i < genesCounts.size(); i++) {
+                if (Arrays.equals(genesCounts.get(i).first(), animal.getGenes())) {
+                    genesCounts.set(i, new IntPair(genesCounts.get(i).first(), genesCounts.get(i).second()));
                     break;
                 }
             }

@@ -6,8 +6,8 @@ public class MapStats {
     private int deadAnimalsNumber = 0;
     private int deadAnimalsSumAge = 0;
     private int emptyFields = 0;
-    private int[] commonGenes;
-    private int animalsEnergySum;
+    private int[] commonGenes = null;
+    private int animalsEnergySum = 0;
 
     public int getAliveAnimalsNumber() {
         return aliveAnimalsNumber;
