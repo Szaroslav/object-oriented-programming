@@ -7,7 +7,7 @@ import agh.ics.oop.project1.world.maps.AbstractMap;
 import agh.ics.oop.project1.world.maps.Earth;
 import agh.ics.oop.project1.world.maps.InfernalPortal;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -39,6 +39,8 @@ public class Application extends javafx.application.Application {
 //        catch (FileNotFoundException ex) {
 //            System.out.println(ex);
 //        }
+        System.setProperty("prism.lcdtext", "false");
+
         Scene scene = new Scene(userForm.getForm(), 768, 600);
         primaryStage.setScene(scene);
         primaryStage.show();

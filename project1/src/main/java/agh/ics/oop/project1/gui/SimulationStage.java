@@ -2,6 +2,7 @@ package agh.ics.oop.project1.gui;
 
 import agh.ics.oop.project1.AbstractOrganism;
 import agh.ics.oop.project1.animal.Animal;
+import agh.ics.oop.project1.utils.Vector2d;
 import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.world.WorldConfigOptions;
 import agh.ics.oop.project1.world.engine.IEngineObserver;
@@ -10,6 +11,7 @@ import agh.ics.oop.project1.world.maps.AbstractMap;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -19,16 +21,19 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class SimulationStage extends Stage implements IEngineObserver {
-    private final int WIDTH = 800;
+    private final int WIDTH = 1200;
     private final int HEIGHT = 600;
     private final int CELL_SIZE;
     private boolean isPaused = false;
     private final GridPane board;
     private final SimulationStageStats stats;
-    private final Button pauseButton = new Button();
+    private final VBox sideUI = new VBox();
+    private final ComboBox<Animal> animalsList = new ComboBox<>();
     private final AbstractMap map;
     private WorldEngine engine;
     private final WorldConfig config;
@@ -48,10 +53,12 @@ public class SimulationStage extends Stage implements IEngineObserver {
         for (int i = 0; i < map.getHeight(); i++) board.getRowConstraints().add(new RowConstraints(CELL_SIZE));
 
         renderBoard();
-        setPauseButton();
+        renderPauseButton();
+        initAnimalsList();
 
-        HBox hBox = new HBox(board, stats.getContent(), pauseButton);
-        Scene scene = new Scene(hBox, 800, 600);
+        HBox hBox = new HBox(board, stats.getContent(), sideUI);
+        Scene scene = new Scene(hBox, WIDTH, HEIGHT);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("main.css")).toExternalForm());
         setScene(scene);
     }
 
@@ -67,17 +74,53 @@ public class SimulationStage extends Stage implements IEngineObserver {
 
     public void setEngine(WorldEngine engine) {
         this.engine = engine;
+        stats.setEngine(engine);
     }
 
-    private void setPauseButton() {
-        pauseButton.setText("Pause / resume simulation");
+    private void renderPauseButton() {
+        Button pauseButton = new Button("Pause / resume simulation");
         pauseButton.setOnAction(event -> {
             isPaused = !isPaused;
+            animalsList.setDisable(!isPaused);
+            renderAnimalsList();
+
             if (isPaused)
                 engine.pause();
             else
                 engine.resume();
         });
+
+        sideUI.getChildren().add(pauseButton);
+    }
+
+    private void initAnimalsList() {
+        renderAnimalsList();
+        animalsList.setDisable(true);
+        animalsList.setOnAction(event -> {
+            stats.setSelectedAnimal(animalsList.getSelectionModel().getSelectedItem());
+        });
+
+        sideUI.getChildren().add(animalsList);
+    }
+
+    private void renderAnimalsList() {
+        if (!isPaused)
+            return;
+
+        map.getAnimalsList().sort((a1, a2) -> {
+            Vector2d pos1 = a1.getPosition(), pos2 = a2.getPosition();
+
+            if (pos1.x != pos2.x) return pos1.x - pos2.x;
+            if (pos1.y != pos2.y) return pos1.y - pos2.y;
+            return 0;
+        });
+
+        Animal selectedAnimal = animalsList.getSelectionModel().getSelectedItem();
+        animalsList.getItems().clear();
+        animalsList.getItems().add(null);
+        for (Animal animal : map.getAnimalsList())
+            animalsList.getItems().add(animal);
+        animalsList.getSelectionModel().select(selectedAnimal);
     }
 
     private void renderBoard() {
@@ -96,20 +139,23 @@ public class SimulationStage extends Stage implements IEngineObserver {
             imageView.setFitHeight(CELL_SIZE);
             pane.getChildren().add(imageView);
 
-            if (renderHPBar && organism instanceof Animal) {
-                int strongAnimalEnergy = config.getInt(WorldConfigOptions.STRONG_ANIMAL_MINIMUM_ENERGY.getName());
-                Rectangle rectangle = new Rectangle(CELL_SIZE, 6);
-                rectangle.setFill(Color.hsb(
-                    88.0 * Math.min(((Animal) organism).getEnergy(), strongAnimalEnergy) / strongAnimalEnergy,
-                    .82,
-                    .9
-                ));
-                rectangle.setStroke(Color.TRANSPARENT);
-                rectangle.relocate(0, CELL_SIZE - 6);
-                pane.getChildren().add(rectangle);
-            }
+            if (renderHPBar && organism instanceof Animal)
+                renderAnimalHPBar((Animal) organism, pane);
 
             board.add(pane, organism.getPosition().x, fromGameToBoardY(organism.getPosition().y));
         }
+    }
+
+    private void renderAnimalHPBar(Animal animal, Pane root) {
+        int strongAnimalEnergy = config.getInt(WorldConfigOptions.STRONG_ANIMAL_MINIMUM_ENERGY.getName());
+        Rectangle rectangle = new Rectangle(CELL_SIZE, 6);
+        rectangle.setFill(Color.hsb(
+                88.0 * Math.min(animal.getEnergy(), strongAnimalEnergy) / strongAnimalEnergy,
+                .82,
+                .9
+        ));
+        rectangle.setStroke(Color.TRANSPARENT);
+        rectangle.relocate(0, CELL_SIZE - 6);
+        root.getChildren().add(rectangle);
     }
 }

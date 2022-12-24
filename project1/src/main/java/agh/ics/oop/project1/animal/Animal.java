@@ -17,6 +17,8 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     private final int[] genes;
     private int activeGen;
     private int childrenNumber;
+    private int eatenPlantsNumber;
+    private int dayOfDeath = 0;
     private Rotation currentRotation;
     private final AnimalBehaviour behaviour;
     private final AnimalMutation mutation;
@@ -37,6 +39,7 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
         this.position = position;
         this.energy = energy;
         this.ageDays = 0;
+        this.eatenPlantsNumber = 0;
         this.genes = Arrays.copyOf(genes, genes.length);
         this.behaviour = behaviour;
         this.mutation = mutation;
@@ -82,6 +85,11 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
         return position.hashCode() + energy + ageDays + activeGen + childrenNumber;
     }
 
+    @Override
+    public String toString() {
+        return "Animal " + position;
+    }
+
     public int getAge() {
         return ageDays;
     }
@@ -90,8 +98,28 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
         ageDays++;
     }
 
+    public void onDeath() {
+        dayOfDeath = ageDays;
+    }
+
+    public int getDayOfDeath() {
+        return dayOfDeath;
+    }
+
+    public int getChildrenNumber() {
+        return childrenNumber;
+    }
+
+    public int getEatenPlantsNumber() {
+        return eatenPlantsNumber;
+    }
+
     public int[] getGenes() {
         return genes;
+    }
+
+    public int getActiveGen() {
+        return activeGen;
     }
 
     public void move() {
@@ -110,6 +138,7 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
 
     public void eat() {
         increaseEnergy(config.getInt("ENERGY_PER_EATING"));
+        eatenPlantsNumber++;
     }
 
     public Animal reproduce(Animal lover) {

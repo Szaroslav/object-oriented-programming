@@ -1,0 +1,16 @@
+@font-face {
+    src: url('roboto-slab-medium.ttf');
+}
+
+.title, .subtitle {
+    -fx-font-family: 'Roboto Slab Medium', serif;
+    -fx-font-smoothing-type: gray;
+}
+
+.title {
+    -fx-font-size: 24;
+}
+
+.subtitle {
+    -fx-font-size: 16;
+}

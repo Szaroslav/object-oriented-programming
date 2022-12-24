@@ -15,6 +15,7 @@ import java.util.List;
 
 public class WorldEngine implements Runnable {
     private boolean isPaused;
+    private int simulationDay = 0;
     private final List<Animal> animals = new ArrayList<>();
     private final AbstractMap map;
     private final WorldConfig config;
@@ -49,6 +50,10 @@ public class WorldEngine implements Runnable {
             }
         }
         System.out.println("xd");
+    }
+
+    public int getSimulationDay() {
+        return simulationDay;
     }
 
     public void pause() {
@@ -91,11 +96,12 @@ public class WorldEngine implements Runnable {
     }
 
     private void harvestSouls() {
-        List<Animal> animalsToRemove = new ArrayList<>();
+        List<Animal> animalsToHarvest = new ArrayList<>();
         for (Animal animal : animals)
             if (animal.isDead())
-                animalsToRemove.add(animal);
-        for (Animal animal : animalsToRemove) {
+                animalsToHarvest.add(animal);
+        for (Animal animal : animalsToHarvest) {
+            animal.onDeath();
             animals.remove(animal);
             map.removeAnimal(animal);
         }
@@ -143,6 +149,7 @@ public class WorldEngine implements Runnable {
     }
 
     private void onSimulationDayFinished() throws InterruptedException {
+        simulationDay++;
         for (Animal animal : animals)
             animal.growOld();
         map.updateStats();
