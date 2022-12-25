@@ -17,6 +17,7 @@ public class Application extends javafx.application.Application {
     private final int CELL_SIZE = 52;
     private int width;
     private int height;
+    private int simIndex = 0;
     private UserForm userForm;
 //    private GridPane grid = new GridPane();
 //    private VBox ui = new VBox();
@@ -56,23 +57,23 @@ public class Application extends javafx.application.Application {
         }
     }
 
-    public void startSimulation(String configName) {
+    public void startSimulation(String configName, boolean saveToCSV) {
         WorldConfig config = new WorldConfig(configName);
-        startSimulation(config);
+        startSimulation(config, saveToCSV);
     }
 
-    public void startSimulation(Properties configOptions) {
+    public void startSimulation(Properties configOptions, boolean saveToCSV) {
         WorldConfig config = new WorldConfig(configOptions);
-        startSimulation(config);
+        startSimulation(config, saveToCSV);
     }
 
-    private void startSimulation(WorldConfig config) {
+    private void startSimulation(WorldConfig config, boolean saveToCSV) {
         AbstractMap map = new Earth(config);
         if (config.getProperty(WorldConfigOptions.MAP_TYPE.getName()).equals("INFERNAL_PORTAL"))
             map = new InfernalPortal(config);
 
         try {
-            SimulationStage stage = new SimulationStage(map, config);
+            SimulationStage stage = new SimulationStage(map, config, simIndex++, saveToCSV);
             stage.show();
 
             WorldEngine engine = new WorldEngine(map, config, stage);

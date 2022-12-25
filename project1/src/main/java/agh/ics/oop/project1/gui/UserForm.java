@@ -32,6 +32,7 @@ public class UserForm {
     private final GridPane grid;
     private final List<ActionNode<TextField>> inputList = new ArrayList<>();
     private final List<ActionNode<ComboBox<String>>> comboBoxList = new ArrayList<>();
+    CheckBox saveToCSVCheckBox;
     private final Application application;
 
     public UserForm(Application application) throws FileNotFoundException {
@@ -65,11 +66,9 @@ public class UserForm {
         renderInputRow(18, INITIAL_PLANTS_NUMBER.getName(), INITIAL_PLANTS_NUMBER.getRepresentativeText());
         renderInputRow(19, PLANTS_PER_DAY.getName(), PLANTS_PER_DAY.getRepresentativeText());
         renderVSpacer(20);
-        renderButton(21, "Start new simulation");
-
-        for (int i = 0; i < grid.getChildren().size(); i++) {
-//            System.out.println(grid.getChildren().get(i));
-        }
+        renderCheckBox(21);
+        renderVSpacer(22);
+        renderButton(23, "Start new simulation");
     }
 
     public GridPane getForm() {
@@ -141,6 +140,12 @@ public class UserForm {
         grid.addRow(row, new Label(labelText), combo);
     }
 
+    private void renderCheckBox(int row) {
+        saveToCSVCheckBox = new CheckBox();
+        grid.add(new Label("Save logs as CSV file"), 0, row);
+        grid.add(saveToCSVCheckBox, 1, row);
+    }
+
     private void renderVSpacer(int row) {
         Region spacer = new Region();
         spacer.setMinHeight(32);
@@ -183,7 +188,7 @@ public class UserForm {
 
     private void onSubmit(ActionEvent event) {
         if (isFileConfigSelected) {
-            application.startSimulation(configName);
+            application.startSimulation(configName, saveToCSVCheckBox.isSelected());
         } else {
             if (!validate())
                 return;
@@ -197,8 +202,7 @@ public class UserForm {
                         node.region().getSelectionModel().getSelectedItem().toUpperCase().replace(' ', '_')
                 );
 
-            System.out.println(configOptions);
-            application.startSimulation(configOptions);
+            application.startSimulation(configOptions, saveToCSVCheckBox.isSelected());
         }
     }
 }

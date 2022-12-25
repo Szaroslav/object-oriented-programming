@@ -3,6 +3,7 @@ package agh.ics.oop.project1.gui;
 import agh.ics.oop.project1.AbstractOrganism;
 import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.utils.Vector2d;
+import agh.ics.oop.project1.utils.WriterCSV;
 import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.world.WorldConfigOptions;
 import agh.ics.oop.project1.world.engine.IEngineObserver;
@@ -21,8 +22,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +33,7 @@ import java.util.Objects;
 public class SimulationStage extends Stage implements IEngineObserver {
     private final int WIDTH = 1200;
     private final int HEIGHT = 600;
+    private final int BOARD_WIDTH = 700;
     private final int CELL_SIZE;
     private boolean isPaused = false;
     private final GridPane board;
@@ -42,34 +46,26 @@ public class SimulationStage extends Stage implements IEngineObserver {
     private final Image plantTexture;
     private final Image animalIcon;
 
-    public SimulationStage(AbstractMap map, WorldConfig config) throws FileNotFoundException {
+    public SimulationStage(AbstractMap map, WorldConfig config, int index, boolean saveToCSV) throws FileNotFoundException {
+        CELL_SIZE = Math.min(BOARD_WIDTH / map.getWidth(), HEIGHT / map.getHeight());
         board = new GridPane();
-        stats = new SimulationStageStats(map.getStats());
+        stats = new SimulationStageStats(map.getStats(), index, config.getInt(WorldConfigOptions.ANIMAL_GENOME_SIZE.getName()), saveToCSV);
         plantTexture = new Image(new FileInputStream("src/main/resources/textures/grass.png"));
         animalIcon = new Image(new FileInputStream("src/main/resources/icons/lion.png"));
         this.map = map;
         this.config = config;
 
-        setOnCloseRequest(event -> engine.interrupt());
-
-        CELL_SIZE = Math.min(WIDTH / map.getWidth(), HEIGHT / map.getHeight());
-        for (int i = 0; i < map.getWidth(); i++) board.getColumnConstraints().add(new ColumnConstraints(CELL_SIZE));
-        for (int i = 0; i < map.getHeight(); i++) board.getRowConstraints().add(new RowConstraints(CELL_SIZE));
-
         renderBoard();
         renderPauseButton();
-        initAnimalsList();
 
-        HBox hBox = new HBox(board, stats.getContent(), sideUI);
-        Scene scene = new Scene(hBox, WIDTH, HEIGHT);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("main.css")).toExternalForm());
-        setScene(scene);
+        initGUI();
     }
 
     @Override
     public void simulationDayFinished() {
         renderBoard();
         stats.render();
+        stats.saveToCSV();
     }
 
     public int fromGameToBoardY(int y) {
@@ -79,6 +75,22 @@ public class SimulationStage extends Stage implements IEngineObserver {
     public void setEngine(WorldEngine engine) {
         this.engine = engine;
         stats.setEngine(engine);
+    }
+
+    private void initGUI() {
+        initBoard();
+        initAnimalsList();
+        setOnCloseRequest(event -> engine.interrupt());
+
+        HBox hBox = new HBox(board, stats.getContent(), sideUI);
+        Scene scene = new Scene(hBox, WIDTH, HEIGHT);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("main.css")).toExternalForm());
+        setScene(scene);
+    }
+
+    private void initBoard() {
+        for (int i = 0; i < map.getWidth(); i++) board.getColumnConstraints().add(new ColumnConstraints(CELL_SIZE));
+        for (int i = 0; i < map.getHeight(); i++) board.getRowConstraints().add(new RowConstraints(CELL_SIZE));
     }
 
     private void renderPauseButton() {
@@ -154,15 +166,17 @@ public class SimulationStage extends Stage implements IEngineObserver {
     }
 
     private void renderAnimalHPBar(Animal animal, Pane root) {
-        int strongAnimalEnergy = config.getInt(WorldConfigOptions.STRONG_ANIMAL_MINIMUM_ENERGY.getName());
-        Rectangle rectangle = new Rectangle(CELL_SIZE, 6);
+        final int strongAnimalEnergy = config.getInt(WorldConfigOptions.STRONG_ANIMAL_MINIMUM_ENERGY.getName());
+        final int height = CELL_SIZE >= 16 ? 6 : CELL_SIZE;
+
+        Rectangle rectangle = new Rectangle(CELL_SIZE, height);
         rectangle.setFill(Color.hsb(
-                88.0 * Math.min(animal.getEnergy(), strongAnimalEnergy) / strongAnimalEnergy,
-                .82,
-                .9
+            88.0 * Math.min(animal.getEnergy(), strongAnimalEnergy) / strongAnimalEnergy,
+            .82,
+            .9
         ));
         rectangle.setStroke(Color.TRANSPARENT);
-        rectangle.relocate(0, CELL_SIZE - 6);
+        rectangle.relocate(0, CELL_SIZE - height);
         root.getChildren().add(rectangle);
     }
 }
