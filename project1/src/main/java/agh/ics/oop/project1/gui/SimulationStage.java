@@ -3,14 +3,12 @@ package agh.ics.oop.project1.gui;
 import agh.ics.oop.project1.AbstractOrganism;
 import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.utils.Vector2d;
-import agh.ics.oop.project1.utils.WriterCSV;
 import agh.ics.oop.project1.world.WorldConfig;
 import agh.ics.oop.project1.world.WorldConfigOptions;
 import agh.ics.oop.project1.world.engine.IEngineObserver;
 import agh.ics.oop.project1.world.engine.WorldEngine;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -20,25 +18,22 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 public class SimulationStage extends Stage implements IEngineObserver {
     private final int WIDTH = 1200;
-    private final int HEIGHT = 600;
+    private final int HEIGHT = 720;
     private final int BOARD_WIDTH = 700;
+    private final int BOARD_HEIGHT = 620;
     private final int CELL_SIZE;
     private boolean isPaused = false;
     private final GridPane board;
     private final SimulationStageStats stats;
-    private final VBox sideUI = new VBox();
+    private final VBox sideGUI = new VBox(8);
     private final ComboBox<Animal> animalsList = new ComboBox<>();
     private final AbstractMap map;
     private WorldEngine engine;
@@ -47,16 +42,13 @@ public class SimulationStage extends Stage implements IEngineObserver {
     private final Image animalIcon;
 
     public SimulationStage(AbstractMap map, WorldConfig config, int index, boolean saveToCSV) throws FileNotFoundException {
-        CELL_SIZE = Math.min(BOARD_WIDTH / map.getWidth(), HEIGHT / map.getHeight());
+        CELL_SIZE = Math.min(BOARD_WIDTH / map.getWidth(), BOARD_HEIGHT / map.getHeight());
         board = new GridPane();
         stats = new SimulationStageStats(map.getStats(), index, config.getInt(WorldConfigOptions.ANIMAL_GENOME_SIZE.getName()), saveToCSV);
         plantTexture = new Image(new FileInputStream("src/main/resources/textures/grass.png"));
         animalIcon = new Image(new FileInputStream("src/main/resources/icons/lion.png"));
         this.map = map;
         this.config = config;
-
-        renderBoard();
-        renderPauseButton();
 
         initGUI();
     }
@@ -78,12 +70,21 @@ public class SimulationStage extends Stage implements IEngineObserver {
     }
 
     private void initGUI() {
+        renderBoard();
+        renderSideGUI();
+
         initBoard();
-        initAnimalsList();
         setOnCloseRequest(event -> engine.interrupt());
 
-        HBox hBox = new HBox(board, stats.getContent(), sideUI);
-        Scene scene = new Scene(hBox, WIDTH, HEIGHT);
+        GridPane grid = new GridPane();
+        grid.getStyleClass().add("root");
+        grid.setHgap(8);
+        grid.setVgap(8);
+        grid.add(board, 0, 0);
+        grid.add(stats.getContent(), 1, 0);
+        grid.add(sideGUI, 0, 1);
+
+        Scene scene = new Scene(grid, WIDTH, HEIGHT);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("main.css")).toExternalForm());
         setScene(scene);
     }
@@ -91,6 +92,12 @@ public class SimulationStage extends Stage implements IEngineObserver {
     private void initBoard() {
         for (int i = 0; i < map.getWidth(); i++) board.getColumnConstraints().add(new ColumnConstraints(CELL_SIZE));
         for (int i = 0; i < map.getHeight(); i++) board.getRowConstraints().add(new RowConstraints(CELL_SIZE));
+    }
+
+    private void renderSideGUI() {
+        initAnimalsList();
+        renderAnimalsList();
+        renderPauseButton();
     }
 
     private void renderPauseButton() {
@@ -106,17 +113,18 @@ public class SimulationStage extends Stage implements IEngineObserver {
                 engine.unpause();
         });
 
-        sideUI.getChildren().add(pauseButton);
+        sideGUI.getChildren().add(pauseButton);
     }
 
     private void initAnimalsList() {
         renderAnimalsList();
         animalsList.setDisable(true);
+        animalsList.setPrefWidth(200);
         animalsList.setOnAction(event -> {
             stats.setSelectedAnimal(animalsList.getSelectionModel().getSelectedItem());
         });
 
-        sideUI.getChildren().add(animalsList);
+        sideGUI.getChildren().add(animalsList);
     }
 
     private void renderAnimalsList() {

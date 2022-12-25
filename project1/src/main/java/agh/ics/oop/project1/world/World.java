@@ -10,15 +10,7 @@ import static java.lang.System.out;
 public class World {
     public static void main(String[] args) {
         out.println("System wystartował");
+        System.setProperty("prism.lcdtext", "false");
         javafx.application.Application.launch(Application.class, args);
-
-//        try {
-//            javafx.application.Application.launch(Application.class, args);
-//            out.println("System pomyślnie zakończył działanie");
-//        }
-//        catch (IllegalArgumentException ex) {
-//            out.println("System niepomyślnie zakończył działanie");
-//            out.println(ex.getMessage());
-//        }
     }
 }
