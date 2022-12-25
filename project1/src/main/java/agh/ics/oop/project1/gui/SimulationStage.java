@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,7 +56,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
 
     @Override
     public void simulationDayFinished() {
-        renderBoard();
+        renderBoard(false);
         stats.render();
         stats.saveToCSV();
     }
@@ -70,7 +71,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
     }
 
     private void initGUI() {
-        renderBoard();
+        renderBoard(false);
         renderSideGUI();
 
         initBoard();
@@ -107,10 +108,13 @@ public class SimulationStage extends Stage implements IEngineObserver {
             animalsList.setDisable(!isPaused);
             renderAnimalsList();
 
-            if (isPaused)
+            if (isPaused) {
                 engine.pause();
-            else
+                renderBoard(true);
+            }
+            else {
                 engine.unpause();
+            }
         });
 
         sideGUI.getChildren().add(pauseButton);
@@ -150,15 +154,15 @@ public class SimulationStage extends Stage implements IEngineObserver {
             animalsList.getSelectionModel().select(0);
     }
 
-    private void renderBoard() {
+    private void renderBoard(boolean highlight) {
         Platform.runLater(() -> {
             board.getChildren().clear();
-            renderOrganisms(map.getPlantsList(), plantTexture, false);
-            renderOrganisms(map.getAnimalsList(), animalIcon, true);
+            renderOrganisms(map.getPlantsList(), plantTexture, false, false);
+            renderOrganisms(map.getAnimalsList(), animalIcon, true, highlight);
         });
     }
 
-    private void renderOrganisms(List<? extends AbstractOrganism> organismsList, Image image, boolean renderHPBar) {
+    private void renderOrganisms(List<? extends AbstractOrganism> organismsList, Image image, boolean renderHPBar, boolean highlight) {
         for (AbstractOrganism organism : organismsList) {
             Pane pane = new Pane();
             ImageView imageView = new ImageView(image);
@@ -168,6 +172,8 @@ public class SimulationStage extends Stage implements IEngineObserver {
 
             if (renderHPBar && organism instanceof Animal)
                 renderAnimalHPBar((Animal) organism, pane);
+            if (highlight && organism instanceof Animal && Arrays.equals(map.getStats().getCommonGenes(), ((Animal) organism).getGenes()) && CELL_SIZE >= 16)
+                highlightAnimal(pane);
 
             board.add(pane, organism.getPosition().x, fromGameToBoardY(organism.getPosition().y));
         }
@@ -185,6 +191,14 @@ public class SimulationStage extends Stage implements IEngineObserver {
         ));
         rectangle.setStroke(Color.TRANSPARENT);
         rectangle.relocate(0, CELL_SIZE - height);
+        root.getChildren().add(rectangle);
+    }
+
+    private void highlightAnimal(Pane root) {
+        Rectangle rectangle = new Rectangle(CELL_SIZE * .25, CELL_SIZE * .25);
+        rectangle.setFill(Color.GOLD);
+        rectangle.setStroke(Color.TRANSPARENT);
+        rectangle.relocate(CELL_SIZE - CELL_SIZE * .25 - 1, 1);
         root.getChildren().add(rectangle);
     }
 }

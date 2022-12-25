@@ -10,7 +10,7 @@ public enum WorldConfigOptions {
     ANIMAL_MUTATION("ANIMAL_MUTATION",  "Animals mutation behaviour"),
     STRONG_ANIMAL_MINIMUM_ENERGY("STRONG_ANIMAL_MINIMUM_ENERGY",  "Minimum energy of strong animal"),
     ENERGY_PER_EATING("ENERGY_PER_EATING",  "Energy gained per eating"),
-    ENERGY_PER_REPRODUCING("ENERGY_PER_REPRODUCING",  "Minimum number of animal mutations"),
+    ENERGY_PER_REPRODUCING("ENERGY_PER_REPRODUCING",  "Energy lost per reproducing"),
     MINIMUM_MUTATIONS_NUMBER("MINIMUM_MUTATIONS_NUMBER",  "Minimum number of animal mutations"),
     MAXIMUM_MUTATIONS_NUMBER("MAXIMUM_MUTATIONS_NUMBER",  "Maximum number of animal mutations"),
     ANIMAL_GENOME_SIZE("ANIMAL_GENOME_SIZE",  "Genome size of animal"),
