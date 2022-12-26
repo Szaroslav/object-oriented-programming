@@ -1,13 +1,13 @@
 package agh.ics.oop.project1.world.engine;
 
-import agh.ics.oop.project1.utils.Vector2d;
+import agh.ics.oop.project1.world.Vector2d;
 import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.animal.AnimalBehaviour;
 import agh.ics.oop.project1.animal.AnimalMutation;
 import agh.ics.oop.project1.utils.Pair;
 import agh.ics.oop.project1.utils.Random;
-import agh.ics.oop.project1.world.WorldConfig;
-import agh.ics.oop.project1.world.WorldConfigOptions;
+import agh.ics.oop.project1.world.config.WorldConfig;
+import agh.ics.oop.project1.world.config.WorldConfigOptions;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 
 import java.util.ArrayList;
@@ -37,7 +37,6 @@ public class WorldEngine extends Thread {
                 while (isPaused)
                     sleep(100);
 
-                System.out.println("xd");
                 harvestSouls();
                 moveAnimals();
                 map.updateAnimalsMap();
@@ -48,8 +47,8 @@ public class WorldEngine extends Thread {
             }
         }
         catch (InterruptedException ex) {
-            System.out.println("what?");
-            throw new RuntimeException(ex);
+            System.out.println("World engine has been closed");
+            System.out.println(ex);
         }
     }
 
@@ -132,7 +131,7 @@ public class WorldEngine extends Thread {
                     continue;
 
                 Pair<Animal, Animal> parents = map.getParents(field);
-                Animal child = parents.getFirst().reproduce(parents.getSecond());
+                Animal child = parents.first().reproduce(parents.second());
                 map.place(child);
                 animals.add(child);
             }

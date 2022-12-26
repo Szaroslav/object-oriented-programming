@@ -1,4 +1,4 @@
-package agh.ics.oop.project1.world;
+package agh.ics.oop.project1.world.config;
 
 public enum WorldConfigOptions {
     MAP_WIDTH("MAP_WIDTH", "Map width"),

@@ -1,8 +1,8 @@
 package agh.ics.oop.project1.world.maps;
 
-import agh.ics.oop.project1.utils.Vector2d;
+import agh.ics.oop.project1.world.Vector2d;
 import agh.ics.oop.project1.animal.Animal;
-import agh.ics.oop.project1.world.WorldConfig;
+import agh.ics.oop.project1.world.config.WorldConfig;
 
 public class Earth extends AbstractMap {
     public Earth(WorldConfig config) {

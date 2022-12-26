@@ -1,6 +1,6 @@
 package agh.ics.oop.project1.gui;
 
-import agh.ics.oop.project1.world.WorldConfig;
+import agh.ics.oop.project1.world.config.WorldConfig;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static agh.ics.oop.project1.world.WorldConfigOptions.*;
+import static agh.ics.oop.project1.world.config.WorldConfigOptions.*;
 
 public class UserConfigForm {
     private final int INPUT_WIDTH = 48;

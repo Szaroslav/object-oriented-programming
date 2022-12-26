@@ -1,4 +1,4 @@
-package agh.ics.oop.project1;
+package agh.ics.oop.project1.world;
 
 import org.junit.jupiter.api.Test;
 

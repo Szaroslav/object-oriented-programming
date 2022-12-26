@@ -1,4 +1,4 @@
-package agh.ics.oop.project1.utils;
+package agh.ics.oop.project1.world;
 
 public class Vector2d {
     public final int x;

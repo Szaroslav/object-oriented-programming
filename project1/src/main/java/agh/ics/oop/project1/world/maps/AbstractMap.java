@@ -1,6 +1,6 @@
 package agh.ics.oop.project1.world.maps;
 
-import agh.ics.oop.project1.AbstractOrganism;
+import agh.ics.oop.project1.world.AbstractOrganism;
 import agh.ics.oop.project1.animal.Animal;
 import agh.ics.oop.project1.plant.Plant;
 import agh.ics.oop.project1.animal.IAnimalObserver;
@@ -8,9 +8,9 @@ import agh.ics.oop.project1.plant.PlantsGrowthVariant;
 import agh.ics.oop.project1.utils.IntPair;
 import agh.ics.oop.project1.utils.Pair;
 import agh.ics.oop.project1.utils.Random;
-import agh.ics.oop.project1.world.WorldConfig;
-import agh.ics.oop.project1.utils.Vector2d;
-import agh.ics.oop.project1.world.WorldConfigOptions;
+import agh.ics.oop.project1.world.config.WorldConfig;
+import agh.ics.oop.project1.world.Vector2d;
+import agh.ics.oop.project1.world.config.WorldConfigOptions;
 
 import java.util.*;
 
@@ -49,9 +49,9 @@ public abstract class AbstractMap implements IAnimalObserver {
 
     @Override
     public void animalDied(Vector2d position) {
-        for (Pair<Vector2d, Integer> pair : deathsCounterList) {
-            if (pair.getFirst().equals(position)) {
-                pair = new Pair<Vector2d, Integer>(position, pair.getSecond() + 1);
+        for (int i = 0; i < deathsCounterList.size(); i++) {
+            if (deathsCounterList.get(i).first().equals(position)) {
+                deathsCounterList.set(i, new Pair<>(position, deathsCounterList.get(i).second() + 1));
                 return;
             }
         }
@@ -82,18 +82,18 @@ public abstract class AbstractMap implements IAnimalObserver {
                 position = new Vector2d(Random.range(LOWER_LEFT_BOUNDARY.x, UPPER_RIGHT_BOUNDARY.x + 1), Random.range(LOWER_LEFT_BOUNDARY.y, UPPER_RIGHT_BOUNDARY.y + 1));
             } while (
                 (prefferedFieldChance >= 0 && prefferedFieldChance <= 80)
-                != position.between(equatorBoundaries.getFirst(), equatorBoundaries.getSecond())
+                != position.between(equatorBoundaries.first(), equatorBoundaries.second())
                 || plants.get(position) != null
             );
         }
         else if (growthVariant == PlantsGrowthVariant.TOXIC_BODIES) {
-            deathsCounterList.sort(Comparator.comparingInt(Pair::getSecond));
+            deathsCounterList.sort(Comparator.comparingInt(Pair::second));
             do {
                 prefferedFieldChance = Random.range(0, 101);
                 int i = prefferedFieldChance >= 0 && prefferedFieldChance <= 80
                         ? Random.range(0, (int) Math.ceil(.2 * deathsCounterList.size()))
                         : Random.range((int) Math.ceil(.2 * deathsCounterList.size()), deathsCounterList.size());
-                position = deathsCounterList.get(i).getFirst();
+                position = deathsCounterList.get(i).first();
             } while (plants.get(position) != null);
         }
 
@@ -176,10 +176,10 @@ public abstract class AbstractMap implements IAnimalObserver {
             return false;
 
         Pair<Animal, Animal> parents = new Pair<>(animalsMap.get(position).pollFirst(), animalsMap.get(position).first());
-        animalsMap.get(position).add(parents.getFirst());
+        animalsMap.get(position).add(parents.first());
 
-        assert parents.getFirst() != null;
-        return parents.getFirst().isStrong() && parents.getSecond().isStrong();
+        assert parents.first() != null;
+        return parents.first().isStrong() && parents.second().isStrong();
     }
 
     public Pair<Animal, Animal> getParents(Vector2d position) {

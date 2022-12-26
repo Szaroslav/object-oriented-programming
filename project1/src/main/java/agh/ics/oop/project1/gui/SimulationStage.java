@@ -1,10 +1,10 @@
 package agh.ics.oop.project1.gui;
 
-import agh.ics.oop.project1.AbstractOrganism;
+import agh.ics.oop.project1.world.AbstractOrganism;
 import agh.ics.oop.project1.animal.Animal;
-import agh.ics.oop.project1.utils.Vector2d;
-import agh.ics.oop.project1.world.WorldConfig;
-import agh.ics.oop.project1.world.WorldConfigOptions;
+import agh.ics.oop.project1.world.Vector2d;
+import agh.ics.oop.project1.world.config.WorldConfig;
+import agh.ics.oop.project1.world.config.WorldConfigOptions;
 import agh.ics.oop.project1.world.engine.IEngineObserver;
 import agh.ics.oop.project1.world.engine.WorldEngine;
 import agh.ics.oop.project1.world.maps.AbstractMap;

@@ -1,7 +1,6 @@
 package agh.ics.oop.project1.animal;
 
 import agh.ics.oop.project1.utils.Random;
-import agh.ics.oop.project1.world.WorldConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;

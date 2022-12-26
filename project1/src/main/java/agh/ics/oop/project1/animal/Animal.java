@@ -1,12 +1,12 @@
 package agh.ics.oop.project1.animal;
 
-import agh.ics.oop.project1.utils.Vector2d;
-import agh.ics.oop.project1.AbstractOrganism;
-import agh.ics.oop.project1.Rotation;
+import agh.ics.oop.project1.world.Vector2d;
+import agh.ics.oop.project1.world.AbstractOrganism;
+import agh.ics.oop.project1.world.Rotation;
 import agh.ics.oop.project1.utils.ArrayUtils;
 import agh.ics.oop.project1.utils.Random;
-import agh.ics.oop.project1.world.WorldConfig;
-import agh.ics.oop.project1.world.WorldConfigOptions;
+import agh.ics.oop.project1.world.config.WorldConfig;
+import agh.ics.oop.project1.world.config.WorldConfigOptions;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 
 import java.util.Arrays;
@@ -90,6 +90,13 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
         return "Animal " + position;
     }
 
+    @Override
+    public void setPosition(Vector2d newPosition) {
+        Vector2d oldPosition = position;
+        position = newPosition;
+        observer.animalPositionChanged(oldPosition, this);
+    }
+
     public int getAge() {
         return ageDays;
     }
@@ -162,13 +169,6 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
 
     public void invert() {
         currentRotation = Rotation.invert(currentRotation);
-    }
-
-    @Override
-    public void setPosition(Vector2d newPosition) {
-        Vector2d oldPosition = position;
-        position = newPosition;
-        observer.animalPositionChanged(oldPosition, this);
     }
 
     public boolean isDead() {

@@ -41,7 +41,9 @@ public class SimulationStageStats {
         try {
             WriterCSV.writeln(outputFile, getSimulationHeader(genomeSize));
         }
-        catch (IOException ex) {}
+        catch (IOException ex) {
+            System.out.println(ex);
+        }
     }
 
     public VBox getContent() {

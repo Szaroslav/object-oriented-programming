@@ -1,8 +1,8 @@
 package agh.ics.oop.project1.gui;
 
-import agh.ics.oop.project1.world.WorldConfigOptions;
+import agh.ics.oop.project1.world.config.WorldConfigOptions;
 import agh.ics.oop.project1.world.engine.WorldEngine;
-import agh.ics.oop.project1.world.WorldConfig;
+import agh.ics.oop.project1.world.config.WorldConfig;
 import agh.ics.oop.project1.world.maps.AbstractMap;
 import agh.ics.oop.project1.world.maps.Earth;
 import agh.ics.oop.project1.world.maps.InfernalPortal;
@@ -14,9 +14,6 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class Application extends javafx.application.Application {
-    private final int CELL_SIZE = 52;
-    private int width;
-    private int height;
     private int simIndex = 0;
     private UserConfigForm userConfigForm;
 
@@ -34,7 +31,8 @@ public class Application extends javafx.application.Application {
             userConfigForm = new UserConfigForm(this);
         }
         catch (FileNotFoundException ex) {
-
+            System.out.println("File not found");
+            System.out.println(ex);
         }
     }
 
@@ -63,7 +61,8 @@ public class Application extends javafx.application.Application {
             stage.setEngine(engine);
         }
         catch (FileNotFoundException ex) {
-
+            System.out.println("File not found");
+            System.out.println(ex);
         }
     }
 }

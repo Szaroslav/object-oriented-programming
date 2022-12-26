@@ -1,15 +1,14 @@
-package agh.ics.oop.project1;
+package agh.ics.oop.project1.world;
 
 import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
 
-import agh.ics.oop.project1.utils.Vector2d;
 import org.junit.jupiter.api.Test;
 
 public class Vector2dTest {
     @Test
     public void testEquals() {
-        out.println("Sprawdzam metodę Vector2d.equals()");
+        out.println("Testing Vector2d.equals(Vector2d)");
 
         Vector2d v1, v2;
 
@@ -27,7 +26,7 @@ public class Vector2dTest {
 
     @Test
     public void testToString() {
-        out.println("Sprawdzam metodę Vector2d.toString()");
+        out.println("Testing Vector2d.toString()");
 
         assertEquals("(0, -33)", new Vector2d(0, -33).toString());
         assertEquals("(-2147483648, 3)", new Vector2d(-2147483648, 3).toString());
@@ -35,7 +34,7 @@ public class Vector2dTest {
 
     @Test
     public void testPrecedes() {
-        out.println("Sprawdzam metodę Vector2d.precedes()");
+        out.println("Testing Vector2d.precedes(Vector2d)");
 
         Vector2d v1, v2;
 
@@ -58,7 +57,7 @@ public class Vector2dTest {
 
     @Test
     public void testFollows() {
-        out.println("Sprawdzam metodę Vector2d.follows()");
+        out.println("Testing Vector2d.follows(Vector2d)");
 
         Vector2d v1, v2;
 
@@ -81,7 +80,7 @@ public class Vector2dTest {
 
     @Test
     public void testUpperRight() {
-        out.println("Sprawdzam metodę Vector2d.upperRight()");
+        out.println("Testing Vector2d.upperRight(Vector2d)");
 
         Vector2d v1, v2;
 
@@ -96,7 +95,7 @@ public class Vector2dTest {
 
     @Test
     public void testLowerLeft() {
-        out.println("Sprawdzam metodę Vector2d.lowerLeft()");
+        out.println("Testing Vector2d.lowerLeft(Vector2d)");
 
         Vector2d v1, v2;
 
@@ -111,7 +110,7 @@ public class Vector2dTest {
 
     @Test
     public void testAdd() {
-        out.println("Sprawdzam metodę Vector2d.add()");
+        out.println("Testing Vector2d.add(Vector2d)");
 
         Vector2d v1, v2;
 
@@ -126,7 +125,7 @@ public class Vector2dTest {
 
     @Test
     public void testSubtract() {
-        out.println("Sprawdzam metodę Vector2d.subtract()");
+        out.println("Testing Vector2d.subtract(Vector2d)");
 
         Vector2d v1, v2;
 
@@ -141,7 +140,7 @@ public class Vector2dTest {
 
     @Test
     public void testOpposite() {
-        out.println("Sprawdzam metodę Vector2d.opposite()");
+        out.println("Testing Vector2d.opposite()");
 
         assertEquals(new Vector2d(0, 0), new Vector2d(0, 0).opposite());
         assertEquals(new Vector2d(5, -3), new Vector2d(-5, 3).opposite());
@@ -150,7 +149,7 @@ public class Vector2dTest {
 
     @Test
     public void testBetween() {
-        out.println("Sprawdzam metodę Vector2d.between()");
+        out.println("Testing Vector2d.between(Vector2d, Vector2d)");
         Vector2d bottom =   new Vector2d(0, 0);
         Vector2d upper =    new Vector2d(4, 4);
 

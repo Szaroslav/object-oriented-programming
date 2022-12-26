@@ -1,4 +1,4 @@
-package agh.ics.oop.project1.world;
+package agh.ics.oop.project1.world.config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,11 +48,9 @@ public class WorldConfig {
         try (FileInputStream fileStream = new FileInputStream(CONFIGS_DIRECTORY + "/" + configName)) {
             properties.load(fileStream);
         }
-        catch (FileNotFoundException ex) {
-            System.out.println("XD1");
-        }
         catch (IOException ex) {
-            System.out.println("XD2");
+            System.out.println("File not found");
+            System.out.println(ex);
         }
     }
 

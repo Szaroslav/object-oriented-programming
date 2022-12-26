@@ -1,10 +1,5 @@
 package agh.ics.oop.project1.utils;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class ArrayUtils {
     public static int[] concatVar(int[] arr1, int[] arr2, double percentage, boolean fromLeft) {
         if (arr1.length != arr2.length || percentage < 0 || percentage > 1)
@@ -17,7 +12,7 @@ public class ArrayUtils {
             System.arraycopy(arr2, boundIndex, arr, boundIndex, arr2.length - boundIndex);
         }
         else {
-            int boundIndex = (int) Math.floor(arr1.length * (1 - percentage));
+            int boundIndex = (int) Math.floor(arr1.length * percentage);
             System.arraycopy(arr2, 0, arr, 0, boundIndex);
             System.arraycopy(arr1, boundIndex, arr, boundIndex, arr2.length - boundIndex);
         }

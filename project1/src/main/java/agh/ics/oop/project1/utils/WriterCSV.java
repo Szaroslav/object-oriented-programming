@@ -9,7 +9,6 @@ public class WriterCSV {
 
     public static void writeln(File outputFile, String[] data) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile, true))) {
-            System.out.println(parse(data));
             writer.println(parse(data));
         }
     }

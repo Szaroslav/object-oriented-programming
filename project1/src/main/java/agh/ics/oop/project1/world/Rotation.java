@@ -1,6 +1,4 @@
-package agh.ics.oop.project1;
-
-import agh.ics.oop.project1.utils.Vector2d;
+package agh.ics.oop.project1.world;
 
 public enum Rotation {
     NORTH(new Vector2d(0, 1)),
@@ -12,7 +10,7 @@ public enum Rotation {
     WEST(new Vector2d(-1, 0)),
     NORTH_WEST(new Vector2d(-1, 1));
 
-    private Vector2d position;
+    private final Vector2d position;
 
     Rotation(Vector2d position) {
         this.position = position;
