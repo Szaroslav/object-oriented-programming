@@ -1,0 +1,87 @@
+@font-face {
+    src: url('roboto-light.ttf');
+}
+
+@font-face {
+    src: url('roboto-slab-medium.ttf');
+}
+
+.root {
+    -fx-padding: 16px;
+    -fx-font-family: 'Roboto Light', sans-serif;
+}
+
+.title, .subtitle {
+    -fx-font-family: 'Roboto Slab Medium', serif;
+    -fx-font-smoothing-type: gray;
+}
+
+.title {
+    -fx-font-size: 24;
+}
+
+.subtitle {
+    -fx-font-size: 16;
+}
+
+.button {
+    -fx-padding: 6px 16px;
+    -fx-font-family: 'Roboto Slab Medium', serif;
+    -fx-font-size: 14;
+    -fx-text-fill: #ecebef;
+    -fx-background-color: #8726e8;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.button:hover, .combo-box:hover {
+    -fx-background-color: #a355f3;
+}
+
+.text-field, .combo-box, .check-box .box {
+    -fx-padding: 2px 4px;
+    -fx-background-color: #f2f2f5;
+    -fx-border-color: #d9d9e1;
+    -fx-border-width: 1px;
+}
+
+.input:focused, .combo-box:focused, .check-box:focused {
+    -fx-border-color: #a355f3;
+}
+
+.combo-box {
+    -fx-padding: 0;
+}
+
+.combo-box:hover {
+    -fx-background-color: #d2b6f3;
+}
+
+.combo-box .list-cell {
+    -fx-background: white;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em;
+}
+
+.combo-box .list-cell:hover, .combo-box .list-view .list-cell:selected {
+    -fx-text-fill: #ecebef;
+    -fx-background-color: #a355f3;
+}
+
+.check-box {
+    -fx-cursor: hand;
+}
+
+.check-box .box {
+    -fx-padding: 4px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #ecebef;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #8726e8;
+}

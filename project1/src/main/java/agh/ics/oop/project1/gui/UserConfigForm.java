@@ -93,7 +93,7 @@ public class UserConfigForm {
         TextField input = new TextField();
         input.setPrefWidth(INPUT_WIDTH);
         input.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches("^([1-9][0-9]*)") || change.getControlNewText().equals(""))
+            if (change.getControlNewText().matches("^(0|([1-9][0-9]*))") || change.getControlNewText().equals(""))
                 return change;
             return null;
         }));
