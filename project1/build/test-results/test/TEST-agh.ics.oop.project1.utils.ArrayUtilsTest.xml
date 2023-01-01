@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.project1.utils.ArrayUtilsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-01-01T20:16:20" hostname="SZARYCOMPUTER" time="0.035">
+  <properties/>
+  <testcase name="testConcatVar()" classname="agh.ics.oop.project1.utils.ArrayUtilsTest" time="0.033"/>
+  <testcase name="testConcat()" classname="agh.ics.oop.project1.utils.ArrayUtilsTest" time="0.001"/>
+  <system-out><![CDATA[Testing ArrayUtils.concatVar(int[], int[], double, boolean)
+Testing ArrayUtils.concat(int[], int[])
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
