@@ -53,7 +53,7 @@ public class WorldEngine extends Thread {
         return simulationDay;
     }
 
-    public synchronized void pause() throws InterruptedException {
+    public synchronized void pause() {
         isPaused = true;
     }
 
