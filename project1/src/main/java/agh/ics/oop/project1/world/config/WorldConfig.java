@@ -1,9 +1,13 @@
 package agh.ics.oop.project1.world.config;
 
+import agh.ics.oop.project1.utils.Pair;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -32,6 +36,24 @@ public class WorldConfig {
         }
 
         return names;
+    }
+
+    public static List<Pair<WorldConfigOptions, String>> validate(Properties configOptions) throws NumberFormatException {
+        final int genomeSize = Integer.parseInt(configOptions.getProperty(WorldConfigOptions.ANIMAL_GENOME_SIZE.getName()));
+        final int minMutations = Integer.parseInt(configOptions.getProperty(WorldConfigOptions.MINIMUM_MUTATIONS_NUMBER.getName()));
+        final int maxMutations = Integer.parseInt(configOptions.getProperty(WorldConfigOptions.MAXIMUM_MUTATIONS_NUMBER.getName()));
+        List<Pair<WorldConfigOptions, String>> list = new ArrayList<>();
+
+        if (minMutations > genomeSize)
+            list.add(new Pair<>(WorldConfigOptions.MINIMUM_MUTATIONS_NUMBER, "Value is greater than the genome size"));
+        else if (minMutations > maxMutations)
+            list.add(new Pair<>(WorldConfigOptions.MINIMUM_MUTATIONS_NUMBER, "Value is greater than the maximum number of mutations"));
+        if (maxMutations > genomeSize)
+            list.add(new Pair<>(WorldConfigOptions.MAXIMUM_MUTATIONS_NUMBER, "Value is greater than the genome size"));
+        else if (maxMutations < minMutations)
+            list.add(new Pair<>(WorldConfigOptions.MAXIMUM_MUTATIONS_NUMBER, "Value is less than the minimum number of mutations"));
+
+        return list;
     }
 
     public String getProperty(String key) {

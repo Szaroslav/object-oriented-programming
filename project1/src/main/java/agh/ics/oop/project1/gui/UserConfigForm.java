@@ -1,6 +1,8 @@
 package agh.ics.oop.project1.gui;
 
+import agh.ics.oop.project1.utils.Pair;
 import agh.ics.oop.project1.world.config.WorldConfig;
+import agh.ics.oop.project1.world.config.WorldConfigOptions;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,9 +14,7 @@ import javafx.util.Duration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static agh.ics.oop.project1.world.config.WorldConfigOptions.*;
 
@@ -31,6 +31,7 @@ public class UserConfigForm {
     private final Image crossIcon;
     private final GridPane grid;
     private final List<ActionNode<TextField>> inputList = new ArrayList<>();
+    private final Map<String, String> invalidInputMsgMap = new HashMap<>();
     private final List<ActionNode<ComboBox<String>>> comboBoxList = new ArrayList<>();
     CheckBox saveToCSVCheckBox;
     private final Application application;
@@ -39,7 +40,6 @@ public class UserConfigForm {
         isFileConfigSelected = false;
         configName = null;
         configOptions = null;
-
         tickIcon = new Image(new FileInputStream(ICONS_DIRECTORY + "/tick.png"));
         crossIcon = new Image(new FileInputStream(ICONS_DIRECTORY + "/cross.png"));
         grid = new GridPane();
@@ -88,19 +88,19 @@ public class UserConfigForm {
         grid.add(button, 0, currentRowIndex++);
     }
 
-    private void renderInputRow(String name, String labelText) {
+    private void renderInputRow(WorldConfigOptions option, boolean includeZero) {
         Pane pane = new Pane();
         TextField input = new TextField();
         input.setPrefWidth(INPUT_WIDTH);
         input.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches("^(0|([1-9][0-9]*))") || change.getControlNewText().equals(""))
+            if (change.getControlNewText().matches(includeZero ? "^(0|([1-9][0-9]*))" : "^([1-9][0-9]*)") || change.getControlNewText().equals(""))
                 return change;
             return null;
         }));
         pane.getChildren().add(input);
 
-        inputList.add(new ActionNode<>(input, pane, name));
-        grid.addRow(currentRowIndex++, new Label(labelText), pane);
+        inputList.add(new ActionNode<>(input, pane, option.getName()));
+        grid.addRow(currentRowIndex++, new Label(option.getRepresentativeText()), pane);
     }
 
     private void renderComboBox(String name, String labelText, String[] options) {
@@ -163,30 +163,30 @@ public class UserConfigForm {
 
     private void renderMapSettings() {
         renderSubtitle("Map settings");
-        renderInputRow(MAP_WIDTH.getName(), MAP_WIDTH.getRepresentativeText());
-        renderInputRow(MAP_HEIGHT.getName(), MAP_HEIGHT.getRepresentativeText());
-        renderComboBox( MAP_TYPE.getName(),  MAP_TYPE.getRepresentativeText(), new String[]{"Earth", "Infernal portal"});
+        renderInputRow(MAP_WIDTH, false);
+        renderInputRow(MAP_HEIGHT, false);
+        renderComboBox(MAP_TYPE.getName(),  MAP_TYPE.getRepresentativeText(), new String[]{"Earth", "Infernal portal"});
     }
 
     private void renderAnimalsSettings() {
         renderSubtitle("Animals settings");
-        renderInputRow(INITIAL_ANIMALS_NUMBER.getName(),  INITIAL_ANIMALS_NUMBER.getRepresentativeText());
-        renderInputRow(INITIAL_ANIMALS_ENERGY.getName(),  INITIAL_ANIMALS_ENERGY.getRepresentativeText());
+        renderInputRow(INITIAL_ANIMALS_NUMBER, false);
+        renderInputRow(INITIAL_ANIMALS_ENERGY, false);
         renderComboBox(ANIMAL_BEHAVIOUR.getName(), ANIMAL_BEHAVIOUR.getRepresentativeText(), new String[]{"Full fate", "Slight madness"});
         renderComboBox(ANIMAL_MUTATION.getName(), ANIMAL_MUTATION.getRepresentativeText(), new String[]{"Full random", "Slight adjustment"});
-        renderInputRow(STRONG_ANIMAL_MINIMUM_ENERGY.getName(), STRONG_ANIMAL_MINIMUM_ENERGY.getRepresentativeText());
-        renderInputRow(ENERGY_PER_EATING.getName(), ENERGY_PER_EATING.getRepresentativeText());
-        renderInputRow(ENERGY_PER_REPRODUCING.getName(), ENERGY_PER_REPRODUCING.getRepresentativeText());
-        renderInputRow(MINIMUM_MUTATIONS_NUMBER.getName(), MINIMUM_MUTATIONS_NUMBER.getRepresentativeText());
-        renderInputRow(MAXIMUM_MUTATIONS_NUMBER.getName(), MAXIMUM_MUTATIONS_NUMBER.getRepresentativeText());
-        renderInputRow(ANIMAL_GENOME_SIZE.getName(), ANIMAL_GENOME_SIZE.getRepresentativeText());
+        renderInputRow(STRONG_ANIMAL_MINIMUM_ENERGY, false);
+        renderInputRow(ENERGY_PER_EATING, false);
+        renderInputRow(ENERGY_PER_REPRODUCING, false);
+        renderInputRow(MINIMUM_MUTATIONS_NUMBER, true);
+        renderInputRow(MAXIMUM_MUTATIONS_NUMBER, true);
+        renderInputRow(ANIMAL_GENOME_SIZE, false);
     }
 
     private void renderPlantsSettings() {
         renderSubtitle("Plants settings");
         renderComboBox(PLANTS_GROWTH_VARIANT.getName(), PLANTS_GROWTH_VARIANT.getRepresentativeText(), new String[]{"Forest equators", "Toxic bodies"});
-        renderInputRow(INITIAL_PLANTS_NUMBER.getName(), INITIAL_PLANTS_NUMBER.getRepresentativeText());
-        renderInputRow(PLANTS_PER_DAY.getName(), PLANTS_PER_DAY.getRepresentativeText());
+        renderInputRow(INITIAL_PLANTS_NUMBER, true);
+        renderInputRow(PLANTS_PER_DAY, true);
     }
 
     private void setFormDisabledStatus(boolean value) {
@@ -196,16 +196,13 @@ public class UserConfigForm {
             node.region().setDisable(value);
     }
 
-    private boolean validate() {
+    private boolean validateRequired() {
         boolean isValid = true;
 
         for (int i = 0; i < inputList.size(); i++) {
             if (inputList.get(i).region().getText().equals("")) {
-                renderIcon(crossIcon, inputList, i, "This field is required (positive integer)");
+                renderIcon(crossIcon, inputList, i, "This field is required (integer)");
                 isValid = false;
-            }
-            else {
-                renderIcon(tickIcon, inputList, i, null);
             }
         }
 
@@ -222,21 +219,61 @@ public class UserConfigForm {
         return isValid;
     }
 
+    private boolean validateValues(Properties configOptions) {
+        boolean isValid = true;
+        List<Pair<WorldConfigOptions, String>> validatedOptions = new ArrayList<>();
+        invalidInputMsgMap.clear();
+
+        try {
+            validatedOptions = WorldConfig.validate(configOptions);
+        }
+        catch (NumberFormatException ex) {
+            throw new RuntimeException(ex);
+        }
+        finally {
+            for (Pair<WorldConfigOptions, String> optionPair : validatedOptions)
+                invalidInputMsgMap.put(optionPair.first().getName(), optionPair.second());
+
+            for (int i = 0; i < inputList.size(); i++) {
+                if (inputList.get(i).region().getText().equals("")) {
+                    renderIcon(crossIcon, inputList, i, "This field is required (integer)");
+                    isValid = false;
+                }
+                if (invalidInputMsgMap.get(inputList.get(i).name()) != null) {
+                    renderIcon(crossIcon, inputList, i, invalidInputMsgMap.get(inputList.get(i).name()));
+                    isValid = false;
+                }
+                else {
+                    renderIcon(tickIcon, inputList, i, null);
+                }
+            }
+        }
+
+        return isValid;
+    }
+
     private void onSubmit(ActionEvent event) {
         if (isFileConfigSelected) {
             application.startSimulation(configName, saveToCSVCheckBox.isSelected());
         } else {
-            if (!validate())
+            if (!validateRequired())
                 return;
 
             configOptions = new Properties();
             for (ActionNode<TextField> node : inputList)
                 configOptions.setProperty(node.name(), node.region().getText());
-            for (ActionNode<ComboBox<String>> node : comboBoxList)
+            for (ActionNode<ComboBox<String>> node : comboBoxList) {
+                if (node.region().getSelectionModel().getSelectedItem() == null)
+                    continue;
+
                 configOptions.setProperty(
                         node.name(),
                         node.region().getSelectionModel().getSelectedItem().toUpperCase().replace(' ', '_')
                 );
+            }
+
+            if (!validateValues(configOptions))
+                return;
 
             application.startSimulation(configOptions, saveToCSVCheckBox.isSelected());
         }

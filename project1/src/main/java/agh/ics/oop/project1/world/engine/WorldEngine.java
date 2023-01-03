@@ -34,13 +34,12 @@ public class WorldEngine extends Thread {
     public void run() {
         try {
             while (true) {
-                System.out.println("??");
                 harvestSouls();
                 moveAnimals();
                 map.updateAnimalsMap();
                 letAnimalsEat();
                 reproduceAnimals();
-                plant();
+                plant(config.getInt(WorldConfigOptions.PLANTS_PER_DAY.getName()));
                 onSimulationDayFinished();
             }
         }
@@ -90,8 +89,7 @@ public class WorldEngine extends Thread {
     }
 
     private void initPlants() {
-        for (int i = 0; i < config.getInt(WorldConfigOptions.INITIAL_PLANTS_NUMBER.getName()); i++)
-            map.plant();
+        plant(config.getInt(WorldConfigOptions.INITIAL_PLANTS_NUMBER.getName()));
     }
 
     private void harvestSouls() {
@@ -137,13 +135,14 @@ public class WorldEngine extends Thread {
         }
     }
 
-    private void plant() {
-        for (int i = 0; i < config.getInt(WorldConfigOptions.PLANTS_PER_DAY.getName()); i++) {
+    private void plant(final int n) {
+        for (int i = 0; i < n; i++) {
             try {
                 map.plant();
             }
             catch (IllegalStateException ex) {
                 System.out.println("There are too many plants");
+                return;
             }
         }
     }
