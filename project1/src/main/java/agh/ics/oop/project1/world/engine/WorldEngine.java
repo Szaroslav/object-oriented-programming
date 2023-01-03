@@ -34,9 +34,7 @@ public class WorldEngine extends Thread {
     public void run() {
         try {
             while (true) {
-                while (isPaused)
-                    sleep(100);
-
+                System.out.println("??");
                 harvestSouls();
                 moveAnimals();
                 map.updateAnimalsMap();
@@ -56,12 +54,13 @@ public class WorldEngine extends Thread {
         return simulationDay;
     }
 
-    public void pause() {
+    public synchronized void pause() throws InterruptedException {
         isPaused = true;
     }
 
-    public void unpause() {
+    public synchronized void unpause() {
         isPaused = false;
+        notify();
     }
 
     private void initAnimals() {
@@ -149,12 +148,17 @@ public class WorldEngine extends Thread {
         }
     }
 
-    private synchronized void onSimulationDayFinished() throws InterruptedException {
+    private void onSimulationDayFinished() throws InterruptedException {
         simulationDay++;
         for (Animal animal : animals)
             animal.growOld();
         map.updateStats();
         observer.simulationDayFinished();
         sleep(80);
+
+        synchronized (this) {
+            if (isPaused)
+                wait();
+        }
     }
 }

@@ -109,8 +109,14 @@ public class SimulationStage extends Stage implements IEngineObserver {
             renderAnimalsList();
 
             if (isPaused) {
-                engine.pause();
-                renderBoard(true);
+                try {
+                    engine.pause();
+                    renderBoard(true);
+                }
+                catch (InterruptedException ex) {
+                    System.out.println("Application has been interrupted");
+                    throw new RuntimeException(ex);
+                }
             }
             else {
                 engine.unpause();
