@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5a5cb19-6098-45b0-addd-55dca7f25c30" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../project2/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../project2/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../project2/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../project2/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/game/heroes/Scientist.java" beforeDir="false" afterPath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/game/heroes/Scientist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/world/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/world/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/world/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/world/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/world/City.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project2/src/main/java/agh/ics/oop/project2/world/Events.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
