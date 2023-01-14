@@ -40,8 +40,7 @@ public class SimulationStageStats {
 
         try {
             WriterCSV.writeln(outputFile, getSimulationHeader(genomeSize));
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex);
         }
     }
@@ -66,31 +65,30 @@ public class SimulationStageStats {
         try {
             String genesStr = Arrays.toString(mapStats.getCommonGenes());
             WriterCSV.writeln(outputFile, new String[]{
-                Integer.toString(engine.getSimulationDay()),
-                Integer.toString(mapStats.getAliveAnimalsNumber()),
-                Integer.toString(mapStats.getPlantsNumber()),
-                Integer.toString(mapStats.getEmptyFields()),
-                genesStr.substring(1, genesStr.length() - 1),
-                Double.toString(mapStats.getAnimalsEnergyAvg()),
-                Double.toString(mapStats.getDeadAnimalsAgeAvg())
+                    Integer.toString(engine.getSimulationDay()),
+                    Integer.toString(mapStats.getAliveAnimalsNumber()),
+                    Integer.toString(mapStats.getPlantsNumber()),
+                    Integer.toString(mapStats.getEmptyFields()),
+                    genesStr.substring(1, genesStr.length() - 1),
+                    Double.toString(mapStats.getAnimalsEnergyAvg()),
+                    Double.toString(mapStats.getDeadAnimalsAgeAvg())
             });
-        }
-        catch (IOException ex) {
-            System.out.println(ex);
+        } catch (IOException ex) {
+            System.out.println(ex); // to nie jest najlepsza obsługa wyjątku
         }
     }
 
     public String[] getSimulationHeader(int genomeSize) {
         String[] header1 = {
-            "Simulation day",
-            "Alive number of animals",
-            "Number of plants",
-            "Number of empty fields"
+                "Simulation day",
+                "Alive number of animals",
+                "Number of plants",
+                "Number of empty fields"
         };
         String[] header2 = (String[]) IntStream.range(1, genomeSize + 1).mapToObj(v -> "Gen " + v).toArray(String[]::new);
         String[] header3 = {
-            "Average energy of alive animals",
-            "Average age of dead animals"
+                "Average energy of alive animals",
+                "Average age of dead animals"
         };
 
         return ArrayUtils.concat(ArrayUtils.concat(header1, header2), header3);
@@ -107,16 +105,16 @@ public class SimulationStageStats {
             renderAnimalStats();
 
             content.getChildren().addAll(
-                title,
-                simSubtitle,
-                new Label("Simulation day " + engine.getSimulationDay()),
-                new Label("Alive number of animals: " + mapStats.getAliveAnimalsNumber()),
-                new Label("Number of plants: " + mapStats.getPlantsNumber()),
-                new Label("Number of empty fields: " + mapStats.getEmptyFields()),
-                new Label("Most common genes of alive animals: " + Arrays.toString(mapStats.getCommonGenes())),
-                new Label("Average energy of alive animals: " + decimalFormat.format(mapStats.getAnimalsEnergyAvg())),
-                new Label("Average age of dead animals: " + decimalFormat.format(mapStats.getDeadAnimalsAgeAvg()) + " days"),
-                animalStatsBox
+                    title,
+                    simSubtitle,
+                    new Label("Simulation day " + engine.getSimulationDay()),
+                    new Label("Alive number of animals: " + mapStats.getAliveAnimalsNumber()),
+                    new Label("Number of plants: " + mapStats.getPlantsNumber()),
+                    new Label("Number of empty fields: " + mapStats.getEmptyFields()),
+                    new Label("Most common genes of alive animals: " + Arrays.toString(mapStats.getCommonGenes())),
+                    new Label("Average energy of alive animals: " + decimalFormat.format(mapStats.getAnimalsEnergyAvg())),
+                    new Label("Average age of dead animals: " + decimalFormat.format(mapStats.getDeadAnimalsAgeAvg()) + " days"),
+                    animalStatsBox
             );
         });
     }
@@ -129,18 +127,18 @@ public class SimulationStageStats {
         Label title = new Label("Selected animal");
         title.getStyleClass().add("subtitle");
         animalStatsBox.getChildren().addAll(
-            title,
-            new Label(
-                !selectedAnimal.isDead()
-                ? "Age: " + selectedAnimal.getAge() + " days"
-                : "Animal is dead, it survived " + selectedAnimal.getDayOfDeath() + " days"
-            ),
-            new Label("Position: " + selectedAnimal.getPosition()),
-            new Label("Energy: " + selectedAnimal.getEnergy()),
-            new Label("Number of children: " + selectedAnimal.getChildrenNumber()),
-            new Label("Number of overall eaten plants: " + selectedAnimal.getEatenPlantsNumber()),
-            new Label("Genes: " + Arrays.toString(selectedAnimal.getGenes())),
-            new Label("Currently active gen: " + selectedAnimal.getActiveGen())
+                title,
+                new Label(
+                        !selectedAnimal.isDead()
+                                ? "Age: " + selectedAnimal.getAge() + " days"
+                                : "Animal is dead, it survived " + selectedAnimal.getDayOfDeath() + " days"
+                ),
+                new Label("Position: " + selectedAnimal.getPosition()),
+                new Label("Energy: " + selectedAnimal.getEnergy()),
+                new Label("Number of children: " + selectedAnimal.getChildrenNumber()),
+                new Label("Number of overall eaten plants: " + selectedAnimal.getEatenPlantsNumber()),
+                new Label("Genes: " + Arrays.toString(selectedAnimal.getGenes())),
+                new Label("Currently active gen: " + selectedAnimal.getActiveGen())
         );
     }
 }

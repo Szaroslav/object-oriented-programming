@@ -23,11 +23,11 @@ public class GrassFieldTest {
         out.println("Sprawdzam metodę GrassField.place()");
         IWorldMap map = createMap();
 
-        assertTrue( map.place(new Animal(map, new Vector2d(-5, 22))) );
-        assertTrue( map.place(new Animal(map, new Vector2d(3, 4))) );
+        assertTrue(map.place(new Animal(map, new Vector2d(-5, 22))));
+        assertTrue(map.place(new Animal(map, new Vector2d(3, 4))));
         IllegalArgumentException ex = assertThrows(
-            IllegalArgumentException.class,
-            () -> map.place(new Animal(map, new Vector2d(0, 0)))
+                IllegalArgumentException.class,
+                () -> map.place(new Animal(map, new Vector2d(0, 0)))
         );
         assertTrue(ex.getMessage().contains("0, 0"));
     }

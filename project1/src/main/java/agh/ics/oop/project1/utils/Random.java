@@ -1,7 +1,7 @@
 package agh.ics.oop.project1.utils;
 
 public class Random {
-    public static int range(int from, int toExclusively) {
+    public static int range(int from, int toExclusively) { // trochę myląca nazwa
         return (int) (Math.random() * (toExclusively - from) + from);
     }
 

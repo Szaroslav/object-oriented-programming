@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class Animal extends AbstractOrganism implements Comparable<Animal> {
     private int energy;
     private int ageDays;
-    private final int[] genes;
+    private final int[] genes; // przydałaby się klasa na genom
     private int activeGen;
     private int childrenNumber;
     private int eatenPlantsNumber;
@@ -27,12 +27,12 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     private IAnimalObserver observer;
 
     public Animal(
-        Vector2d position,
-        int energy,
-        int[] genes,
-        AnimalBehaviour behaviour,
-        AnimalMutation mutation,
-        WorldConfig config
+            Vector2d position,
+            int energy,
+            int[] genes,
+            AnimalBehaviour behaviour,
+            AnimalMutation mutation,
+            WorldConfig config
     ) {
         this.config = config;
 
@@ -45,9 +45,9 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
         this.mutation = mutation;
 
         this.mutation.mutate(
-            this.genes,
-            config.getInt(WorldConfigOptions.MINIMUM_MUTATIONS_NUMBER.getName()),
-            config.getInt(WorldConfigOptions.MAXIMUM_MUTATIONS_NUMBER.getName())
+                this.genes,
+                config.getInt(WorldConfigOptions.MINIMUM_MUTATIONS_NUMBER.getName()),
+                config.getInt(WorldConfigOptions.MAXIMUM_MUTATIONS_NUMBER.getName())
         );
         this.activeGen = Random.range(0, genes.length);
         this.currentRotation = Rotation.fromInt(Random.range(0, 8));
@@ -91,7 +91,7 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     }
 
     @Override
-    public void setPosition(Vector2d newPosition) {
+    public void setPosition(Vector2d newPosition) { // czy upublicznienie tej metody jest najlepszym rozwiązaniem?
         Vector2d oldPosition = position;
         position = newPosition;
         observer.animalPositionChanged(oldPosition, this);
@@ -151,12 +151,12 @@ public class Animal extends AbstractOrganism implements Comparable<Animal> {
     public Animal reproduce(Animal lover) {
         int[] childGenes = ArrayUtils.concatVar(genes, lover.genes, (double) energy / (energy + lover.energy), Random.range(0, 2) == 0);
         Animal child = new Animal(
-            this.position,
-            2 * config.getInt("ENERGY_PER_REPRODUCING"),
-            childGenes,
-            behaviour,
-            mutation,
-            config
+                this.position,
+                2 * config.getInt("ENERGY_PER_REPRODUCING"),
+                childGenes,
+                behaviour,
+                mutation,
+                config
         );
 
         decreaseEnergy(config.getInt("ENERGY_PER_REPRODUCING"));

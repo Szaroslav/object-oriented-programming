@@ -150,15 +150,15 @@ public class Vector2dTest {
     @Test
     public void testBetween() {
         out.println("Testing Vector2d.between(Vector2d, Vector2d)");
-        Vector2d bottom =   new Vector2d(0, 0);
-        Vector2d upper =    new Vector2d(4, 4);
+        Vector2d bottom = new Vector2d(0, 0);
+        Vector2d upper = new Vector2d(4, 4);
 
-        assertTrue(     new Vector2d(1, 3).between(bottom, upper));
-        assertTrue(     new Vector2d(4, 2).between(bottom, upper));
-        assertTrue(     new Vector2d(4, 4).between(bottom, upper));
-        assertFalse(    new Vector2d(-1, 0).between(bottom, upper));
-        assertFalse(    new Vector2d(3, -2).between(bottom, upper));
-        assertFalse(    new Vector2d(6, 3).between(bottom, upper));
-        assertFalse(    new Vector2d(3, 5).between(bottom, upper));
+        assertTrue(new Vector2d(1, 3).between(bottom, upper));
+        assertTrue(new Vector2d(4, 2).between(bottom, upper));
+        assertTrue(new Vector2d(4, 4).between(bottom, upper));
+        assertFalse(new Vector2d(-1, 0).between(bottom, upper));
+        assertFalse(new Vector2d(3, -2).between(bottom, upper));
+        assertFalse(new Vector2d(6, 3).between(bottom, upper));
+        assertFalse(new Vector2d(3, 5).between(bottom, upper));
     }
 }

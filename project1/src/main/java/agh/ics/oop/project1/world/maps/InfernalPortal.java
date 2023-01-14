@@ -14,7 +14,7 @@ public class InfernalPortal extends AbstractMap {
         if (!isOrganismInBounds(animal)) {
             animal.decreaseEnergy(config.getInt("ENERGY_PER_REPRODUCING"));
             animal.setPosition(new Vector2d(
-                (int) (Math.random() * WIDTH + LOWER_LEFT_BOUNDARY.x), (int) (Math.random() * HEIGHT + LOWER_LEFT_BOUNDARY.y)
+                    (int) (Math.random() * WIDTH + LOWER_LEFT_BOUNDARY.x), (int) (Math.random() * HEIGHT + LOWER_LEFT_BOUNDARY.y)
             ));
         }
 

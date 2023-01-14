@@ -16,7 +16,7 @@ public class WorldConfig {
     private Properties properties = new Properties();
 
     public WorldConfig() {
-        loadFromFile("main1.conf");
+        this("main1.conf");
     }
 
     public WorldConfig(String configName) {
@@ -38,7 +38,7 @@ public class WorldConfig {
         return names;
     }
 
-    public static List<Pair<WorldConfigOptions, String>> validate(Properties configOptions) throws NumberFormatException {
+    public static List<Pair<WorldConfigOptions, String>> validate(Properties configOptions) throws NumberFormatException { // public? czy config nie powinien sam się walidować i rzucać wyjątku w razie błędu?
         final int genomeSize = Integer.parseInt(configOptions.getProperty(WorldConfigOptions.ANIMAL_GENOME_SIZE.getName()));
         final int minMutations = Integer.parseInt(configOptions.getProperty(WorldConfigOptions.MINIMUM_MUTATIONS_NUMBER.getName()));
         final int maxMutations = Integer.parseInt(configOptions.getProperty(WorldConfigOptions.MAXIMUM_MUTATIONS_NUMBER.getName()));
@@ -69,8 +69,7 @@ public class WorldConfig {
     public void loadFromFile(String configName) {
         try (FileInputStream fileStream = new FileInputStream(CONFIGS_DIRECTORY + "/" + configName)) {
             properties.load(fileStream);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println("File not found");
             System.out.println(ex);
         }

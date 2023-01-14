@@ -29,8 +29,7 @@ public class Application extends javafx.application.Application {
     public void init() {
         try {
             userConfigForm = new UserConfigForm(this);
-        }
-        catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println("File not found");
             System.out.println(ex);
         }
@@ -59,8 +58,7 @@ public class Application extends javafx.application.Application {
             engine.start();
 
             stage.setEngine(engine);
-        }
-        catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println("File not found");
             System.out.println(ex);
         }

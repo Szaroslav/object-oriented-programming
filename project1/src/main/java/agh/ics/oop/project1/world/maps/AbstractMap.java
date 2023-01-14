@@ -42,10 +42,12 @@ public abstract class AbstractMap implements IAnimalObserver {
     }
 
     @Override
-    public void animalTriedToMove(Animal animal) {}
+    public void animalTriedToMove(Animal animal) { // pusto tu
+    }
 
     @Override
-    public void animalPositionChanged(Vector2d oldPosition, Animal animal) {}
+    public void animalPositionChanged(Vector2d oldPosition, Animal animal) { // pusto tu
+    }
 
     @Override
     public void animalDied(Vector2d position) {
@@ -74,19 +76,18 @@ public abstract class AbstractMap implements IAnimalObserver {
         int prefferedFieldChance;
         Vector2d position = new Vector2d(0, 0);
 
-        if (growthVariant == PlantsGrowthVariant.FOREST_EQUATORS) {
+        if (growthVariant == PlantsGrowthVariant.FOREST_EQUATORS) { // if to nie jest najlepsze rozwiązanie
             Pair<Vector2d, Vector2d> equatorBoundaries = getEquatorBoundaries();
 
             do {
                 prefferedFieldChance = Random.range(0, 101);
                 position = new Vector2d(Random.range(LOWER_LEFT_BOUNDARY.x, UPPER_RIGHT_BOUNDARY.x + 1), Random.range(LOWER_LEFT_BOUNDARY.y, UPPER_RIGHT_BOUNDARY.y + 1));
             } while (
-                (prefferedFieldChance >= 0 && prefferedFieldChance <= 80)
-                != position.between(equatorBoundaries.first(), equatorBoundaries.second())
-                || plants.get(position) != null
+                    (prefferedFieldChance >= 0 && prefferedFieldChance <= 80)
+                            != position.between(equatorBoundaries.first(), equatorBoundaries.second())
+                            || plants.get(position) != null
             );
-        }
-        else if (growthVariant == PlantsGrowthVariant.TOXIC_BODIES) {
+        } else if (growthVariant == PlantsGrowthVariant.TOXIC_BODIES) {
             deathsCounterList.sort(Comparator.comparingInt(Pair::second));
             do {
                 prefferedFieldChance = Random.range(0, 101);

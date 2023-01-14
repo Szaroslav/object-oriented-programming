@@ -12,8 +12,7 @@ public class World {
         try {
             Application.launch(App.class, args);
             out.println("System pomyślnie zakończył działanie");
-        }
-        catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             out.println("System niepomyślnie zakończył działanie");
             out.println(ex.getMessage());
         }

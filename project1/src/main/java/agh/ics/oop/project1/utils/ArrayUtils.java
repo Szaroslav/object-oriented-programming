@@ -10,8 +10,7 @@ public class ArrayUtils {
             int boundIndex = (int) Math.ceil(arr1.length * percentage);
             System.arraycopy(arr1, 0, arr, 0, boundIndex);
             System.arraycopy(arr2, boundIndex, arr, boundIndex, arr2.length - boundIndex);
-        }
-        else {
+        } else {
             int boundIndex = (int) Math.floor(arr1.length * percentage);
             System.arraycopy(arr2, 0, arr, 0, boundIndex);
             System.arraycopy(arr1, boundIndex, arr, boundIndex, arr2.length - boundIndex);

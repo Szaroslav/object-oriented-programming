@@ -16,8 +16,8 @@ public class MapBoundary implements IPositionChangeObserver {
 
     public Vector2d[] getCorners() {
         return new Vector2d[]{
-            mapElementsX.first().lowerLeft(mapElementsY.first()),
-            mapElementsX.last().upperRight(mapElementsY.last())
+                mapElementsX.first().lowerLeft(mapElementsY.first()),
+                mapElementsX.last().upperRight(mapElementsY.last())
         };
     }
 

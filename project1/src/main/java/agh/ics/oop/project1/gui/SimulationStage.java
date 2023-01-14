@@ -111,8 +111,7 @@ public class SimulationStage extends Stage implements IEngineObserver {
             if (isPaused) {
                 engine.pause();
                 renderBoard(true);
-            }
-            else {
+            } else {
                 engine.unpause();
             }
         });
@@ -185,9 +184,9 @@ public class SimulationStage extends Stage implements IEngineObserver {
 
         Rectangle rectangle = new Rectangle(CELL_SIZE, height);
         rectangle.setFill(Color.hsb(
-            88.0 * Math.min(animal.getEnergy(), strongAnimalEnergy) / strongAnimalEnergy,
-            .82,
-            .9
+                88.0 * Math.min(animal.getEnergy(), strongAnimalEnergy) / strongAnimalEnergy,
+                .82,
+                .9
         ));
         rectangle.setStroke(Color.TRANSPARENT);
         rectangle.relocate(0, CELL_SIZE - height);

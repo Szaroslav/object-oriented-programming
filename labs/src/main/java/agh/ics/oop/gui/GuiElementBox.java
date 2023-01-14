@@ -44,8 +44,7 @@ public class GuiElementBox implements IPositionChangeObserver, IDirectionChangeO
         try {
             icon.setImage(new Image(new FileInputStream(mapElement.getResourceName())));
             rerenderBox();
-        }
-        catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
     }

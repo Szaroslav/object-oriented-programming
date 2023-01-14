@@ -10,7 +10,7 @@ public class Earth extends AbstractMap {
     }
 
     @Override
-    public void animalTriedToMove(Animal animal) {
+    public void animalTriedToMove(Animal animal) { // obie mapy obsługują wyjście zwierzęcia poza granice innymi metodami
         animal.invert();
     }
 

@@ -40,8 +40,7 @@ public class App extends Application implements IPositionChangeObserver {
             Scene scene = new Scene(hBox, 768, 600);
             primaryStage.setScene(scene);
             primaryStage.show();
-        }
-        catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
     }
@@ -50,7 +49,7 @@ public class App extends Application implements IPositionChangeObserver {
     public void init() {
         MoveDirection[] directions = OptionsParser.parse(getParameters().getRaw().toArray(new String[0]));
         map = new GrassField(10);
-        Vector2d[] positions = { new Vector2d(2, 2), new Vector2d(3, 4) };
+        Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
 
         engine = new SimulationEngine(directions, map, positions, 10);
     }
@@ -66,8 +65,7 @@ public class App extends Application implements IPositionChangeObserver {
             if (b[1].x - b[0].x + 2 == width && b[1].y - b[0].y + 2 == height) {
                 int i = newPosition.x - b[0].x + 1, j = b[1].y - newPosition.y + 1;
                 addToGrid(guiElementBox.getBox(), i, j);
-            }
-            else {
+            } else {
                 width = b[1].x - b[0].x + 2;
                 height = b[1].y - b[0].y + 2;
                 rerenderGrid();

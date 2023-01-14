@@ -21,10 +21,10 @@ public class RectangularMapTest {
         out.println("Sprawdzam metodę RectangularMap.place()");
         IWorldMap map = createMap();
 
-        assertTrue( map.place(new Animal(map, new Vector2d(2, 6))) );
+        assertTrue(map.place(new Animal(map, new Vector2d(2, 6))));
         IllegalArgumentException ex = assertThrows(
-            IllegalArgumentException.class,
-            () -> map.place(new Animal(map, new Vector2d(0, 0)))
+                IllegalArgumentException.class,
+                () -> map.place(new Animal(map, new Vector2d(0, 0)))
         );
         assertTrue(ex.getMessage().contains("0, 0"));
     }

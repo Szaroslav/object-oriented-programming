@@ -10,7 +10,7 @@ public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
     private final MapBoundary mapBoundary = new MapBoundary();
 
-    public GrassField (int n) {
+    public GrassField(int n) {
         GRASS_UPPER_RIGHT_BOUNDARY = new Vector2d((int) Math.sqrt(10 * n), (int) Math.sqrt(10 * n));
     }
 

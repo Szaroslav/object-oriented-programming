@@ -4,7 +4,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
-public record ActionNode <T extends Region> (T region, Pane pane, Tooltip tooltip, String name) {
+public record ActionNode<T extends Region>(T region, Pane pane, Tooltip tooltip, String name) {
     public ActionNode(T region, Pane pane, Tooltip tooltip, String name) {
         this.region = region;
         this.pane = pane;

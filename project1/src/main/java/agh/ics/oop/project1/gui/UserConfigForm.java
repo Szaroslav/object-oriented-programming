@@ -69,8 +69,7 @@ public class UserConfigForm {
             tooltip.setShowDelay(Duration.seconds(.5));
             Tooltip.install(actionNode.pane(), tooltip);
             nodesList.set(index, new ActionNode<>(actionNode.region(), actionNode.pane(), tooltip, actionNode.name()));
-        }
-        else if (actionNode.tooltip() != null) {
+        } else if (actionNode.tooltip() != null) {
             Tooltip.uninstall(actionNode.pane(), actionNode.tooltip());
             nodesList.set(index, new ActionNode<>(actionNode.region(), actionNode.pane(), actionNode.name()));
         }
@@ -165,7 +164,7 @@ public class UserConfigForm {
         renderSubtitle("Map settings");
         renderInputRow(MAP_WIDTH, false);
         renderInputRow(MAP_HEIGHT, false);
-        renderComboBox(MAP_TYPE.getName(),  MAP_TYPE.getRepresentativeText(), new String[]{"Earth", "Infernal portal"});
+        renderComboBox(MAP_TYPE.getName(), MAP_TYPE.getRepresentativeText(), new String[]{"Earth", "Infernal portal"});
     }
 
     private void renderAnimalsSettings() {
@@ -210,8 +209,7 @@ public class UserConfigForm {
             if (comboBoxList.get(i).region().getSelectionModel().getSelectedItem() == null) {
                 renderIcon(crossIcon, comboBoxList, i, "This field is required");
                 isValid = false;
-            }
-            else {
+            } else {
                 renderIcon(tickIcon, comboBoxList, i, null);
             }
         }
@@ -226,11 +224,9 @@ public class UserConfigForm {
 
         try {
             validatedOptions = WorldConfig.validate(configOptions);
-        }
-        catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             throw new RuntimeException(ex);
-        }
-        finally {
+        } finally {
             for (Pair<WorldConfigOptions, String> optionPair : validatedOptions)
                 invalidInputMsgMap.put(optionPair.first().getName(), optionPair.second());
 
@@ -242,8 +238,7 @@ public class UserConfigForm {
                 if (invalidInputMsgMap.get(inputList.get(i).name()) != null) {
                     renderIcon(crossIcon, inputList, i, invalidInputMsgMap.get(inputList.get(i).name()));
                     isValid = false;
-                }
-                else {
+                } else {
                     renderIcon(tickIcon, inputList, i, null);
                 }
             }

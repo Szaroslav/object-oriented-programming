@@ -29,8 +29,8 @@ public enum AnimalMutation {
 
             for (int i : range) {
                 genes[i] = Random.range(0, 2) == 0
-                            ? genes[i] - 1 > 0 ? genes[i] - 1 : 7
-                            : genes[i] + 1 < 8 ? genes[i] + 1 : 0;
+                        ? genes[i] - 1 > 0 ? genes[i] - 1 : 7
+                        : genes[i] + 1 < 8 ? genes[i] + 1 : 0;
             }
         }
     };
@@ -49,7 +49,8 @@ public enum AnimalMutation {
         throw new IllegalArgumentException();
     }
 
-    public void mutate(int[] genes, int minMutations, int maxMutations) {}
+    public void mutate(int[] genes, int minMutations, int maxMutations) { // pusto tu
+    }
 
     private static List<Integer> getShuffledIndexesList(int genomeSize, int min, int max) {
         List<Integer> range = new ArrayList<>(IntStream.range(0, genomeSize).boxed().toList());

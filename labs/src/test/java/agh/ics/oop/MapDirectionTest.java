@@ -2,16 +2,17 @@ package agh.ics.oop;
 
 import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 public class MapDirectionTest {
     @Test
     public void testNext() {
-       out.println("Sprawdzam metodę MapDirection.next()");
-       assertEquals(MapDirection.EAST, MapDirection.NORTH.next());
-       assertEquals(MapDirection.SOUTH, MapDirection.EAST.next());
-       assertEquals(MapDirection.WEST, MapDirection.SOUTH.next());
-       assertEquals(MapDirection.NORTH, MapDirection.WEST.next());
+        out.println("Sprawdzam metodę MapDirection.next()");
+        assertEquals(MapDirection.EAST, MapDirection.NORTH.next());
+        assertEquals(MapDirection.SOUTH, MapDirection.EAST.next());
+        assertEquals(MapDirection.WEST, MapDirection.SOUTH.next());
+        assertEquals(MapDirection.NORTH, MapDirection.WEST.next());
     }
 
     @Test

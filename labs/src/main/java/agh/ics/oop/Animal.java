@@ -26,11 +26,11 @@ public class Animal extends AbstractWorldMapElement {
     @Override
     public String toString() {
         return switch (direction) {
-            case NORTH ->   "N";
-            case EAST ->    "E";
-            case SOUTH ->   "S";
-            case WEST ->    "W";
-            default ->      null;
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
+            default -> null;
         };
     }
 
@@ -53,11 +53,11 @@ public class Animal extends AbstractWorldMapElement {
         final String RESOURCES_PATH = "src/main/resources/";
 
         return switch (direction) {
-            case NORTH ->   RESOURCES_PATH + "bee-up.png";
-            case EAST ->    RESOURCES_PATH + "bee-right.png";
-            case SOUTH ->   RESOURCES_PATH + "bee-down.png";
-            case WEST ->    RESOURCES_PATH + "bee-left.png";
-            default ->      null;
+            case NORTH -> RESOURCES_PATH + "bee-up.png";
+            case EAST -> RESOURCES_PATH + "bee-right.png";
+            case SOUTH -> RESOURCES_PATH + "bee-down.png";
+            case WEST -> RESOURCES_PATH + "bee-left.png";
+            default -> null;
         };
     }
 

@@ -7,7 +7,7 @@ public abstract class AbstractOrganism {
         return position;
     }
 
-    public void setPosition(Vector2d newPosition) {
+    public void setPosition(Vector2d newPosition) { // trawa też jest ruchoma?
         position = newPosition;
     }
 }

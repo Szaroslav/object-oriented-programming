@@ -42,8 +42,7 @@ public class WorldEngine extends Thread {
                 plant(config.getInt(WorldConfigOptions.PLANTS_PER_DAY.getName()));
                 onSimulationDayFinished();
             }
-        }
-        catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
             System.out.println("World engine has been closed");
             System.out.println(ex);
         }
@@ -72,15 +71,15 @@ public class WorldEngine extends Thread {
                 genes[j] = Random.range(0, 8);
 
             Animal animal = new Animal(
-                new Vector2d(
-                    Random.range(0, config.getInt(WorldConfigOptions.MAP_WIDTH.getName())),
-                    Random.range(0, config.getInt(WorldConfigOptions.MAP_HEIGHT.getName()))
-                ),
-                config.getInt(WorldConfigOptions.INITIAL_ANIMALS_ENERGY.getName()),
-                genes,
-                behaviour,
-                mutation,
-                config
+                    new Vector2d(
+                            Random.range(0, config.getInt(WorldConfigOptions.MAP_WIDTH.getName())),
+                            Random.range(0, config.getInt(WorldConfigOptions.MAP_HEIGHT.getName()))
+                    ),
+                    config.getInt(WorldConfigOptions.INITIAL_ANIMALS_ENERGY.getName()),
+                    genes,
+                    behaviour,
+                    mutation,
+                    config
             );
 
             animals.add(animal);
@@ -139,8 +138,7 @@ public class WorldEngine extends Thread {
         for (int i = 0; i < n; i++) {
             try {
                 map.plant();
-            }
-            catch (IllegalStateException ex) {
+            } catch (IllegalStateException ex) {
                 System.out.println("There are too many plants");
                 return;
             }
