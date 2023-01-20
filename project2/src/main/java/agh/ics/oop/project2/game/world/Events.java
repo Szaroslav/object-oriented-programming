@@ -1,4 +1,4 @@
-package agh.ics.oop.project2.game.heroes.world;
+package agh.ics.oop.project2.game.world;
 
 public enum Events {
 
