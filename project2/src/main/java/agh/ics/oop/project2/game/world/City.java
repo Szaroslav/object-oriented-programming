@@ -1,5 +1,6 @@
 package agh.ics.oop.project2.game.world;
 
+import agh.ics.oop.project2.utils.Random;
 import agh.ics.oop.project2.utils.Vector2d;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Map;
 public class City {
     public final int WIDTH;
     public final int HEIGHT;
+    public final int OBSTACLES_NUMBER = 16;
     public final int BRIDGES_NUMBER = 4;
     private final AbstractWorldElement heroesHeadquartersCoords; // Object
     private final AbstractWorldElement majorApartmentsCoords; // Object
@@ -21,6 +23,9 @@ public class City {
         WIDTH = Math.max(16, width);
         HEIGHT = Math.max(16, height);
         river = new River(this);
+
+        initObstacles(OBSTACLES_NUMBER / 2, 2);
+        initObstacles(OBSTACLES_NUMBER / 2, Integer.MAX_VALUE);
     }
 
     public Map<Vector2d, Obstacle> getObstacleMap() {
@@ -45,5 +50,16 @@ public class City {
     public void addObstacle(Obstacle obstacle) {
         setObstacleMapEl(obstacle);
         addToObstacleList(obstacle);
+    }
+
+    private void initObstacles(int n, int slow) {
+        for (int i = 0; i < n; i++) {
+            Vector2d pos;
+            do {
+                pos = new Vector2d(Random.range(0, WIDTH), Random.range(0, HEIGHT));
+            } while (obstacleMap.containsKey(pos));
+
+            addObstacle(new Obstacle(pos, slow));
+        }
     }
 }
