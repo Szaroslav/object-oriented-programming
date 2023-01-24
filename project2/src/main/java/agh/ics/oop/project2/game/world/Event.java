@@ -31,4 +31,11 @@ public class Event extends AbstractWorldElement {
     public void setTurnsToSolve(int turnsToSolve) {
         this.turnsToSolve = turnsToSolve;
     }
+
+    public void onTurnFinished() {
+        activeTurns--;
+        if (activeTurns == 0 && turnsToSolve > 0) {
+            //
+        }
+    }
 }
