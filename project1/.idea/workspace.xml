@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e5a5cb19-6098-45b0-addd-55dca7f25c30" name="Changes" comment="" />
+    <list default="true" id="e5a5cb19-6098-45b0-addd-55dca7f25c30" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project2/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../project2/.gradle/file-system.probe" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,7 +47,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Jakub/Desktop/Studia/3s/programowanie-obiektowe/object-oriented-programming/project2",
+    "last_opened_file_path": "C:/Users/Jakub/Desktop/studia/3s/prog-obiektowe/object-oriented-programming/project1",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -108,6 +111,7 @@
       <workItem from="1672674859602" duration="3562000" />
       <workItem from="1672762478197" duration="8194000" />
       <workItem from="1673280244052" duration="1012000" />
+      <workItem from="1674598275022" duration="1007000" />
     </task>
     <servers />
   </component>
