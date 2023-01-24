@@ -49,12 +49,12 @@ public class River {
 
         for (int i = 0; i < city.BRIDGES_NUMBER; i++) {
             excludedRiverPoints[i + 2] = Random.randomPoint(coordinates, excludedRiverPoints);
-            city.setObstacleMapEl(excludedRiverPoints[i + 2], 0);
+            city.addObstacle(new Obstacle(excludedRiverPoints[i + 2], 0));
         }
     }
 
     private void addCoordsToList(Vector2d point, List<Vector2d> list) {
         list.add(point);
-        city.setObstacleMapEl(list.get(list.size() - 1), Integer.MAX_VALUE);
+        city.addObstacle(new Obstacle(list.get(list.size() - 1), Integer.MAX_VALUE));
     }
 }
