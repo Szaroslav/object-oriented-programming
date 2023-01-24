@@ -13,53 +13,68 @@ public class City {
     public final int HEIGHT;
     public final int OBSTACLES_NUMBER = 16;
     public final int BRIDGES_NUMBER = 4;
-    private final AbstractWorldElement heroesHeadquartersCoords; // Object
-    private final AbstractWorldElement majorApartmentsCoords; // Object
+    private final AbstractWorldElement heroesHeadquarters; // Object
+    private final AbstractWorldElement majorApartments; // Object
     private final River river;
-    private final Map<Vector2d, Obstacle> obstacleMap = new HashMap<>(); // Object
-    private final List<Obstacle> obstacleList = new ArrayList<>(); // Object
+    private final Map<Vector2d, AbstractWorldElement> cityElementsMap = new HashMap<>();
+    private final Map<Vector2d, Obstacle> obstaclesMap = new HashMap<>();
+    private final List<Obstacle> obstaclesList = new ArrayList<>();
 
     public City(int width, int height) {
         WIDTH = Math.max(16, width);
         HEIGHT = Math.max(16, height);
         river = new River(this);
 
+        heroesHeadquarters = new Building(getNewCityElementPosition());
+        addCityElement(heroesHeadquarters);
+        majorApartments = new Building(getNewCityElementPosition());
+        addCityElement(majorApartments);
+
         initObstacles(OBSTACLES_NUMBER / 2, 2);
         initObstacles(OBSTACLES_NUMBER / 2, Integer.MAX_VALUE);
     }
 
     public Map<Vector2d, Obstacle> getObstacleMap() {
-        return obstacleMap;
+        return obstaclesMap;
     }
 
-    public void setObstacleMapEl(Obstacle obstacle) {
-        if (obstacleMap.containsKey(obstacle.position))
-            obstacleMap.replace(obstacle.position, obstacle);
+    public void setObstaclesMapEl(Obstacle obstacle) {
+        if (obstaclesMap.containsKey(obstacle.position))
+            obstaclesMap.replace(obstacle.position, obstacle);
         else
-            obstacleMap.put(obstacle.position, obstacle);
+            obstaclesMap.put(obstacle.position, obstacle);
     }
 
-    public List<Obstacle> getObstacleList() {
-        return obstacleList;
+    public List<Obstacle> getObstaclesList() {
+        return obstaclesList;
     }
 
-    public void addToObstacleList(Obstacle obstacle) {
-        obstacleList.add(obstacle);
+    public void addToObstaclesList(Obstacle obstacle) {
+        obstaclesList.add(obstacle);
     }
 
     public void addObstacle(Obstacle obstacle) {
-        setObstacleMapEl(obstacle);
-        addToObstacleList(obstacle);
+        setObstaclesMapEl(obstacle);
+        addToObstaclesList(obstacle);
+        addCityElement(obstacle);
+    }
+
+    public void addCityElement(AbstractWorldElement element) {
+        cityElementsMap.put(element.getPosition(), element);
     }
 
     private void initObstacles(int n, int slow) {
         for (int i = 0; i < n; i++) {
-            Vector2d pos;
-            do {
-                pos = new Vector2d(Random.range(0, WIDTH), Random.range(0, HEIGHT));
-            } while (obstacleMap.containsKey(pos));
-
-            addObstacle(new Obstacle(pos, slow));
+            addObstacle(new Obstacle(getNewCityElementPosition(), slow));
         }
+    }
+
+    private Vector2d getNewCityElementPosition() {
+        Vector2d pos;
+        do {
+            pos = new Vector2d(Random.range(0, WIDTH), Random.range(0, HEIGHT));
+        } while (cityElementsMap.containsKey(pos));
+
+        return pos;
     }
 }
