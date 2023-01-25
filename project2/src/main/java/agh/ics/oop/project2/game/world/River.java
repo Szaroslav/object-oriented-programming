@@ -28,6 +28,10 @@ public class River {
         generateBridges(startPos, turnPos);
     }
 
+    public Vector2d[] getCoordinates() {
+        return coordinates;
+    }
+
     private void generateRiver(Vector2d startPos, Vector2d turnPos) {
         List<Vector2d> coords = new ArrayList<>();
 

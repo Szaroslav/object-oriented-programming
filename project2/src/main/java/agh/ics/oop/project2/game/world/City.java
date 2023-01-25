@@ -15,7 +15,7 @@ public class City {
     public final int BRIDGES_NUMBER = 4;
     private final AbstractWorldElement heroesHeadquarters; // Object
     private final AbstractWorldElement majorApartments; // Object
-    private final River river;
+    public final River river;
     private final Map<Vector2d, AbstractWorldElement> cityElementsMap = new HashMap<>();
     private final Map<Vector2d, Obstacle> obstaclesMap = new HashMap<>();
     private final List<Obstacle> obstaclesList = new ArrayList<>();
