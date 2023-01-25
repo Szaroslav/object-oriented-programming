@@ -16,6 +16,7 @@ public class River {
         MIN_X = 4;
         MAX_X = city.WIDTH - (4 + 1);
         this.city = city;
+        coordinates = new Vector2d[0];
 
         final Vector2d startPos = new Vector2d(Random.range(MIN_X, MAX_X + 1), city.HEIGHT - 1);
         final Vector2d turnPos =  new Vector2d(

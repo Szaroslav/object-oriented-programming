@@ -11,7 +11,7 @@ public class Vector2d {
 
     public boolean equals(Object other) {
         if (this == other) return true;
-        if (!this.getClass().equals(other.getClass())) return false;
+        if (other == null || !this.getClass().equals(other.getClass())) return false;
 
         Vector2d v = (Vector2d) other;
         return this.x == v.x && this.y == v.y;
