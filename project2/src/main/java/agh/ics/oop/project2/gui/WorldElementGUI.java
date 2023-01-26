@@ -17,6 +17,12 @@ public class WorldElementGUI {
         else if (element == WorldElements.BRIDGE) {
             imageView = new ImageView(ImageAtlas.getBridge());
         }
+        else if (element == WorldElements.OBSTACLE) {
+            imageView = new ImageView(ImageAtlas.getObstacle());
+        }
+        else if (element == WorldElements.SLOW_OBSTACLE) {
+            imageView = new ImageView(ImageAtlas.getSlowObstacle());
+        }
         else {
             imageView = new ImageView();
         }

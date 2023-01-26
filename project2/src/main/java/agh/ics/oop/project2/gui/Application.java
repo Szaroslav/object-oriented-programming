@@ -1,6 +1,7 @@
 package agh.ics.oop.project2.gui;
 
 import agh.ics.oop.project2.game.world.City;
+import agh.ics.oop.project2.game.world.elements.Obstacle;
 import agh.ics.oop.project2.game.world.elements.WorldElements;
 import agh.ics.oop.project2.utils.Vector2d;
 import javafx.application.Platform;
@@ -64,6 +65,10 @@ public class Application extends javafx.application.Application {
             for (Vector2d pos : city.getRiver().getBridgePositionsList()) {
                 WorldElementGUI elementGUI = new WorldElementGUI(WorldElements.BRIDGE);
                 board.add(elementGUI.imageView, pos.x, city.HEIGHT - pos.y - 1);
+            }
+            for (Obstacle obs : city.getObstaclesList()) {
+                WorldElementGUI elementGUI = new WorldElementGUI(obs.elementType);
+                board.add(elementGUI.imageView, obs.getPosition().x, city.HEIGHT - obs.getPosition().y - 1);
             }
         });
     }
