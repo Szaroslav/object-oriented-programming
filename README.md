@@ -6,4 +6,4 @@
 
 1. [Laboratory project](./labs)
 2. [Project 1 - evolution generator](./project1)
-3. [Project 2 - work in progress](./project2)
+3. [Project 2 - superheroes](./project2)
