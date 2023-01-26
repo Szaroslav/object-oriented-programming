@@ -1,5 +1,6 @@
 package agh.ics.oop.project2.gui;
 
+import agh.ics.oop.project2.game.heroes.Firefighter;
 import agh.ics.oop.project2.game.world.City;
 import agh.ics.oop.project2.game.world.elements.Obstacle;
 import agh.ics.oop.project2.game.world.elements.WorldElements;
@@ -19,7 +20,6 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(board, 400, 600);
-//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("main.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -34,19 +34,7 @@ public class Application extends javafx.application.Application {
 
     private void initGUI() {
         renderBoard();
-//        renderSideGUI();
-
         initBoard();
-//        setOnCloseRequest(event -> engine.interrupt());
-
-//        GridPane grid = new GridPane();
-//        grid.getStyleClass().add("root");
-//        grid.setHgap(8);
-//        grid.setVgap(8);
-//        grid.add(board, 0, 0);
-//        grid.add(stats.getContent(), 1, 0);
-//        grid.add(sideGUI, 0, 1);
-//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("main.css")).toExternalForm());
     }
 
     private void initBoard() {
@@ -70,6 +58,9 @@ public class Application extends javafx.application.Application {
                 WorldElementGUI elementGUI = new WorldElementGUI(obs.elementType);
                 board.add(elementGUI.imageView, obs.getPosition().x, city.HEIGHT - obs.getPosition().y - 1);
             }
+
+            WorldElementGUI elementGUI = new MoveableWorldElementGUI(new Firefighter());
+            board.add(elementGUI.imageView, 0, 0);
         });
     }
 }

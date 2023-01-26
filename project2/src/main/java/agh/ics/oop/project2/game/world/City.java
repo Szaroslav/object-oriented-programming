@@ -1,5 +1,6 @@
 package agh.ics.oop.project2.game.world;
 
+import agh.ics.oop.project2.game.heroes.AbstractHero;
 import agh.ics.oop.project2.game.world.elements.*;
 import agh.ics.oop.project2.utils.Random;
 import agh.ics.oop.project2.utils.Vector2d;
@@ -17,6 +18,7 @@ public class City {
     private final AbstractWorldElement heroesHeadquarters;
     private final AbstractWorldElement majorApartments;
     private final River river;
+    private final List<AbstractHero> heroesList = new ArrayList<>();
     private final Map<Vector2d, AbstractWorldElement> cityElementsMap = new HashMap<>();
     private final Map<Vector2d, Obstacle> obstaclesMap = new HashMap<>();
     private final List<Obstacle> obstaclesList = new ArrayList<>();
@@ -66,6 +68,16 @@ public class City {
 
     public River getRiver() {
         return river;
+    }
+
+    public List<Vector2d> getAvailableMoves(AbstractHero hero) {
+        List<Vector2d> moves = new ArrayList<>();
+
+        for (int i = 0; i < hero.getCurrentMaxDistance(); i++) {
+
+        }
+
+        return moves;
     }
 
     private void initObstacles(WorldElements type, int n, int slow) {

@@ -1,38 +1,48 @@
 package agh.ics.oop.project2.gui;
 
+import agh.ics.oop.project2.game.heroes.Firefighter;
 import agh.ics.oop.project2.game.world.elements.AbstractWorldElement;
 import agh.ics.oop.project2.game.world.elements.WorldElements;
 import javafx.scene.image.ImageView;
 
 public class WorldElementGUI {
-    public final AbstractWorldElement worldElement;
     public final ImageView imageView;
+    protected AbstractWorldElement worldElement;
 
-    public WorldElementGUI(WorldElements element) {
+    public WorldElementGUI() {
         worldElement = null;
-
-        if (element == WorldElements.RIVER) {
-            imageView = new ImageView(ImageAtlas.getRiver());
-        }
-        else if (element == WorldElements.BRIDGE) {
-            imageView = new ImageView(ImageAtlas.getBridge());
-        }
-        else if (element == WorldElements.OBSTACLE) {
-            imageView = new ImageView(ImageAtlas.getObstacle());
-        }
-        else if (element == WorldElements.SLOW_OBSTACLE) {
-            imageView = new ImageView(ImageAtlas.getSlowObstacle());
-        }
-        else {
-            imageView = new ImageView();
-        }
-
+        imageView = new ImageView();
         imageView.setFitHeight(Application.CELL_SIZE);
         imageView.setFitWidth(Application.CELL_SIZE);
     }
 
-    public WorldElementGUI(AbstractWorldElement el) {
-        worldElement = el;
-        imageView = null;
+    public WorldElementGUI(WorldElements element) {
+       this();
+
+        if (element == WorldElements.RIVER) {
+            imageView.setImage(ImageAtlas.getRiver());
+        }
+        else if (element == WorldElements.BRIDGE) {
+            imageView.setImage(ImageAtlas.getBridge());
+        }
+        else if (element == WorldElements.OBSTACLE) {
+            imageView.setImage(ImageAtlas.getObstacle());
+        }
+        else if (element == WorldElements.SLOW_OBSTACLE) {
+            imageView.setImage(ImageAtlas.getSlowObstacle());
+        }
+    }
+
+    public WorldElementGUI(AbstractWorldElement element) {
+        this();
+
+        if (element instanceof Firefighter) {
+            worldElement = element;
+            imageView.setImage(ImageAtlas.getFirefighter());
+        }
+    }
+
+    public AbstractWorldElement getWorldElement() {
+        return worldElement;
     }
 }
