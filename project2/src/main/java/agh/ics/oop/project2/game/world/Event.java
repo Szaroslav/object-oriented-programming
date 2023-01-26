@@ -1,5 +1,7 @@
 package agh.ics.oop.project2.game.world;
 
+import agh.ics.oop.project2.game.world.elements.AbstractWorldElement;
+
 public class Event extends AbstractWorldElement {
     public final EventTypes EVENT_TYPE;
     public final int INITIAL_TURNS_TO_SOLVE;

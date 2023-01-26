@@ -1,5 +1,6 @@
 package agh.ics.oop.project2.game.world;
 
+import agh.ics.oop.project2.game.world.elements.*;
 import agh.ics.oop.project2.utils.Random;
 import agh.ics.oop.project2.utils.Vector2d;
 
@@ -13,9 +14,9 @@ public class City {
     public final int HEIGHT;
     public final int OBSTACLES_NUMBER = 16;
     public final int BRIDGES_NUMBER = 4;
-    private final AbstractWorldElement heroesHeadquarters; // Object
-    private final AbstractWorldElement majorApartments; // Object
-    public final River river;
+    private final AbstractWorldElement heroesHeadquarters;
+    private final AbstractWorldElement majorApartments;
+    private final River river;
     private final Map<Vector2d, AbstractWorldElement> cityElementsMap = new HashMap<>();
     private final Map<Vector2d, Obstacle> obstaclesMap = new HashMap<>();
     private final List<Obstacle> obstaclesList = new ArrayList<>();
@@ -30,8 +31,8 @@ public class City {
         majorApartments = new Building(getNewCityElementPosition());
         addCityElement(majorApartments);
 
-        initObstacles(OBSTACLES_NUMBER / 2, 2);
-        initObstacles(OBSTACLES_NUMBER / 2, Integer.MAX_VALUE);
+        initObstacles(WorldElements.SLOW_OBSTACLE, OBSTACLES_NUMBER / 2, 2);
+        initObstacles(WorldElements.OBSTACLE, OBSTACLES_NUMBER / 2, Integer.MAX_VALUE);
     }
 
     public Map<Vector2d, Obstacle> getObstacleMap() {
@@ -39,10 +40,10 @@ public class City {
     }
 
     public void setObstaclesMapEl(Obstacle obstacle) {
-        if (obstaclesMap.containsKey(obstacle.position))
-            obstaclesMap.replace(obstacle.position, obstacle);
+        if (obstaclesMap.containsKey(obstacle.getPosition()))
+            obstaclesMap.replace(obstacle.getPosition(), obstacle);
         else
-            obstaclesMap.put(obstacle.position, obstacle);
+            obstaclesMap.put(obstacle.getPosition(), obstacle);
     }
 
     public List<Obstacle> getObstaclesList() {
@@ -63,9 +64,13 @@ public class City {
         cityElementsMap.put(element.getPosition(), element);
     }
 
-    private void initObstacles(int n, int slow) {
+    public River getRiver() {
+        return river;
+    }
+
+    private void initObstacles(WorldElements type, int n, int slow) {
         for (int i = 0; i < n; i++) {
-            addObstacle(new Obstacle(getNewCityElementPosition(), slow));
+            addObstacle(new Obstacle(getNewCityElementPosition(), type, slow));
         }
     }
 

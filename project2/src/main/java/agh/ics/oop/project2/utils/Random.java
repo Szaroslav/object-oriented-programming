@@ -1,5 +1,7 @@
 package agh.ics.oop.project2.utils;
 
+import java.util.List;
+
 public class Random {
     public static int range(int from, int toExclusively) {
         return (int) (Math.random() * (toExclusively - from) + from);
@@ -29,23 +31,23 @@ public class Random {
         }
     }
 
-    public static Vector2d randomPoint(Vector2d[] fromArray, Vector2d[] excludedPoints) throws IllegalArgumentException {
-        if (excludedPoints.length >= fromArray.length)
+    public static Vector2d randomPoint(List<Vector2d> fromList, List<Vector2d> excludedPoints) throws IllegalArgumentException {
+        if (excludedPoints.size() >= fromList.size())
             throw new IllegalArgumentException("Excluded points array has the same or greater length as given array");
 
         while (true) {
-            int i = range(0, fromArray.length);
+            int i = range(0, fromList.size());
             boolean contains = false;
 
             for (Vector2d p : excludedPoints) {
-                if (fromArray[i].equals(p)) {
+                if (fromList.get(i).equals(p)) {
                     contains = true;
                     break;
                 }
             }
 
             if (!contains)
-                return fromArray[i];
+                return fromList.get(i);
         }
     }
 }

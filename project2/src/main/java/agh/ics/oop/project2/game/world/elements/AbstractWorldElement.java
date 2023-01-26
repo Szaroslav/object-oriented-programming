@@ -1,4 +1,4 @@
-package agh.ics.oop.project2.game.world;
+package agh.ics.oop.project2.game.world.elements;
 
 import agh.ics.oop.project2.utils.Vector2d;
 

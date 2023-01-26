@@ -1,6 +1,6 @@
 package agh.ics.oop.project2.game.heroes;
 
-import agh.ics.oop.project2.game.world.AbstractWorldElement;
+import agh.ics.oop.project2.game.world.elements.AbstractWorldElement;
 
 public class AbstractHero extends AbstractWorldElement {
     public final int MAX_DISTANCE;

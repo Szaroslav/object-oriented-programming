@@ -1,24 +1,17 @@
 package agh.ics.oop.project2.gui;
 
 import agh.ics.oop.project2.game.world.City;
-import agh.ics.oop.project2.game.world.WorldElements;
+import agh.ics.oop.project2.game.world.elements.WorldElements;
 import agh.ics.oop.project2.utils.Vector2d;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Objects;
-
 public class Application extends javafx.application.Application {
-    private final int CELL_SIZE = 24;
+    public final static int CELL_SIZE = 24;
     private City city;
     private GridPane board;
 
@@ -64,12 +57,14 @@ public class Application extends javafx.application.Application {
     private void renderBoard() {
         Platform.runLater(() -> {
             board.getChildren().clear();
-            for (Vector2d pos : city.river.getCoordinates()) {
+            for (Vector2d pos : city.getRiver().getWaterPositionsList()) {
                 WorldElementGUI elementGUI = new WorldElementGUI(WorldElements.RIVER);
                 board.add(elementGUI.imageView, pos.x, city.HEIGHT - pos.y - 1);
             }
-//            renderOrganisms(map.getPlantsList(), plantTexture, false, false);
-//            renderOrganisms(map.getAnimalsList(), animalIcon, true, highlight);
+            for (Vector2d pos : city.getRiver().getBridgePositionsList()) {
+                WorldElementGUI elementGUI = new WorldElementGUI(WorldElements.BRIDGE);
+                board.add(elementGUI.imageView, pos.x, city.HEIGHT - pos.y - 1);
+            }
         });
     }
 }

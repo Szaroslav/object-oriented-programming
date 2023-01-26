@@ -1,7 +1,7 @@
 package agh.ics.oop.project2.gui;
 
-import agh.ics.oop.project2.game.world.AbstractWorldElement;
-import agh.ics.oop.project2.game.world.WorldElements;
+import agh.ics.oop.project2.game.world.elements.AbstractWorldElement;
+import agh.ics.oop.project2.game.world.elements.WorldElements;
 import javafx.scene.image.ImageView;
 
 public class WorldElementGUI {
@@ -12,14 +12,17 @@ public class WorldElementGUI {
         worldElement = null;
 
         if (element == WorldElements.RIVER) {
-            imageView = new ImageView(ImageAtlas.river);
+            imageView = new ImageView(ImageAtlas.getRiver());
+        }
+        else if (element == WorldElements.BRIDGE) {
+            imageView = new ImageView(ImageAtlas.getBridge());
         }
         else {
-            imageView = null;
+            imageView = new ImageView();
         }
 
-        imageView.setFitHeight(24);
-        imageView.setFitWidth(24);
+        imageView.setFitHeight(Application.CELL_SIZE);
+        imageView.setFitWidth(Application.CELL_SIZE);
     }
 
     public WorldElementGUI(AbstractWorldElement el) {
